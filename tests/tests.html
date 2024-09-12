@@ -1,3 +1,12 @@
+<!-- The following file uses Mocha.js and Chai.js to run unit tests. Those unit
+ tests are located in Typescript files in the `Handyman/src` folder. The Typescript 
+ files are compiled to Javascript files in the `Handyman/tests` folder. Please
+ note that Typescript files are also compiled in the `Handyman/out` folder. 
+ However, the `Handyman/out` folder is used by VS Code to run the extension in
+ `run and debug` mode. Those files are compiled by TypeScript using `Node16` as
+ the value of the `module` property. That in itself is incompatible with the 
+ `ESNEXT` value used by the `Handyman/tests` folder. -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,21 +30,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.min.js"></script>
 
     <script>
-      // Create a global `exports` constant due to the specific requirement of TypeScript compiling as CommonJS modules.
-      // Refer to README.md for more information.
-      const exports = {};
-
       // Setup test helpers.
       mocha.setup("bdd");
     </script>
 
-    <!-- load TypeScript files compiled to JavaScript files. -->
-    <script src="out/utils.js"></script>
-
     <!-- load tests. -->
-    <script src="out/test/utils.test.js"></script>
+    <script src="tests/out/test/utils.test.js" type="module"></script>
 
-    <script>
+    <script type="module">
       // Run tests.
       mocha.run();
     </script>
