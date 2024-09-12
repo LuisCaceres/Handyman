@@ -1,5 +1,7 @@
+import * as utils from '../utils.js';
+
 describe('Word', function () {
-  const Word = exports.Word;
+  const Word = utils.Word;
 
   describe('#toSingular()', function () {
     it('Returns the singular form of a word.', function () {
