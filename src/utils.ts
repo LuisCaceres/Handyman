@@ -18,25 +18,22 @@ class Word extends String {
         let wordInSingular;
 
         switch (true) {
-            // For example: 'entries'.
-            case this.endsWith('ies'):
-                // For example: 'entry'.
+            case this.endsWith('ies') && this.length > 4:
+                // For example: 'entries' and 'countries'.
                 wordInSingular = `${this.slice(0, -3)}y`;
                 break;
-            // For example: 'services'.
             case this.endsWith('ces'):
-                // For example: 'service'.
+                // For example: 'services'.
                 wordInSingular = `${this.slice(0, -1)}`;
                 break;
-            // For example: 'boxes'.            
             case this.endsWith('ches'):
             case this.endsWith('sses'):
             case this.endsWith('xes'):
-                // For example: 'box'.
+                // For example: 'boxes', 'churches' and 'classes'.
                 wordInSingular = `${this.slice(0, -2)}`;
                 break;
             default:
-                // For example: 'dogs'.
+                // For example: 'dogs' and 'pies'.
                 wordInSingular = `${this.slice(0, -1)}`;
                 break;
         }
