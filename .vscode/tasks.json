@@ -4,6 +4,15 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "start",
+			"dependsOn": [
+				"static-server",
+				"unit-tests",
+				"watch",
+			],
+		},
+		{
+			"label": "watch",
 			"type": "npm",
 			"script": "watch",
 			"problemMatcher": "$tsc-watch",
@@ -15,6 +24,16 @@
 				"kind": "build",
 				"isDefault": true
 			}
-		}
+		},
+		{
+            "label": "static-server",
+            "type": "npm",
+            "script": "static-server",
+        },
+        {
+            "label": "unit-tests",
+            "type": "npm",
+            "script": "unit-tests",
+        },
 	]
 }
