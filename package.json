@@ -23,12 +23,14 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "static-server": "node tests/static-server",
+    "pretest": "npm run compile && npm run lint",
+    "test": "vscode-test",
+    "unit-tests": "tsc -watch --rootDir src --outDir tests/out --module esnext",
+    "vscode:prepublish": "npm run compile",
+    "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
     "@types/vscode": "^1.93.0",

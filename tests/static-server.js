@@ -21,8 +21,7 @@ const MIME_TYPES = {
   svg: 'image/svg+xml',
 };
 
-const STATIC_PATH = path.join(process.cwd(), '../');
-
+const STATIC_PATH = path.join(process.cwd(), '');
 const toBool = [() => true, () => false];
 
 const prepareFile = async (url) => {
