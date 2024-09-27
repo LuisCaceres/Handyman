@@ -12,6 +12,16 @@
 			],
 		},
 		{
+            "label": "static-server",
+            "type": "npm",
+            "script": "static-server",
+        },
+        {
+            "label": "unit-tests",
+            "type": "npm",
+            "script": "unit-tests",
+        },
+		{
 			"label": "watch",
 			"type": "npm",
 			"script": "watch",
@@ -25,15 +35,5 @@
 				"isDefault": true
 			}
 		},
-		{
-            "label": "static-server",
-            "type": "npm",
-            "script": "static-server",
-        },
-        {
-            "label": "unit-tests",
-            "type": "npm",
-            "script": "unit-tests",
-        },
 	]
 }
