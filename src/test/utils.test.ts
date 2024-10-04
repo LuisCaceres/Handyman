@@ -119,4 +119,38 @@ describe('Word', function () {
     chai.expect(value9).to.equal('service');
   });
 });
+
+
+describe('getRelevantSymbols()', function () {
+  const getRelevantSymbols = utils.getRelevantSymbols;
+
+  it('It returns an array of relevant symbols for a for... of loop.', function () {
+    {
+      const text = 'for (const person of persons) {';
+      const value = getRelevantSymbols(text);
+
+      chai.expect(value.at(0)?.value).to.equal('person');
+    }
+    {
+      const text = 'for (const person of persons) {';
+      const value = utils.getRelevantSymbols(text);
+  
+      chai.expect(value.at(0)?.value).to.equal('person');
+    }
+  });
+
+  it('It returns an array of relevant symbols for a method and callback function.', function () {
+    {
+      const text = 'persons.forEach(person => {';
+      const value = getRelevantSymbols(text);
+  
+      chai.expect(value.at(0)?.value).to.equal('persons');
+    }
+    {
+      const text = 'for (const person of persons) {';
+      const value = utils.getRelevantSymbols(text);
+  
+      chai.expect(value.at(0)?.value).to.equal('person');
+    }
+  });
 });
