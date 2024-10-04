@@ -40,9 +40,18 @@ class Word extends String {
                 // For example: 'boxes', 'churches' and 'classes'.
                 wordInSingular = `${this.slice(0, -2)}`;
                 break;
-            default:
+            case this.endsWith('ss'):
+                // For example: 'class'.
+                wordInSingular = `${this}`;
+                break;
+            case this.endsWith('s'):
                 // For example: 'dogs' and 'pies'.
                 wordInSingular = `${this.slice(0, -1)}`;
+                break;
+            // Word is already in singular form.
+            default:
+                // For example: 'dog' and 'pie'.
+                wordInSingular = `${this}`;
                 break;
         }
 
