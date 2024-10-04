@@ -17,8 +17,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "Handyman.helloWorld",
-        "title": "Hello World"
+        "command": "myExtension.renameSymbol",
+        "title": "Smart Rename Symbol"
       }
     ]
   },
