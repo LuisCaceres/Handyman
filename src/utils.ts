@@ -97,6 +97,8 @@ interface Regexes {
 
 // The following are regular expressions that can be used to find an association of symbols in a line of code.
 const regexes: Regexes = {
+    // Matches `person` and `persons` in `const person = persons[0];`.
+    declaration: /(const|let|var)\s(?<symbol_1>\w+)\s=\s(?<symbol_2>\w+)/d,
     // Matches `person` and `persons` in `for (const person of persons) {`.
     forOfLoop: /(?<=for\s\(const\s)(?<symbol_1>\w+)\sof\s(?<symbol_2>\w+)/d,
     // Matches `persons` and `person` in `persons.sort((personA, personB));`.
