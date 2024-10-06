@@ -14,7 +14,7 @@ class Word extends String {
      * Indicates whether this word is in singular form.
      * @returns {boolean} True if the word is singular; otherwise, false.
      */
-    isSingular() {
+    isSingular(): boolean {
         return this.endsWith('ss') || this.endsWith('s') === false;
     }
 
@@ -22,7 +22,7 @@ class Word extends String {
      * Returns the singular form of this word. 
      * @return {string} The singular form of this word.
      */
-    toSingular() {
+    toSingular(): string {
         let wordInSingular;
 
         switch (true) {
@@ -62,7 +62,7 @@ class Word extends String {
      * Returns the plural form of this word. 
      * @return {string} The plural form of this word.
      */
-    toPlural() {
+    toPlural(): string {
         let wordInPlural;
 
         switch (true) {
