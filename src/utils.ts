@@ -146,12 +146,16 @@ function getRelevantSymbols(symbol: string, text: string): RelevantSymbol[] {
             if (symbol.value !== singular && symbol.value !== plural) {
                 continue;
             }
-            relevantSymbols.push(symbol);
-        }
 
-        // Stop iteration if `symbols` already has symbols.
-        if (relevantSymbols.length > 0) {
-            break;
+            const duplicate = relevantSymbols.find(relevantSymbol => relevantSymbol.start === symbol.start);
+
+            // Skip if `symbol` is already in `relevantSymbols`.
+            if (duplicate) {
+                continue;
+            }
+
+            // Otherwise add `symbol` to `relevantSymbols`.
+            relevantSymbols.push(symbol);
         }
     }
 

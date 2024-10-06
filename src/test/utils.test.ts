@@ -171,6 +171,16 @@ describe('getRelevantSymbols()', function () {
       chai.expect(symbols.length).to.equal(1);
       chai.expect(symbols.at(0)?.value).to.equal('items');
     }
+    {
+      const symbol = 'item';
+      const text = 'const item = items.find(item => item)';
+      const symbols = utils.getRelevantSymbols(symbol, text);
+
+      chai.expect(symbols.length).to.equal(3);
+      chai.expect(symbols.at(0)?.value).to.equal('item');
+      chai.expect(symbols.at(1)?.value).to.equal('items');
+      chai.expect(symbols.at(2)?.value).to.equal('item');
+    }
   });
 });
 
