@@ -144,7 +144,7 @@ describe('getRelevantSymbols()', function () {
     }
   });
 
-  it('It returns an array of relevant symbols for a method and callback function.', function () {
+  it('It returns an array of relevant symbols for a method call.', function () {
     {
       const symbol = 'persons';
       const text = 'persons.forEach(person => {';
@@ -187,9 +187,9 @@ describe('getSymbols()', function () {
     chai.expect(symbols.at(1)?.value).to.equal('persons');
   });
 
-  it('It returns a list of symbols for a method and callback function.', function () {
+  it('It returns a list of symbols for a method call.', function () {
     const text = 'persons.forEach(person => {';
-    const regex = utils.regexes.methodAndCallbackFunction;
+    const regex = utils.regexes.methodCall;
     const symbols = getSymbols(text, regex);
   
     chai.expect(symbols.length).to.equal(2);

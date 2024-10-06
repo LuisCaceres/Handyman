@@ -106,7 +106,7 @@ const regexes: Regexes = {
     // Matches `persons` and `person` in `persons.forEach(person => {`.
     // Matches `persons` and `person` in `persons.map((person, index) => {`.
     // Matches `persons` and `person` in `persons.push(person);`.
-    methodAndCallbackFunction: /(?<symbol_1>\w+)\.\w+\(+(?<symbol_2>\w+)(\)|\s=|,)/d,
+    methodCall: /(?<symbol_1>\w+)\.\w+\(+(?<symbol_2>\w+)(\)|\s=|,)/d,
 };
 
 // A relevant symbol is a symbol that is associated with another symbol.
