@@ -120,37 +120,101 @@ describe('Word', function () {
   });
 });
 
-
 describe('getRelevantSymbols()', function () {
   const getRelevantSymbols = utils.getRelevantSymbols;
 
   it('It returns an array of relevant symbols for a for... of loop.', function () {
     {
+      const symbol = 'person';
       const text = 'for (const person of persons) {';
-      const value = getRelevantSymbols(text);
+      const symbols = getRelevantSymbols(symbol, text);
 
-      chai.expect(value.at(0)?.value).to.equal('person');
+      chai.expect(symbols.length).to.equal(2);
+      chai.expect(symbols.at(0)?.value).to.equal('person');
+      chai.expect(symbols.at(1)?.value).to.equal('persons');
     }
     {
+      const symbol = 'persons';
       const text = 'for (const person of persons) {';
-      const value = utils.getRelevantSymbols(text);
+      const symbols = utils.getRelevantSymbols(symbol, text);
   
-      chai.expect(value.at(0)?.value).to.equal('person');
+      chai.expect(symbols.length).to.equal(2);
+      chai.expect(symbols.at(0)?.value).to.equal('person');
+      chai.expect(symbols.at(1)?.value).to.equal('persons');
     }
   });
 
   it('It returns an array of relevant symbols for a method and callback function.', function () {
     {
+      const symbol = 'persons';
       const text = 'persons.forEach(person => {';
-      const value = getRelevantSymbols(text);
+      const symbols = getRelevantSymbols(symbol, text);
   
-      chai.expect(value.at(0)?.value).to.equal('persons');
+      chai.expect(symbols.length).to.equal(2);
+      chai.expect(symbols.at(0)?.value).to.equal('persons');
+      chai.expect(symbols.at(1)?.value).to.equal('person');
     }
     {
+      const symbol = 'person';
       const text = 'for (const person of persons) {';
-      const value = utils.getRelevantSymbols(text);
+      const symbols = utils.getRelevantSymbols(symbol, text);
   
-      chai.expect(value.at(0)?.value).to.equal('person');
+      chai.expect(symbols.length).to.equal(2);
+      chai.expect(symbols.at(0)?.value).to.equal('person');
+      chai.expect(symbols.at(1)?.value).to.equal('persons');
     }
+    {
+      const symbol = 'items';
+      const text = 'items.push(element);';
+      const symbols = utils.getRelevantSymbols(symbol, text);
+
+      chai.expect(symbols.length).to.equal(1);
+      chai.expect(symbols.at(0)?.value).to.equal('items');
+    }
+  });
+});
+
+describe('getSymbols()', function () {
+  const getSymbols = utils.getSymbols; 
+
+  it('It returns a list of symbols for a for... of loop.', function () {
+    const text = 'for (const person of persons) {';
+    const regex = utils.regexes.forOfLoop;
+    const symbols = getSymbols(text, regex);
+  
+    chai.expect(symbols.length).to.equal(2);
+    chai.expect(symbols.at(0)?.value).to.equal('person');
+    chai.expect(symbols.at(1)?.value).to.equal('persons');
+  });
+
+  it('It returns a list of symbols for a method and callback function.', function () {
+    const text = 'persons.forEach(person => {';
+    const regex = utils.regexes.methodAndCallbackFunction;
+    const symbols = getSymbols(text, regex);
+  
+    chai.expect(symbols.length).to.equal(2);
+    chai.expect(symbols.at(0)?.value).to.equal('persons');
+    chai.expect(symbols.at(1)?.value).to.equal('person');
+  });
+
+  it('It returns a list of symbols for a sort method.', function () {
+    const text = 'persons.sort((personA, personB));';
+    const regex = utils.regexes.sortMethod;
+    const symbols = getSymbols(text, regex);
+  
+    chai.expect(symbols.length).to.equal(3);
+    chai.expect(symbols.at(0)?.value).to.equal('persons');
+    chai.expect(symbols.at(1)?.value).to.equal('person');
+    chai.expect(symbols.at(2)?.value).to.equal('person');
+  });
+
+  it('It returns a list of symbols for a declaration.', function () {
+    const text = 'const person = persons[0];';
+    const regex = utils.regexes.declaration;
+    const symbols = getSymbols(text, regex);
+  
+    chai.expect(symbols.length).to.equal(2);
+    chai.expect(symbols.at(0)?.value).to.equal('person');
+    chai.expect(symbols.at(1)?.value).to.equal('persons');
   });
 });

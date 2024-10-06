@@ -93,7 +93,7 @@ async function commandHandler(): Promise<void> {
             const lineNumber = location.range.start.line;
             const text = file.lineAt(lineNumber).text;
             // Let `relevantSymbols` be a list of other symbols in `file` to be renamed.
-            const relevantSymbols = getRelevantSymbols(text);
+            const relevantSymbols = getRelevantSymbols(oldName, text);
     
             // For each relevant symbol `relevantSymbol` in `relevantSymbols`.
             for (const relevantSymbol of relevantSymbols) {

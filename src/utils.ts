@@ -123,28 +123,29 @@ interface RelevantSymbol {
 /**
  * Returns a list of symbols that are associated with each other.
  * For example, in `for (const person of persons) {`, `person` and `persons` are symbols associated with each other.
- * @param {text} text - A string of JavaScript or TypeScript code. 
- * @returns {RelevantSymbol[]} A list of symbols that are associated with each other.
+ * @param text - A string of JavaScript or TypeScript code. 
+ * @returns A list of symbols that are associated with each other.
  */
-function getRelevantSymbols(text: string): RelevantSymbol[] {
-    // Let `symbols` be an initially empty list of symbols.
-    const relevantSymbols = [];
+function getRelevantSymbols(symbol: string, text: string): RelevantSymbol[] {
+    // Let `singular` be the singular form of `symbol`.
+    const singular = new Word(symbol).toSingular();
+    // Let `plural` be the plural form of `symbol`.
+    const plural = new Word(symbol).toPlural();
+    // Let `relevantSymbols` be an initially empty list of symbols associated with `symbol`.
+    const relevantSymbols: RelevantSymbol[] = [];
 
     // For each regex `regex` in `regexes`.
     for (const regex in regexes) {
-        // Let `matches` be a list of matches of `regex` in `text`.
-        const matches = Object.values(text.match(regexes[regex])?.indices?.groups || {});
+        // Let `symbols` be a list of symbols in `text`.
+        const symbols = getSymbols(text, regexes[regex]);
 
-        // For each match `match` in `matches`.
-        for (const match of matches) {
-            // Let `symbol` be a new symbol.
-            const symbol = {
-                value: text.slice(match[0], match[1]),
-                start: match[0],
-                end: match[1],
-            };
-    
-            // Add `symbol` to `symbols`.
+        // For each symbol `symbol` in `symbols`.
+        for (const symbol of symbols) {
+
+            // Skip if `symbol` is not the same as `singular` or `plural`.
+            if (symbol.value !== singular && symbol.value !== plural) {
+                continue;
+            }
             relevantSymbols.push(symbol);
         }
 
@@ -158,7 +159,36 @@ function getRelevantSymbols(text: string): RelevantSymbol[] {
     return relevantSymbols;
 }
 
+/**
+ * Returns a list of symbols in `text` that `regex` matches.
+ * @param text - A string of JavaScript or TypeScript code. 
+ * @param regex - A regular expression to match symbols in `text`.
+ * @returns A list of symbols in `text` that `regex` matches.
+ */
+function getSymbols(text: string, regex: RegExp): RelevantSymbol[] {
+    const symbols: RelevantSymbol[] = [];
+
+    const matches = Object.values(text.match(regex)?.indices?.groups || {});
+
+     // For each match `match` in `matches`.
+     for (const match of matches) {
+        // Let `symbol` be a new symbol.
+        const symbol: RelevantSymbol = {
+            value: text.slice(match[0], match[1]),
+            start: match[0],
+            end: match[1],
+        };
+
+        // Add `symbol` to `symbols`.
+        symbols.push(symbol);
+    }
+
+    return symbols;
+}
+
 export {
     getRelevantSymbols,
+    getSymbols,
+    regexes,
     Word,
 };
