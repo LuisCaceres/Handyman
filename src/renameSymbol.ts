@@ -63,7 +63,7 @@ async function commandHandler(): Promise<void> {
     const newName = new Word((await vscode.window.showInputBox({value: oldName}))?.trim() || '');
 
     // Abort if the developer did not provide a new name.
-    if (!newName) {
+    if (newName.length === 0) {
         return;
     }
 
