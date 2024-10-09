@@ -98,15 +98,15 @@ describe('Word', function () {
   });
 
   it('It returns the singular form of a word in singular form.', function () {
-    const value1 = (new Word('box')).toSingular();
-    const value2 = (new Word('church')).toSingular();
-    const value3 = (new Word('class')).toSingular();
-    const value4 = (new Word('country')).toSingular();
-    const value5 = (new Word('dog')).toSingular();
-    const value6 = (new Word('entry')).toSingular();
-    const value7 = (new Word('lie')).toSingular();
-    const value8 = (new Word('pie')).toSingular();
-    const value9 = (new Word('service')).toSingular();
+    const value1 = new Word('box').toSingular();
+    const value2 = new Word('church').toSingular();
+    const value3 = new Word('class').toSingular();
+    const value4 = new Word('country').toSingular();
+    const value5 = new Word('dog').toSingular();
+    const value6 = new Word('entry').toSingular();
+    const value7 = new Word('leg').toSingular();
+    const value8 = new Word('pie').toSingular();
+    const value9 = new Word('service').toSingular();
 
     chai.expect(value1).to.equal('box');
     chai.expect(value2).to.equal('church');
@@ -114,7 +114,7 @@ describe('Word', function () {
     chai.expect(value4).to.equal('country');
     chai.expect(value5).to.equal('dog');
     chai.expect(value6).to.equal('entry');
-    chai.expect(value7).to.equal('lie');
+    chai.expect(value7).to.equal('leg');
     chai.expect(value8).to.equal('pie');
     chai.expect(value9).to.equal('service');
   });
