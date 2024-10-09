@@ -11,11 +11,71 @@ class Word extends String {
     }
 
     /**
+     * Converts the first letter of this word to uppercase.
+     * @example new Word('person').capitalize() returns 'Person'.
+     * @returns {string} This word with the first letter capitalized.
+     */
+    capitalize(): string {
+        return this[0].toUpperCase() + this.slice(1);
+    }
+
+    /**
+     * Formats this word so that it's in the same format as `anotherWord`.
+     * Supported formats are case (capitalization) and number (singular or plural).
+     * @example new Word('accounts').format('Payments') returns 'Accounts'.
+     * @example new Word('Accounts').format('payments') returns 'accounts'.
+     * @example new Word('accounts').format('Payment') returns 'Account'.
+     * @example new Word('Accounts').format('payment') returns 'account'.
+     * @param anotherWord - Another word whose format this word will be converted to.
+     * @returns {string} This word in the same format as `anotherWord`. 
+     */
+    format(anotherWord: string): string {
+        const isCapitalized = new Word(anotherWord).isCapitalized();
+        const isSingular = new Word(anotherWord).isSingular();
+    
+        let word: string;
+    
+        if (isCapitalized) {
+            word = this.capitalize();
+        } else {
+            word = this.uncapitalize();
+        }
+    
+        if (isSingular) {
+            word = new Word(word).toSingular();
+        } else {
+            word = new Word(word).toPlural();
+        }
+    
+        return word;
+    }
+
+    /**
+     * Indicates whether the first letter of this word is capitalized.
+     * @example new Word('Person').isCapitilized() returns true.
+     * @example new Word('person').isCapitilized() returns false.
+     * @returns {boolean} True if the word is capitalized; otherwise, false.
+     */
+    isCapitalized(): boolean {
+        return this.toString() === this.capitalize();
+    }
+
+    /**
      * Indicates whether this word is in singular form.
      * @returns {boolean} True if the word is singular; otherwise, false.
      */
     isSingular(): boolean {
         return this.endsWith('ss') || this.endsWith('s') === false;
+    }
+
+    /**
+     * Indicates whether this word is in uppercase form.
+     * @example new Word('PERSON').isUpperCase() returns true.
+     * @example new Word('person').isUpperCase() returns false.
+     * @returns {boolean} True if the word is in uppercase; otherwise, false.
+     */
+    isUpperCase(): boolean {
+        return this.toString() === this.toUpperCase();
     }
 
     /**
@@ -88,6 +148,15 @@ class Word extends String {
         }
 
         return wordInPlural;
+    }
+
+    /**
+     * Converts the first letter of this word to lowercase.
+     * @example new Word('Person').uncapitalize() returns 'person'.
+     * @returns {string} This word with the first letter uncapitalized.
+     */
+    uncapitalize(): string {
+        return this[0].toLowerCase() + this.slice(1);
     }
 }
 
