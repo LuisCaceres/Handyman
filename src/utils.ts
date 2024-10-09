@@ -62,6 +62,8 @@ class Word extends String {
 
     /**
      * Indicates whether this word is in singular form.
+     * @example new Word('person').isSingular() returns true.
+     * @example new Word('persons').isSingular() returns false.
      * @returns {boolean} True if the word is singular; otherwise, false.
      */
     isSingular(): boolean {
@@ -79,7 +81,9 @@ class Word extends String {
     }
 
     /**
-     * Returns the singular form of this word. 
+     * Returns the singular form of this word.
+     * @example new Word('boxes').toSingular() returns 'box'.
+     * @example new Word('countries').toSingular() returns 'country'. 
      * @return {string} The singular form of this word.
      */
     toSingular(): string {
@@ -120,6 +124,8 @@ class Word extends String {
 
     /**
      * Returns the plural form of this word. 
+     * @example new Word('box').toPlural() returns 'boxes'.
+     * @example new Word('country').toPlural() returns 'countries'.
      * @return {string} The plural form of this word.
      */
     toPlural(): string {
