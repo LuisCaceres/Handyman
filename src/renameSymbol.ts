@@ -58,12 +58,14 @@ async function commandHandler(): Promise<void> {
         return;
     }
 
+    // Let `oldName` be the current name of `symbol`.
     const oldName = file.getText(range);
     // Let `newName` be the new name for `symbol`.
     const newName = new Word((await vscode.window.showInputBox({value: oldName}))?.trim() || '');
 
     // Abort if the developer did not provide a new name.
-    if (newName.length === 0) {
+    // Abort if `newName` is the same as `oldName`.
+    if (newName.length === 0 || oldName === newName) {
         return;
     }
 
