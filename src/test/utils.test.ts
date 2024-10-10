@@ -338,3 +338,184 @@ describe('getSymbols()', function () {
     chai.expect(symbols.at(1)?.value).to.equal('persons');
   });
 });
+
+describe('formatSymbol()', function () {
+  const formatSymbol = utils.formatSymbol;
+
+  it('It replaces the noun of a symbol.', function () {
+    {
+      const symbol = 'person';
+      const noun = 'persons';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('person');
+    }
+    {
+      const symbol = 'persons';
+      const noun = 'person';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('persons');
+    }
+    {
+      const symbol = 'dog';
+      const noun = 'cat';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('cat');
+    }
+    {
+      const symbol = 'dogs';
+      const noun = 'cat';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('cats');
+    }
+    {
+      const symbol = 'internationalHotels';
+      const noun = 'destination';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('internationalDestinations');
+    }
+    {
+      const symbol = 'internationalHotels';
+      const noun = 'destinations';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('internationalDestinations');
+    }
+    {
+      const symbol = 'internationalHotel';
+      const noun = 'destination';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('internationalDestination');
+    }
+    {
+      const symbol = 'internationalHotel';
+      const noun = 'destinations';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('internationalDestination');
+    }
+    {
+      const symbol = 'card1';
+      const noun = 'invoices';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('invoice1');
+    }
+    {
+      const symbol = 'card1';
+      const noun = 'invoice';
+      const value = formatSymbol(symbol, noun);
+
+      chai.expect(value).to.equal('invoice1');
+    }
+  });
+});
+
+describe('getNounInformation()', function () {
+  const getNounInformation = utils.getNounInformation;
+
+  it('It returns information about the noun of a symbol.', function () {
+    {
+      const noun = 'person';
+      const information = getNounInformation(noun);
+
+      chai.expect(information).to.deep.equal({
+        name: 'person',
+        parts: ['person'],
+        index: 0,
+      });
+    }
+    {
+      const noun = 'persons';
+      const information = getNounInformation(noun);
+
+      chai.expect(information).to.deep.equal({
+        name: 'persons',
+        parts: ['persons'],
+        index: 0,
+      });
+    }
+    {
+      const noun = 'internationalHotels';
+      const information = getNounInformation(noun);
+
+      chai.expect(information).to.deep.equal({
+        name: 'Hotels',
+        parts: ['international', 'Hotels'],
+        index: 1,
+      });
+    }
+    {
+      const noun = 'internationalHotel';
+      const information = getNounInformation(noun);
+
+      chai.expect(information).to.deep.equal({
+        name: 'Hotel',
+        parts: ['international', 'Hotel'],
+        index: 1,
+      });
+    }
+    {
+      const noun = 'card1';
+      const information = getNounInformation(noun);
+
+      chai.expect(information).to.deep.equal({
+        name: 'card',
+        parts: ['card', '1'],
+        index: 0,
+      });
+    }
+    
+  });
+});
+
+describe('getParts()', function () {
+  const getParts = utils.getParts;
+
+  it('It returns the parts of a symbol.', function () {
+    {
+      const symbol = 'persons';
+      const parts = getParts(symbol);
+
+      chai.expect(parts.length).to.equal(1);
+      chai.expect(parts.at(0)).to.equal('persons');
+    }
+    {
+      const symbol = 'helloWorld';
+      const parts = getParts(symbol);
+
+      chai.expect(parts.length).to.equal(2);
+      chai.expect(parts.at(0)).to.equal('hello');
+      chai.expect(parts.at(1)).to.equal('World');
+    }
+    {
+      const symbol = 'internationalHotels';
+      const parts = getParts(symbol);
+
+      chai.expect(parts.length).to.equal(2);
+      chai.expect(parts.at(0)).to.equal('international');
+      chai.expect(parts.at(1)).to.equal('Hotels');
+    }
+    {
+      const symbol = 'internationalHotel';
+      const parts = getParts(symbol);
+
+      chai.expect(parts.length).to.equal(2);
+      chai.expect(parts.at(0)).to.equal('international');
+      chai.expect(parts.at(1)).to.equal('Hotel');
+    }
+    {
+      const symbol = 'card1';
+      const parts = getParts(symbol);
+
+      chai.expect(parts.length).to.equal(2);
+      chai.expect(parts.at(0)).to.equal('card');
+      chai.expect(parts.at(1)).to.equal('1');
+    }
+  });
+});

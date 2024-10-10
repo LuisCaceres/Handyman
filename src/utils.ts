@@ -265,7 +265,83 @@ function getSymbols(text: string, regex: RegExp): RelevantSymbol[] {
     return symbols;
 }
 
+/**
+ * Splits `symbol` into meaningful parts. For example, `symbol` may consist of words and numbers.
+ * @example getParts('account') returns ['account'].
+ * @example getParts('discountedItems') returns ['discounted', 'Items'].
+ * @example getParts('container1') returns ['container', '1'].
+ * @param symbol - The name of a valid identifier, token or variable in JavaScript or TypeScript.
+ * @returns {string[]} A list of parts that `symbol` consists of.
+ */
+function getParts(symbol: string): string[] {
+    const regex = /([$_\d]+|\B(?=[A-Z]))/;
+    // Let `parts` be a list of meaningful parts that `symbol` consists of.
+    // Remove any parts from `parts` that are equal to an empty string.
+    const parts = symbol.split(regex).filter(part => part.length > 0);
+    // Return `parts`.
+    return parts;
+}
+
+interface NounInformation {
+    // The name of the noun of a symbol. For example, 'person', 
+    name: string;
+    // The symbol that `name` is part of.  
+    symbol?: string;
+    // A list of parts that `symbol` consists of.
+    parts: string[];
+    // The index of `name` in `parts`.
+    index: number;
+}
+
+/** Returns information about the noun of `symbol`. It's assumed that `symbol`
+ * always has a noun. A noun is a word that represents a person or an object.
+ * @example getNounInformation('account') returns {name: 'account', parts: ['account'], index: 0}.
+ * @example getNounInformation('discountedItems') returns {name: 'Items', parts: ['discounted', 'Items'], index: 1}.
+ * @example getNounInformation('container1') returns {name: 'container', parts: ['container', '1'], index: 0}.
+ * @param symbol - The name of a valid identifier, token or variable in JavaScript or TypeScript. 
+ * @returns Information about the noun of `symbol`.
+ */
+function getNounInformation(symbol: string): NounInformation {
+    // It matches a word that only consists of letters.
+    const regex = /[A-Za-z]/;
+    // Let `parts` be a list of parts that `symbol` consists of.
+    const parts = getParts(symbol);
+    // Let `noun` be the last word in `symbol`.
+    const index = parts.findLastIndex(part => part.match(regex));
+    // Let `name` be the noun of `symbol`.
+    const name = parts[index];
+    // Let `nounInformation` be information about the noun of `symbol`.
+    const nounInformation: NounInformation = {parts, index, name};
+    // Return `nounInformation`.
+    return nounInformation;
+}
+
+/**
+ * Replaces the noun of `symbol` with another noun `noun`. The case and number of `noun` must be the same as the noun of `symbol`.
+ * @example formatSymbol('bankAccounts', 'receipts') returns 'bankReceipts'.
+ * @example formatSymbol('bankAccount', 'receipts') returns 'bankReceipt'.
+ * @example formatSymbol('bankAccount', 'receipt') returns 'bankReceipt'.
+ * @example formatSymbol('bankAccounts', 'receipt') returns 'bankReceipts'.
+ * @param symbol - The name of a valid identifier, token or variable in JavaScript or TypeScript.
+ * @param noun - A word that represents a noun. For example, `box`, 'bag', 'drawers' or `containers`.
+ * @returns {string} `symbol` with its noun replaced by `noun`.
+ */
+function formatSymbol(symbol: string, noun: string): string {
+    const nounInformation = getNounInformation(symbol);
+    // Let `formattedNoun` be `noun` that has the same format as the noun of `symbol`. 
+    const formattedNoun = new Word(noun).format(nounInformation.name);
+    const parts = nounInformation.parts.slice();
+    // Remove `symbol`'s current noun and replace it with `formattedNoun`.
+    parts[nounInformation.index] = formattedNoun;
+    const formattedSymbol = parts.join('');
+    // Return `symbol`.
+    return formattedSymbol;
+}
+
 export {
+    formatSymbol,
+    getNounInformation,
+    getParts,
     getRelevantSymbols,
     getSymbols,
     regexes,
