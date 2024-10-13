@@ -32,7 +32,7 @@ comments.
 */
 
 import * as vscode from "vscode";
-import { getRelevantSymbols, getNounInformation, Word } from "./utils";
+import { formatSymbol, getRelevantSymbols, getNounInformation, Word } from "./utils";
 
 interface TextEdit {
     range: vscode.Range;
@@ -69,6 +69,8 @@ async function commandHandler(): Promise<void> {
         return;
     }
 
+    const newNoun = getNounInformation(newName);
+
     // Let `textEdits` be an initially empty list of text edits.
     const textEdits: TextEdit[] = [];
 
@@ -82,7 +84,7 @@ async function commandHandler(): Promise<void> {
             // Let `edit` be a new text edit specifying how to replace `relevantSymbol` at `location`.
             const textEdit: TextEdit = {
                 range: new vscode.Range(location.range.start, end),
-                replacement: new Word(oldName).isSingular() ? newName.toSingular() : newName.toPlural(),
+                replacement: formatSymbol(oldName, newNoun.name),
             };
             
             // Add `edit` to `edits`.
