@@ -200,35 +200,40 @@ interface SymbolInformation {
 }
 
 /**
- * Returns a list of symbols that are associated with each other.
- * For example, in `for (const person of persons) {`, `person` and `persons` are symbols associated with each other.
+ * Returns a list of symbols in `text` that are associated with `noun`. For 
+ * example, given the noun `task` and the line of code `tasks.push(task)` then the list of associated symbols includes `tasks` and `task`. 
+ * @param example `getRelevantSymbols('task', 'for (const task of tasks)')` returns `[{value: 'task'}, {value: 'tasks'}]`.
+ * @param example `getRelevantSymbols('task', 'const task = tasks.find(task => task.startsWith('t'));')` returns `[{value: 'task'}, {value: 'tasks'}, {value: 'task'}]`.
+ * @param noun - A noun is a word that represents a person or an object.
  * @param text - A string of JavaScript or TypeScript code. 
  * @returns A list of symbols that are associated with each other.
  */
-function getRelevantSymbols(symbol: string, text: string): RelevantSymbol[] {
-    // Let `singular` be the singular form of `symbol`.
-    const singular = new Word(symbol).toSingular();
-    // Let `plural` be the plural form of `symbol`.
-    const plural = new Word(symbol).toPlural();
+function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
+    // Let `singular` be the singular form of `noun`.
+    const singular = new Word(noun).toSingular().toUpperCase();
+    // Let `plural` be the plural form of `noun`.
+    const plural = new Word(noun).toPlural().toUpperCase();
     // Let `relevantSymbols` be an initially empty list of symbols associated with `symbol`.
-    const relevantSymbols: RelevantSymbol[] = [];
+    const relevantSymbols: SymbolInformation[] = [];
 
     // For each regex `regex` in `regexes`.
     for (const regex in regexes) {
         // Let `symbols` be a list of symbols in `text`.
         const symbols = getSymbols(text, regexes[regex]);
-
+        
         // For each symbol `symbol` in `symbols`.
         for (const symbol of symbols) {
+            // Let `anotherNoun` be `symbol`'s noun.
+            const anotherNoun = symbol.noun.name.toUpperCase();
 
-            // Skip if `symbol` is not the same as `singular` or `plural`.
-            if (symbol.value !== singular && symbol.value !== plural) {
+            // Ignore `symbol` if `anotherNoun` has no correlation with `noun`.
+            if (anotherNoun !== singular && anotherNoun !== plural) {
                 continue;
             }
 
             const duplicate = relevantSymbols.find(relevantSymbol => relevantSymbol.start === symbol.start);
 
-            // Skip if `symbol` is already in `relevantSymbols`.
+            // Ignore `symbol` if `symbol` is already in `relevantSymbols`.
             if (duplicate) {
                 continue;
             }
