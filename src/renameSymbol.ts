@@ -32,7 +32,7 @@ comments.
 */
 
 import * as vscode from "vscode";
-import { formatSymbol, getRelevantSymbols, getNounInformation, Word } from "./utils";
+import { formatSymbol, getRelevantSymbols, getNounInformation } from "./utils";
 
 interface TextEdit {
     range: vscode.Range;
@@ -61,7 +61,7 @@ async function commandHandler(): Promise<void> {
     // Let `oldName` be the current name of `symbol`.
     const oldName = file.getText(range);
     // Let `newName` be the new name for `symbol`.
-    const newName = new Word((await vscode.window.showInputBox({value: oldName}))?.trim() || '');
+    const newName = (await vscode.window.showInputBox({value: oldName}) || '').trim();
 
     // Abort if the developer did not provide a new name.
     // Abort if `newName` is the same as `oldName`.
