@@ -32,7 +32,7 @@ comments.
 */
 
 import * as vscode from "vscode";
-import { getRelevantSymbols, Word } from "./utils";
+import { getRelevantSymbols, getNounInformation, Word } from "./utils";
 
 interface TextEdit {
     range: vscode.Range;
@@ -94,8 +94,10 @@ async function commandHandler(): Promise<void> {
             // Let `text` be the text of the line on which `location` appears.
             const lineNumber = location.range.start.line;
             const text = file.lineAt(lineNumber).text;
-            // Let `relevantSymbols` be a list of other symbols in `file` to be renamed.
-            const relevantSymbols = getRelevantSymbols(oldName, text);
+            // Let `noun` be the noun of `oldName`. 
+            const noun = getNounInformation(oldName).name;
+            // Let `relevantSymbols` be a list of symbols associated with `noun` in `text`. Those symbols will be renamed too. 
+            const relevantSymbols = getRelevantSymbols(noun, text);
     
             // For each relevant symbol `relevantSymbol` in `relevantSymbols`.
             for (const relevantSymbol of relevantSymbols) {
