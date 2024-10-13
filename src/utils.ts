@@ -173,26 +173,30 @@ interface Regexes {
 // The following are regular expressions that can be used to find an association of symbols in a line of code.
 const regexes: Regexes = {
     // Matches `person` and `persons` in `const person = persons[0];`.
-    declaration: /(const|let|var)\s(?<symbol_1>\w+)\s=\s(?<symbol_2>\w+)/d,
+    declaration: /(const|let|var)\s(?<symbol_1>\w+)\s=\s(?<symbol_2>\w+)/gd,
     // Matches `person` and `persons` in `for (const person of persons) {`.
-    forOfLoop: /(?<=for\s\(const\s)(?<symbol_1>\w+)\sof\s(?<symbol_2>\w+)/d,
-    // Matches `persons` and `person` in `persons.sort((personA, personB));`.
-    sortMethod: /(?<symbol_1>\w+)\.sort\(\((?<symbol_2>\w+)\w,\s(?<symbol_3>\w+)\w/d,
+    forOfLoop: /(?<=for\s\(const\s)(?<symbol_1>\w+)\sof\s(?<symbol_2>\w+)/gd,
+    // Matches `persons`, `personA, `person`, `personB` and `person` in `persons.sort((personA, personB));`.
+    sortMethod: /(?<symbol_1>\w+)\.sort\(\((?<symbol_2>\w+)\w,\s(?<symbol_3>\w+)\w/gd,
     // Matches `persons` and `person` in `persons.forEach(person => {`.
     // Matches `persons` and `person` in `persons.map((person, index) => {`.
     // Matches `persons` and `person` in `persons.push(person);`.
-    methodCall: /(?<symbol_1>\w+)\.\w+\(+(?<symbol_2>\w+)(\)|\s=|,)/d,
+    methodCall: /(?<symbol_1>\w+)\.\w+\(+(?<symbol_2>\w+)(\)|\s=|,)/gd,
 };
 
-// A relevant symbol is a symbol that is associated with another symbol.
-// For example, in `for (const person of persons) {`, `person` and `persons` are associated symbols.
-interface RelevantSymbol {
-    // The value of the symbol, for example, `person` or `persons`.
+/** A symbol is the name of a valid variable, token or identifier in JavaScript 
+ * or TypeScript code.
+ * For example, `person` and `persons` are symbols in line of code `for (const 
+ * person of persons) {`.
+ */
+interface SymbolInformation {
+    // The name of a symbol, for example, `box`, `boxes` or `largeBoxes`.
     value: string;
-    // The start index of the symbol in a line of code.
+    // The start index of the name of the symbol in a line of code.
     start: number;
-    // The end index of the symbol in a line of code.
+    // The end index of the name of the symbol in a line of code.
     end: number;
+    noun: NounInformation;
 }
 
 /**
@@ -244,24 +248,35 @@ function getRelevantSymbols(symbol: string, text: string): RelevantSymbol[] {
  * @param regex - A regular expression to match symbols in `text`.
  * @returns A list of symbols in `text` that `regex` matches.
  */
-function getSymbols(text: string, regex: RegExp): RelevantSymbol[] {
-    const symbols: RelevantSymbol[] = [];
+function getSymbols(text: string, regex: RegExp): SymbolInformation[] {
+    // Let `symbols` be an initially empty list of symbols.
+    const symbols: SymbolInformation[] = [];
+    // Let `matches` be a list of matches in `text` that `regex` matches.
+    const matches = text.matchAll(regex);
 
-    const matches = Object.values(text.match(regex)?.indices?.groups || {});
+    // For each match `match` in `matches`.
+    for (const match of matches) {
+        // Let `groups` be a list of the named capture groups of `match`.
+        const groups = match.groups || {};
+        const indices = match.indices?.groups || {};
 
-     // For each match `match` in `matches`.
-     for (const match of matches) {
-        // Let `symbol` be a new symbol.
-        const symbol: RelevantSymbol = {
-            value: text.slice(match[0], match[1]),
-            start: match[0],
-            end: match[1],
-        };
+        // For each group `group` in `groups`.
+        for (const group in groups) {
 
-        // Add `symbol` to `symbols`.
-        symbols.push(symbol);
+           // Let `symbol` be a new symbol.
+           const symbol: SymbolInformation = {
+               value: groups[group],
+               start: indices[group][0],
+               end: indices[group][1],
+               noun: getNounInformation(groups[group]),
+           };
+    
+           // Add `symbol` to `symbols`.
+           symbols.push(symbol);
+       }
     }
 
+    // Return `symbols`.
     return symbols;
 }
 
