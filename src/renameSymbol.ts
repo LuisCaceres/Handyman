@@ -80,10 +80,9 @@ async function commandHandler(): Promise<void> {
 
         // For each location `location` in `locations`.
         for (const location of locations) {
-            const end = new vscode.Position(location.range.end.line, location.range.start.character + oldName.length);
             // Let `edit` be a new text edit specifying how to replace `relevantSymbol` at `location`.
             const textEdit: TextEdit = {
-                range: new vscode.Range(location.range.start, end),
+                range: location.range,
                 replacement: formatSymbol(oldName, newNoun.name),
             };
             
