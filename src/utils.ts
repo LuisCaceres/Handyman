@@ -222,7 +222,7 @@ function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
         // For each symbol `symbol` in `symbols`.
         for (const symbol of symbols) {
             // Let `anotherNoun` be `symbol`'s noun.
-            const anotherNoun = symbol.noun.name.toUpperCase();
+            const anotherNoun = symbol.noun.value.toUpperCase();
 
             // Ignore `symbol` if `anotherNoun` has no correlation with `noun`.
             if (anotherNoun !== singular && anotherNoun !== plural) {
@@ -301,7 +301,7 @@ function getParts(symbol: string): string[] {
 
 interface NounInformation {
     // The name of the noun of a symbol. For example, 'person', 
-    name: string;
+    value: string;
     // The symbol that `name` is part of.  
     symbol?: string;
     // A list of parts that `symbol` consists of.
@@ -325,10 +325,10 @@ function getNounInformation(symbol: string): NounInformation {
     const parts = getParts(symbol);
     // Let `noun` be the last word in `symbol`.
     const index = parts.findLastIndex(part => part.match(regex));
-    // Let `name` be the noun of `symbol`.
-    const name = parts[index];
+    // Let `value` be the noun of `symbol`.
+    const value = parts[index];
     // Let `nounInformation` be information about the noun of `symbol`.
-    const nounInformation: NounInformation = {parts, index, name};
+    const nounInformation: NounInformation = {parts, index, value};
     // Return `nounInformation`.
     return nounInformation;
 }
@@ -346,7 +346,7 @@ function getNounInformation(symbol: string): NounInformation {
 function formatSymbol(symbol: string, noun: string): string {
     const nounInformation = getNounInformation(symbol);
     // Let `formattedNoun` be `noun` that has the same format as the noun of `symbol`. 
-    const formattedNoun = new Word(noun).format(nounInformation.name);
+    const formattedNoun = new Word(noun).format(nounInformation.value);
     const parts = nounInformation.parts.slice();
     // Remove `symbol`'s current noun and replace it with `formattedNoun`.
     parts[nounInformation.index] = formattedNoun;

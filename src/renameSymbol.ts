@@ -95,7 +95,7 @@ async function commandHandler(): Promise<void> {
             // Let `edit` be a new text edit specifying how to replace `relevantSymbol` at `location`.
             const textEdit: TextEdit = {
                 range: location.range,
-                replacement: formatSymbol(currentSymbol, newNoun.name),
+                replacement: formatSymbol(currentSymbol, newNoun.value),
             };
             
             // Add `edit` to `edits`.
@@ -103,7 +103,7 @@ async function commandHandler(): Promise<void> {
         }
 
         // Let `currentNoun` be the noun of `currentSymbol`.
-        const currentNoun = getNounInformation(currentSymbol).name;
+        const currentNoun = getNounInformation(currentSymbol).value;
 
         // For each location `location` in `locations`.
         for (const location of locations) {

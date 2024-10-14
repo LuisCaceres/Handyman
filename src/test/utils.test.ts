@@ -425,7 +425,7 @@ describe('getNounInformation()', function () {
       const information = getNounInformation(noun);
 
       chai.expect(information).to.deep.equal({
-        name: 'person',
+        value: 'person',
         parts: ['person'],
         index: 0,
       });
@@ -435,7 +435,7 @@ describe('getNounInformation()', function () {
       const information = getNounInformation(noun);
 
       chai.expect(information).to.deep.equal({
-        name: 'persons',
+        value: 'persons',
         parts: ['persons'],
         index: 0,
       });
@@ -445,7 +445,7 @@ describe('getNounInformation()', function () {
       const information = getNounInformation(noun);
 
       chai.expect(information).to.deep.equal({
-        name: 'Hotels',
+        value: 'Hotels',
         parts: ['international', 'Hotels'],
         index: 1,
       });
@@ -455,7 +455,7 @@ describe('getNounInformation()', function () {
       const information = getNounInformation(noun);
 
       chai.expect(information).to.deep.equal({
-        name: 'Hotel',
+        value: 'Hotel',
         parts: ['international', 'Hotel'],
         index: 1,
       });
@@ -465,7 +465,7 @@ describe('getNounInformation()', function () {
       const information = getNounInformation(noun);
 
       chai.expect(information).to.deep.equal({
-        name: 'card',
+        value: 'card',
         parts: ['card', '1'],
         index: 0,
       });
