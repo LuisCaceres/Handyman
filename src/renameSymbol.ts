@@ -83,12 +83,12 @@ async function commandHandler(): Promise<void> {
 
     /**
      * Returns intructions to replace ocurrences of `currentSymbol` in `file`. 
-     * @param range - The location of `currentSymbol` in `file`. 
      * @param currentSymbol - The symbol to be renamed. This is the name of the identifier, token or variable in to rename.
+     * @param position - The location of `currentSymbol` in `file`. 
      */
-    async function createTextEdits(range: vscode.Range, currentSymbol: string): Promise<void> {
+    async function createTextEdits(currentSymbol: string, position: vscode.Position): Promise<void> {
         // Let `locations` be a list of locations in which `currentSymbol` appears in `file`.
-        const locations: vscode.Location[] = await vscode.commands.executeCommand("vscode.executeReferenceProvider", file.uri, range.start);
+        const locations: vscode.Location[] = await vscode.commands.executeCommand("vscode.executeReferenceProvider", file.uri, position);
 
         // For each location `location` in `locations`.
         for (const location of locations) {
@@ -114,24 +114,23 @@ async function commandHandler(): Promise<void> {
     
             // For each relevant symbol `relevantSymbol` in `relevantSymbols`.
             for (const relevantSymbol of relevantSymbols) {
-                const position1 = new vscode.Position(lineNumber, relevantSymbol.start);
-                const position2 = new vscode.Position(lineNumber, relevantSymbol.end);
+                const anotherPosition = new vscode.Position(lineNumber, relevantSymbol.start);
                 
                 // Skip if `textEdits` already has text edits for `relevantSymbol` otherwise an error is thrown by VS Code.
-                const duplicate = textEdits.find(edit => edit.range.contains(position1));
+                const duplicate = textEdits.find(edit => edit.range.contains(anotherPosition));
                 
                 if (duplicate) {
                     continue;
                 }
     
                 // Otherwise, get the locations of `relevantSymbol` in `file` and specify text edits for those locations.
-                await createTextEdits(new vscode.Range(position1, position2), relevantSymbol.value);
+                await createTextEdits(relevantSymbol.value, anotherPosition);
             }
         }
     }
 
     // Get the locations of `oldSymbol` and associated symbols in `file` and specify text edits for those locations.
-    await createTextEdits(range, currentSymbol);
+    await createTextEdits(currentSymbol, range.start);
  
     activeTextEditor.edit(editBuilder => {
         // For each text edit `textEdit` in `textEdits`.
