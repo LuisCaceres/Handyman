@@ -1,81 +1,93 @@
-/* 
-This piece of code provides a rename provider that is smarter than the one provided by default on VS Code.
-This smarter rename provided performs the following:
-* Renames variables in single-line comments.
-* Renames variables in function parameters.
-* Renames variables in for... of loops.
+/* This piece of code provides a 'rename symbol' command that is smarter than 
+the the built-in 'rename symbol' command on VS Code. This smarter rename 
+performs the following:
 
-For example, consider an array called `countries`. Further below, the array is
-iterated over using several methods such as `forEach`, `map`, and `for... of` 
-loops. Consider the following code snippet:
+- Renames symbols in single-line comments.
+- Renames symbols in function parameters.
+- Renames symbols in for... of loops.
+
+For example, an array called `countries`. Further below, the array  
+invokes methods such as `forEach`, `map`, and. The array is also traversed with 
+a `for... of` loop. Consider the following code snippet:
 
 // Let `countries` be an initially empty array of countries.
 const countries = [];
 
 countries.forEach(country => {
-  // Do something with `map`.
+  // Do something with `country`.
 });
 
 countries.forEach((country, index) => {
-  // Do something with `map`.
+  // Do something with `country`.
 });
 
 for (const country of countries) {
-  // Do something with `map`.
+  // Do something with `country`.
 }
 
-If `countries` is renamed to `states`, the identifier `country` won't be 
-renamed to `state`by default on VS Code. In this instance, `states` is more 
-descriptive than `countries`. Therefore, the smarter rename provider will 
-rename `country` to `state` as well. This includes identifiers in single-line 
-comments.
+If the name of the array is renamed from `countries` to `states`, the variable 
+`country` used by the callback functions of the array methods won't be 
+automatically renamed to `state` by VS Code. This also applies to the variable 
+`country` in the `for... of` loop. On the other hand, the 'smarter 
+rename symbol' will rename a variable and associated variables in one go 
+avoiding manual and repetitive intervention by the developer. 
 */
 
 import * as vscode from "vscode";
 import { formatSymbol, getRelevantSymbols, getNounInformation } from "./utils";
 
+// Instructions to replace a substring with a string in a JavaScript or Typescript file in VS Code.
 interface TextEdit {
+    // The start and end of the substring.
     range: vscode.Range;
+    // A string to replace the substring specified by `range`. 
     replacement: string
 }
 
+// Let `identifier` be the name of this command.
 const identifier = 'myExtension.renameSymbol';
 
+// Let `commandHandler` be the function handler for this command.
 async function commandHandler(): Promise<void> {
     const activeTextEditor = vscode.window.activeTextEditor;
 
+    // Abort this command if there isn't an active file.
     if (!activeTextEditor) {
         return;
     }
 
     // Let `file` be the currently active file.
     const file = activeTextEditor.document;
-    // Let `symbol` be the identifier, token or variable to be renamed.
-    // Let `oldName` be the current name of `symbol`.
+    // Let `symbol` be the identifier, token or variable in `file` to rename.
     const range = file.getWordRangeAtPosition(activeTextEditor.selection.start);
 
     if (!range) {
         return;
     }
 
-    // Let `oldName` be the current name of `symbol`.
-    const oldName = file.getText(range);
-    // Let `newName` be the new name for `symbol`.
-    const newName = (await vscode.window.showInputBox({value: oldName}) || '').trim();
+    // Let `currentSymbol` be the current name of `symbol`.
+    const currentSymbol = file.getText(range);
+    // Let `newSymbol` be the new name for `symbol`.
+    const newSymbol = (await vscode.window.showInputBox({value: currentSymbol}) || '').trim();
 
-    // Abort if the developer did not provide a new name.
-    // Abort if `newName` is the same as `oldName`.
-    if (newName.length === 0 || oldName === newName) {
+    // Abort this command if the developer did not give a new name for symbol.
+    // Abort this command if `newSymbol` is the same as `currentSymbol`.
+    if (newSymbol.length === 0 || currentSymbol === newSymbol) {
         return;
     }
 
-    const newNoun = getNounInformation(newName);
-
+    // Let `newNoun` be the noun of `newSymbol`.
+    const newNoun = getNounInformation(newSymbol);
     // Let `textEdits` be an initially empty list of text edits.
     const textEdits: TextEdit[] = [];
 
-    async function createTextEdits(range: vscode.Range, oldName: string) {
-        // Let `locations` be a list of locations in which `relevantSymbol` appears in `file`.
+    /**
+     * Returns intructions to replace ocurrences of `currentSymbol` in `file`. 
+     * @param range - The location of `currentSymbol` in `file`. 
+     * @param currentSymbol - The symbol to be renamed. This is the name of the identifier, token or variable in to rename.
+     */
+    async function createTextEdits(range: vscode.Range, currentSymbol: string): Promise<void> {
+        // Let `locations` be a list of locations in which `currentSymbol` appears in `file`.
         const locations: vscode.Location[] = await vscode.commands.executeCommand("vscode.executeReferenceProvider", file.uri, range.start);
 
         // For each location `location` in `locations`.
@@ -83,7 +95,7 @@ async function commandHandler(): Promise<void> {
             // Let `edit` be a new text edit specifying how to replace `relevantSymbol` at `location`.
             const textEdit: TextEdit = {
                 range: location.range,
-                replacement: formatSymbol(oldName, newNoun.name),
+                replacement: formatSymbol(currentSymbol, newNoun.name),
             };
             
             // Add `edit` to `edits`.
@@ -95,17 +107,17 @@ async function commandHandler(): Promise<void> {
             // Let `text` be the text of the line on which `location` appears.
             const lineNumber = location.range.start.line;
             const text = file.lineAt(lineNumber).text;
-            // Let `noun` be the noun of `oldName`. 
-            const noun = getNounInformation(oldName).name;
-            // Let `relevantSymbols` be a list of symbols associated with `noun` in `text`. Those symbols will be renamed too. 
-            const relevantSymbols = getRelevantSymbols(noun, text);
+            // Let `currentNoun` be the noun of `currentSymbol`.
+            const currentNoun = getNounInformation(currentSymbol).name;
+            // Let `relevantSymbols` be a list of symbols associated with `currentNoun` in `text`. Those symbols will be renamed too. 
+            const relevantSymbols = getRelevantSymbols(currentNoun, text);
     
             // For each relevant symbol `relevantSymbol` in `relevantSymbols`.
             for (const relevantSymbol of relevantSymbols) {
                 const position1 = new vscode.Position(lineNumber, relevantSymbol.start);
                 const position2 = new vscode.Position(lineNumber, relevantSymbol.end);
                 
-                // Skip if `textEdits` already has text edits for `relevantSymbol` otherwise an error is thrown.
+                // Skip if `textEdits` already has text edits for `relevantSymbol` otherwise an error is thrown by VS Code.
                 const duplicate = textEdits.find(edit => edit.range.contains(position1));
                 
                 if (duplicate) {
@@ -118,8 +130,8 @@ async function commandHandler(): Promise<void> {
         }
     }
 
-    // Otherwise, get the locations of `symbol` in `file` and specify text edits for those locations.
-    await createTextEdits(range, oldName);
+    // Get the locations of `oldSymbol` and associated symbols in `file` and specify text edits for those locations.
+    await createTextEdits(range, currentSymbol);
  
     activeTextEditor.edit(editBuilder => {
         // For each text edit `textEdit` in `textEdits`.
