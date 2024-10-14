@@ -102,13 +102,14 @@ async function commandHandler(): Promise<void> {
             textEdits.push(textEdit);
         }
 
+        // Let `currentNoun` be the noun of `currentSymbol`.
+        const currentNoun = getNounInformation(currentSymbol).name;
+
         // For each location `location` in `locations`.
         for (const location of locations) {
             // Let `text` be the text of the line on which `location` appears.
             const lineNumber = location.range.start.line;
             const text = file.lineAt(lineNumber).text;
-            // Let `currentNoun` be the noun of `currentSymbol`.
-            const currentNoun = getNounInformation(currentSymbol).name;
             // Let `relevantSymbols` be a list of symbols associated with `currentNoun` in `text`. Those symbols will be renamed too. 
             const relevantSymbols = getRelevantSymbols(currentNoun, text);
     
