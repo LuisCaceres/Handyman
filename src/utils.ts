@@ -176,8 +176,8 @@ const regexes: Regexes = {
     declaration: /(const|let|var)\s(?<symbol_1>\w+)\s=\s(?<symbol_2>\w+)/gd,
     // Matches `person` and `persons` in `for (const person of persons) {`.
     forOfLoop: /(?<=for\s\(const\s)(?<symbol_1>\w+)\sof\s(?<symbol_2>\w+)/gd,
-    // Matches `persons`, `personA, `person`, `personB` and `person` in `persons.sort((personA, personB));`.
-    sortMethod: /(?<symbol_1>\w+)\.sort\(\((?<symbol_2>\w+)\w,\s(?<symbol_3>\w+)\w/gd,
+    // Matches `persons`, `person and `person` in `persons.sort((person1, person2));`.
+    sortMethod: /(?<symbol_1>\w+)\.sort\(\((?<symbol_2>\w+),\s(?<symbol_3>\w+)/gd,
     // Matches `persons` and `person` in `persons.forEach(person => {`.
     // Matches `persons` and `person` in `persons.map((person, index) => {`.
     // Matches `persons` and `person` in `persons.push(person);`.

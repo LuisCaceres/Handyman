@@ -318,14 +318,14 @@ describe('getSymbols()', function () {
   });
 
   it('It returns a list of symbols for a sort method.', function () {
-    const text = 'persons.sort((personA, personB));';
+    const text = 'persons.sort((person1, person2));';
     const regex = utils.regexes.sortMethod;
     const symbols = getSymbols(text, regex);
   
     chai.expect(symbols.length).to.equal(3);
     chai.expect(symbols.at(0)?.value).to.equal('persons');
-    chai.expect(symbols.at(1)?.value).to.equal('person');
-    chai.expect(symbols.at(2)?.value).to.equal('person');
+    chai.expect(symbols.at(1)?.value).to.equal('person1');
+    chai.expect(symbols.at(2)?.value).to.equal('person2');
   });
 
   it('It returns a list of symbols for a declaration.', function () {
