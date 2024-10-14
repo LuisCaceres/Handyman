@@ -247,6 +247,7 @@ function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
 
 /**
  * Returns a list of symbols in `text` that `regex` matches.
+ * @example getSymbols('for (const task of tasks) {', regex) returns [{value: 'task'}, {value: 'tasks'}]
  * @param text - A string of JavaScript or TypeScript code. 
  * @param regex - A regular expression to match symbols in `text`.
  * @returns A list of symbols in `text` that `regex` matches.
