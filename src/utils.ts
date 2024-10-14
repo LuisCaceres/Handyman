@@ -194,8 +194,6 @@ interface SymbolInformation {
     value: string;
     // The start index of the name of the symbol in a line of code.
     start: number;
-    // The end index of the name of the symbol in a line of code.
-    end: number;
     noun: NounInformation;
 }
 
@@ -272,7 +270,6 @@ function getSymbols(text: string, regex: RegExp): SymbolInformation[] {
            const symbol: SymbolInformation = {
                value: groups[group],
                start: indices[group][0],
-               end: indices[group][1],
                noun: getNounInformation(groups[group]),
            };
     
