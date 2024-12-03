@@ -18,8 +18,10 @@ const languages = ["javascript", "typescript", "vue"];
 function provideCodeActions(file: vscode.TextDocument, position: vscode.Range) {
     // Let `line` be the line of code on which the caret is located.
     const line = file.lineAt(position.start);
+    // Let `text` be the text currently selected or the text of `line`.
+    const text = file.getText(position) || line.text;
     // Let `codeSnippets` be a list of code snippets that are relevant to `line`.
-    const codeSnippets = getRelevantCodeSnippets(line.text);
+    const codeSnippets = getRelevantCodeSnippets(text);
     // Let `codeActions` be an initially empty list of VS Code code actions.
     const codeActions = [];
 
@@ -31,8 +33,18 @@ function provideCodeActions(file: vscode.TextDocument, position: vscode.Range) {
             vscode.CodeActionKind.Refactor
         );
         codeAction.edit = new vscode.WorkspaceEdit();
-        // If `codeAction` is selected then insert `codeSnippet` below `line`.
-        codeAction.edit.insert(file.uri, line.range.end, codeSnippet.snippet);
+
+        // If there's a selection of text.
+        if (position.isEmpty) {
+            // Insert `codeSnippet` below `line` when `codeAction` is selected.
+            codeAction.edit.insert(file.uri, line.range.end, codeSnippet.snippet);
+        }
+        // Otherwise
+        else {
+            //Replace `position` with `codeSnippet` when `codeAction` is selected.
+            codeAction.edit.replace(file.uri, position, codeSnippet.snippet);
+        }
+
         // Format the file to avoid inconsistent levels of indentation.
         codeAction.command = {
             command: "editor.action.formatDocument",
