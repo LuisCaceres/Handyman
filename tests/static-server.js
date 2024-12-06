@@ -31,20 +31,31 @@ const prepareFile = async (url) => {
   const pathTraversal = !filePath.startsWith(STATIC_PATH);
   const exists = await fs.promises.access(filePath).then(...toBool);
   const found = !pathTraversal && exists;
-  const streamPath = found ? filePath : STATIC_PATH + '/404.html';
-  const ext = path.extname(streamPath).substring(1).toLowerCase();
-  const stream = fs.createReadStream(streamPath);
+  let ext, stream;
+
+  if (found) {
+    ext = path.extname(filePath).substring(1).toLowerCase();
+    stream = fs.createReadStream(filePath);
+  }
+
   return { found, ext, stream };
 };
 
 http
   .createServer(async (req, res) => {
     const file = await prepareFile(req.url);
-    const statusCode = file.found ? 200 : 404;
-    const mimeType = MIME_TYPES[file.ext] || MIME_TYPES.default;
-    res.writeHead(statusCode, { 'Content-Type': mimeType });
-    file.stream.pipe(res);
-    console.log(`${req.method} ${req.url} ${statusCode}`);
+
+    if (file.found) {
+      const statusCode = 200;
+      const mimeType = MIME_TYPES[file.ext] || MIME_TYPES.default;
+      res.writeHead(statusCode, { 'Content-Type': mimeType });
+      file.stream.pipe(res);
+      console.log(`${req.method} ${req.url} ${statusCode}`);
+    }
+    else {
+      res.write('Resource not found!');
+      res.end();
+    }
   })
   .listen(port);
 
