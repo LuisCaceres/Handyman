@@ -54,7 +54,7 @@ describe("getRelevantCodeSnippets()", function () {
                 });
 
                 // Sort 'elements' accordingly. 
-                elements.sort((elementA, elementB) => map.get(elementA).number -  map.get(elementB).number);
+                elements.sort((elementA, elementB) => map.get(elementA) - map.get(elementB));
             }`);
         });
 

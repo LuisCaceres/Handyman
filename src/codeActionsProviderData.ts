@@ -123,7 +123,7 @@ const dataSets: DataSet[] = [
                 });
 
                 // Sort 'elements' accordingly. 
-                elements.sort((elementA, elementB) => map.get(elementA).number -  map.get(elementB).number);
+                elements.sort((elementA, elementB) => map.get(elementA) - map.get(elementB));
             }
         */
         generateCodeSnippet: function (variable) {
@@ -143,7 +143,7 @@ const dataSets: DataSet[] = [
                 });
 
                 // Sort '${variable}' accordingly. 
-                ${variable}.sort((${singular}A, ${singular}B) => map.get(${singular}A).number -  map.get(${singular}B).number);
+                ${variable}.sort((${singular}A, ${singular}B) => map.get(${singular}A) - map.get(${singular}B));
             }`;
 
             return codeSnippet;
