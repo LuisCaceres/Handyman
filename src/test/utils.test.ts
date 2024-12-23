@@ -124,6 +124,7 @@ describe('Word', function () {
         const value7 = new Word('leg').toPlural();
         const value8 = new Word('pie').toPlural();
         const value9 = new Word('service').toPlural();
+        const value10 = new Word('life').toPlural();
   
         chai.expect(value1).to.equal('boxes');
         chai.expect(value2).to.equal('churches');
@@ -134,6 +135,7 @@ describe('Word', function () {
         chai.expect(value7).to.equal('legs');
         chai.expect(value8).to.equal('pies');
         chai.expect(value9).to.equal('services');
+        chai.expect(value10).to.equal('lives');
     });
 
     it('It returns the plural form of a word in plural form.', function () {

@@ -132,6 +132,10 @@ class Word extends String {
         let wordInPlural;
 
         switch (true) {
+            case this.endsWith('ife'):
+                // For example: 'life' and 'wife'.
+                wordInPlural = `${this.slice(0, -2)}ves`;
+                break;
             case this.endsWith('y'):
                 // For example: 'entry' and 'country'.
                 wordInPlural = `${this.slice(0, -1)}ies`;
