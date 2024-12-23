@@ -41,7 +41,6 @@
 
 // debugger;
 
-* `new Word(life).toPlural()` doesn't return `lives`. Please fix.
 * `const value4 = new Word('COUNTRIES').format('entry');` doesn't return `countries`. Please fix.
 * Add JSDOC @example to each function definition.
 * Refactor the recursive function within the command handler so that it returns a list of text edits.
