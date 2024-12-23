@@ -5,230 +5,248 @@ describe('Word', function () {
 
   describe('#capitalize()', function () {
     it('It returns a word with its first letter in uppercase.', function () {
-      const value1 = new Word('box').capitalize();
-      const value2 = new Word('churches').capitalize();
-      const value3 = new Word('class').capitalize();
-      const value4 = new Word('countries').capitalize();
-      const value5 = new Word('dog').capitalize();
-      const value6 = new Word('entries').capitalize();
-      const value7 = new Word('leg').capitalize();
-      const value8 = new Word('pies').capitalize();
-      const value9 = new Word('service').capitalize();
+      const values = [
+        new Word('box').capitalize(),
+        new Word('churches').capitalize(),
+        new Word('class').capitalize(),
+        new Word('countries').capitalize(),
+        new Word('dog').capitalize(),
+        new Word('entries').capitalize(),
+        new Word('leg').capitalize(),
+        new Word('pies').capitalize(),
+        new Word('service').capitalize(),
+      ];
 
-      chai.expect(value1).to.equal('Box');
-      chai.expect(value2).to.equal('Churches');
-      chai.expect(value3).to.equal('Class');
-      chai.expect(value4).to.equal('Countries');
-      chai.expect(value5).to.equal('Dog');
-      chai.expect(value6).to.equal('Entries');
-      chai.expect(value7).to.equal('Leg');
-      chai.expect(value8).to.equal('Pies');
-      chai.expect(value9).to.equal('Service');
+      chai.expect(values.shift()).to.equal('Box');
+      chai.expect(values.shift()).to.equal('Churches');
+      chai.expect(values.shift()).to.equal('Class');
+      chai.expect(values.shift()).to.equal('Countries');
+      chai.expect(values.shift()).to.equal('Dog');
+      chai.expect(values.shift()).to.equal('Entries');
+      chai.expect(values.shift()).to.equal('Leg');
+      chai.expect(values.shift()).to.equal('Pies');
+      chai.expect(values.shift()).to.equal('Service');
     });
   });
 
   describe('#format()', function () {
     it('It formats a word so that it\'s in the same format as another word.', function () {
-      const value1 = new Word('Industry').format('Zone');
-      const value2 = new Word('Idea').format('year');
-      const value3 = new Word('House').format('Walls');
-      const value4 = new Word('Game').format('values');
-      const value5 = new Word('flower').format('Unit');
-      const value6 = new Word('family').format('table');
-      const value7 = new Word('entry').format('Schools');
-      const value8 = new Word('dog').format('reasons');
-      const value9 = new Word('Countries').format('Question');
-      const value10 = new Word('Classes').format('party');
-      const value11 = new Word('Churches').format('Offices');
-      const value12 = new Word('Cats').format('names');
-      const value13 = new Word('cars').format('Map');
-      const value14 = new Word('boxes').format('key');
-      const value15 = new Word('apples').format('Lifes');
-      const value16 = new Word('airplanes').format('jobs');
+      const values = [
+        new Word('Industry').format('Zone'),
+        new Word('Idea').format('year'),
+        new Word('House').format('Walls'),
+        new Word('Game').format('values'),
+        new Word('flower').format('Unit'),
+        new Word('family').format('table'),
+        new Word('entry').format('Schools'),
+        new Word('dog').format('reasons'),
+        new Word('Countries').format('Question'),
+        new Word('Classes').format('party'),
+        new Word('Churches').format('Offices'),
+        new Word('Cats').format('names'),
+        new Word('cars').format('Map'),
+        new Word('boxes').format('key'),
+        new Word('apples').format('Lifes'),
+        new Word('airplanes').format('jobs'),
+      ];
 
-      chai.expect(value1).to.equal('Industry');
-      chai.expect(value2).to.equal('idea');
-      chai.expect(value3).to.equal('Houses');
-      chai.expect(value4).to.equal('games');
-      chai.expect(value5).to.equal('Flower');
-      chai.expect(value6).to.equal('family');
-      chai.expect(value7).to.equal('Entries');
-      chai.expect(value8).to.equal('dogs');
-      chai.expect(value9).to.equal('Country');
-      chai.expect(value10).to.equal('class');
-      chai.expect(value11).to.equal('Churches');
-      chai.expect(value12).to.equal('cats');
-      chai.expect(value13).to.equal('Car');
-      chai.expect(value14).to.equal('box');
-      chai.expect(value15).to.equal('Apples');
-      chai.expect(value16).to.equal('airplanes');
+      chai.expect(values.shift()).to.equal('Industry');
+      chai.expect(values.shift()).to.equal('idea');
+      chai.expect(values.shift()).to.equal('Houses');
+      chai.expect(values.shift()).to.equal('games');
+      chai.expect(values.shift()).to.equal('Flower');
+      chai.expect(values.shift()).to.equal('family');
+      chai.expect(values.shift()).to.equal('Entries');
+      chai.expect(values.shift()).to.equal('dogs');
+      chai.expect(values.shift()).to.equal('Country');
+      chai.expect(values.shift()).to.equal('class');
+      chai.expect(values.shift()).to.equal('Churches');
+      chai.expect(values.shift()).to.equal('cats');
+      chai.expect(values.shift()).to.equal('Car');
+      chai.expect(values.shift()).to.equal('box');
+      chai.expect(values.shift()).to.equal('Apples');
+      chai.expect(values.shift()).to.equal('airplanes');
     });
   });
 
   describe('#isCapitalized()', function () {
     it('It indicates whether the first letter of a word is capitalized.', function () {
-      const value1 = new Word('Box').isCapitalized();
-      const value2 = new Word('church').isCapitalized();
-      const value3 = new Word('Class').isCapitalized();
-      const value4 = new Word('country').isCapitalized();
-      const value5 = new Word('Dog').isCapitalized();
-      const value6 = new Word('entry').isCapitalized();
-      const value7 = new Word('Leg').isCapitalized();
-      const value8 = new Word('pie').isCapitalized();
-      const value9 = new Word('Service').isCapitalized();
+      const values = [
+        new Word('Box').isCapitalized(),
+        new Word('church').isCapitalized(),
+        new Word('Class').isCapitalized(),
+        new Word('country').isCapitalized(),
+        new Word('Dog').isCapitalized(),
+        new Word('entry').isCapitalized(),
+        new Word('Leg').isCapitalized(),
+        new Word('pie').isCapitalized(),
+        new Word('Service').isCapitalized(),
+      ];
 
-      chai.expect(value1).to.be.true;
-      chai.expect(value2).to.be.false;
-      chai.expect(value3).to.be.true;
-      chai.expect(value4).to.be.false;
-      chai.expect(value5).to.be.true;
-      chai.expect(value6).to.be.false;
-      chai.expect(value7).to.be.true;
-      chai.expect(value8).to.be.false;
-      chai.expect(value9).to.be.true;
+      chai.expect(values.shift()).to.be.true;
+      chai.expect(values.shift()).to.be.false;
+      chai.expect(values.shift()).to.be.true;
+      chai.expect(values.shift()).to.be.false;
+      chai.expect(values.shift()).to.be.true;
+      chai.expect(values.shift()).to.be.false;
+      chai.expect(values.shift()).to.be.true;
+      chai.expect(values.shift()).to.be.false;
+      chai.expect(values.shift()).to.be.true;
     });
   });
 
   describe('#isSingular()', function () {
     it('It indicates whether a word is in singular form.', function () {
-      const value1 = new Word('box').isSingular();
-      const value2 = new Word('churches').isSingular();
-      const value3 = new Word('class').isSingular();
-      const value4 = new Word('countries').isSingular();
-      const value5 = new Word('dog').isSingular();
-      const value6 = new Word('entries').isSingular();
-      const value7 = new Word('leg').isSingular();
-      const value8 = new Word('pies').isSingular();
-      const value9 = new Word('service').isSingular();
+      const values = [
+        new Word('box').isSingular(),
+        new Word('churches').isSingular(),
+        new Word('class').isSingular(),
+        new Word('countries').isSingular(),
+        new Word('dog').isSingular(),
+        new Word('entries').isSingular(),
+        new Word('leg').isSingular(),
+        new Word('pies').isSingular(),
+        new Word('service').isSingular(),
+      ];
 
-      chai.expect(value1).to.be.true;
-      chai.expect(value2).to.be.false;
-      chai.expect(value3).to.be.true;
-      chai.expect(value4).to.be.false;
-      chai.expect(value5).to.be.true;
-      chai.expect(value6).to.be.false;
-      chai.expect(value7).to.be.true;
-      chai.expect(value8).to.be.false;
-      chai.expect(value9).to.be.true;
+      chai.expect(values.shift()).to.be.true;
+      chai.expect(values.shift()).to.be.false;
+      chai.expect(values.shift()).to.be.true;
+      chai.expect(values.shift()).to.be.false;
+      chai.expect(values.shift()).to.be.true;
+      chai.expect(values.shift()).to.be.false;
+      chai.expect(values.shift()).to.be.true;
+      chai.expect(values.shift()).to.be.false;
+      chai.expect(values.shift()).to.be.true;
     });
   });
 
   describe('#toPlural()', function () {
     it('It returns the plural form of a word in singular form.', function () {
-        const value1 = new Word('box').toPlural();
-        const value2 = new Word('church').toPlural();
-        const value3 = new Word('class').toPlural();
-        const value4 = new Word('country').toPlural();
-        const value5 = new Word('dog').toPlural();
-        const value6 = new Word('entry').toPlural();
-        const value7 = new Word('leg').toPlural();
-        const value8 = new Word('pie').toPlural();
-        const value9 = new Word('service').toPlural();
-        const value10 = new Word('life').toPlural();
+      const values = [
+        new Word('box').toPlural(),
+        new Word('church').toPlural(),
+        new Word('class').toPlural(),
+        new Word('country').toPlural(),
+        new Word('dog').toPlural(),
+        new Word('entry').toPlural(),
+        new Word('leg').toPlural(),
+        new Word('pie').toPlural(),
+        new Word('service').toPlural(),
+        new Word('life').toPlural(),
+      ];
   
-        chai.expect(value1).to.equal('boxes');
-        chai.expect(value2).to.equal('churches');
-        chai.expect(value3).to.equal('classes');
-        chai.expect(value4).to.equal('countries');
-        chai.expect(value5).to.equal('dogs');
-        chai.expect(value6).to.equal('entries');
-        chai.expect(value7).to.equal('legs');
-        chai.expect(value8).to.equal('pies');
-        chai.expect(value9).to.equal('services');
-        chai.expect(value10).to.equal('lives');
+      chai.expect(values.shift()).to.equal('boxes');
+      chai.expect(values.shift()).to.equal('churches');
+      chai.expect(values.shift()).to.equal('classes');
+      chai.expect(values.shift()).to.equal('countries');
+      chai.expect(values.shift()).to.equal('dogs');
+      chai.expect(values.shift()).to.equal('entries');
+      chai.expect(values.shift()).to.equal('legs');
+      chai.expect(values.shift()).to.equal('pies');
+      chai.expect(values.shift()).to.equal('services');
+      chai.expect(values.shift()).to.equal('lives');
     });
 
     it('It returns the plural form of a word in plural form.', function () {
-      const value1 = new Word('boxes').toPlural();
-      const value2 = new Word('churches').toPlural();
-      const value3 = new Word('classes').toPlural();
-      const value4 = new Word('countries').toPlural();
-      const value5 = new Word('dogs').toPlural();
-      const value6 = new Word('entries').toPlural();
-      const value7 = new Word('legs').toPlural();
-      const value8 = new Word('pies').toPlural();
-      const value9 = new Word('services').toPlural();
+      const values = [
+        new Word('boxes').toPlural(),
+        new Word('churches').toPlural(),
+        new Word('classes').toPlural(),
+        new Word('countries').toPlural(),
+        new Word('dogs').toPlural(),
+        new Word('entries').toPlural(),
+        new Word('legs').toPlural(),
+        new Word('pies').toPlural(),
+        new Word('services').toPlural(),
+      ];
 
-      chai.expect(value1).to.equal('boxes');
-      chai.expect(value2).to.equal('churches');
-      chai.expect(value3).to.equal('classes');
-      chai.expect(value4).to.equal('countries');
-      chai.expect(value5).to.equal('dogs');
-      chai.expect(value6).to.equal('entries');
-      chai.expect(value7).to.equal('legs');
-      chai.expect(value8).to.equal('pies');
-      chai.expect(value9).to.equal('services');
+      chai.expect(values.shift()).to.equal('boxes');
+      chai.expect(values.shift()).to.equal('churches');
+      chai.expect(values.shift()).to.equal('classes');
+      chai.expect(values.shift()).to.equal('countries');
+      chai.expect(values.shift()).to.equal('dogs');
+      chai.expect(values.shift()).to.equal('entries');
+      chai.expect(values.shift()).to.equal('legs');
+      chai.expect(values.shift()).to.equal('pies');
+      chai.expect(values.shift()).to.equal('services');
     });
   });
 
   describe('#toSingular()', function () {
     it('It returns the singular form of a word in plural form.', function () {
-      const value1 = new Word('boxes').toSingular();
-      const value2 = new Word('churches').toSingular();
-      const value3 = new Word('classes').toSingular();
-      const value4 = new Word('countries').toSingular();
-      const value5 = new Word('dogs').toSingular();
-      const value6 = new Word('entries').toSingular();
-      const value7 = new Word('legs').toSingular();
-      const value8 = new Word('pies').toSingular();
-      const value9 = new Word('services').toSingular();
+      const values = [
+        new Word('boxes').toSingular(),
+        new Word('churches').toSingular(),
+        new Word('classes').toSingular(),
+        new Word('countries').toSingular(),
+        new Word('dogs').toSingular(),
+        new Word('entries').toSingular(),
+        new Word('legs').toSingular(),
+        new Word('pies').toSingular(),
+        new Word('services').toSingular(),
+      ];
 
-      chai.expect(value1).to.equal('box');
-      chai.expect(value2).to.equal('church');
-      chai.expect(value3).to.equal('class');
-      chai.expect(value4).to.equal('country');
-      chai.expect(value5).to.equal('dog');
-      chai.expect(value6).to.equal('entry');
-      chai.expect(value7).to.equal('leg');
-      chai.expect(value8).to.equal('pie');
-      chai.expect(value9).to.equal('service');
+      chai.expect(values.shift()).to.equal('box');
+      chai.expect(values.shift()).to.equal('church');
+      chai.expect(values.shift()).to.equal('class');
+      chai.expect(values.shift()).to.equal('country');
+      chai.expect(values.shift()).to.equal('dog');
+      chai.expect(values.shift()).to.equal('entry');
+      chai.expect(values.shift()).to.equal('leg');
+      chai.expect(values.shift()).to.equal('pie');
+      chai.expect(values.shift()).to.equal('service');
     });
   });
 
   describe('#uncapitalize()', function () {
     it('It returns a word with its first letter in lowercase.', function () {
-      const value1 = new Word('Box').uncapitalize();
-      const value2 = new Word('church').uncapitalize();
-      const value3 = new Word('Class').uncapitalize();
-      const value4 = new Word('country').uncapitalize();
-      const value5 = new Word('Dog').uncapitalize();
-      const value6 = new Word('entry').uncapitalize();
-      const value7 = new Word('Leg').uncapitalize();
-      const value8 = new Word('pie').uncapitalize();
-      const value9 = new Word('Service').uncapitalize();
+      const values = [
+        new Word('Box').uncapitalize(),
+        new Word('church').uncapitalize(),
+        new Word('Class').uncapitalize(),
+        new Word('country').uncapitalize(),
+        new Word('Dog').uncapitalize(),
+        new Word('entry').uncapitalize(),
+        new Word('Leg').uncapitalize(),
+        new Word('pie').uncapitalize(),
+        new Word('Service').uncapitalize(),
+      ];
 
-      chai.expect(value1).to.equal('box');
-      chai.expect(value2).to.equal('church');
-      chai.expect(value3).to.equal('class');
-      chai.expect(value4).to.equal('country');
-      chai.expect(value5).to.equal('dog');
-      chai.expect(value6).to.equal('entry');
-      chai.expect(value7).to.equal('leg');
-      chai.expect(value8).to.equal('pie');
-      chai.expect(value9).to.equal('service');
+      chai.expect(values.shift()).to.equal('box');
+      chai.expect(values.shift()).to.equal('church');
+      chai.expect(values.shift()).to.equal('class');
+      chai.expect(values.shift()).to.equal('country');
+      chai.expect(values.shift()).to.equal('dog');
+      chai.expect(values.shift()).to.equal('entry');
+      chai.expect(values.shift()).to.equal('leg');
+      chai.expect(values.shift()).to.equal('pie');
+      chai.expect(values.shift()).to.equal('service');
     });
   });
 
   it('It returns the singular form of a word in singular form.', function () {
-    const value1 = new Word('box').toSingular();
-    const value2 = new Word('church').toSingular();
-    const value3 = new Word('class').toSingular();
-    const value4 = new Word('country').toSingular();
-    const value5 = new Word('dog').toSingular();
-    const value6 = new Word('entry').toSingular();
-    const value7 = new Word('leg').toSingular();
-    const value8 = new Word('pie').toSingular();
-    const value9 = new Word('service').toSingular();
+    const values = [
+      new Word('box').toSingular(),
+      new Word('church').toSingular(),
+      new Word('class').toSingular(),
+      new Word('country').toSingular(),
+      new Word('dog').toSingular(),
+      new Word('entry').toSingular(),
+      new Word('leg').toSingular(),
+      new Word('pie').toSingular(),
+      new Word('service').toSingular(),
+    ];
 
-    chai.expect(value1).to.equal('box');
-    chai.expect(value2).to.equal('church');
-    chai.expect(value3).to.equal('class');
-    chai.expect(value4).to.equal('country');
-    chai.expect(value5).to.equal('dog');
-    chai.expect(value6).to.equal('entry');
-    chai.expect(value7).to.equal('leg');
-    chai.expect(value8).to.equal('pie');
-    chai.expect(value9).to.equal('service');
+    chai.expect(values.shift()).to.equal('box');
+    chai.expect(values.shift()).to.equal('church');
+    chai.expect(values.shift()).to.equal('class');
+    chai.expect(values.shift()).to.equal('country');
+    chai.expect(values.shift()).to.equal('dog');
+    chai.expect(values.shift()).to.equal('entry');
+    chai.expect(values.shift()).to.equal('leg');
+    chai.expect(values.shift()).to.equal('pie');
+    chai.expect(values.shift()).to.equal('service');
   });
 });
 
