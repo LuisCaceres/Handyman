@@ -360,6 +360,33 @@ function formatSymbol(symbol: string, noun: string): string {
     return formattedSymbol;
 }
 
+// Let `reservedKeywords` be a list of reserved keywords in JavaScript. 
+const reservedKeywords: string[] = [
+    'await',
+    'class',
+    'const',
+    'contructor',
+    'debugger',
+    'else',
+    'export',
+    'extends',
+    'for',
+    'function',
+    'if',
+    'import',
+    'in',
+    'let',
+    'new',
+    'of',
+    'return',
+    'static',
+    'super',
+    'switch',
+    'this',
+    'var',
+    'while',
+];
+
 export {
     formatSymbol,
     getNounInformation,
