@@ -1,5 +1,7 @@
 import * as utils from '../utils.js';
 
+const expect = chai.expect;
+
 describe('Word', function () {
   const Word = utils.Word;
 
@@ -17,15 +19,15 @@ describe('Word', function () {
         new Word('service').capitalize(),
       ];
 
-      chai.expect(values.shift()).to.equal('Box');
-      chai.expect(values.shift()).to.equal('Churches');
-      chai.expect(values.shift()).to.equal('Class');
-      chai.expect(values.shift()).to.equal('Countries');
-      chai.expect(values.shift()).to.equal('Dog');
-      chai.expect(values.shift()).to.equal('Entries');
-      chai.expect(values.shift()).to.equal('Leg');
-      chai.expect(values.shift()).to.equal('Pies');
-      chai.expect(values.shift()).to.equal('Service');
+      expect(values.shift()).to.equal('Box');
+      expect(values.shift()).to.equal('Churches');
+      expect(values.shift()).to.equal('Class');
+      expect(values.shift()).to.equal('Countries');
+      expect(values.shift()).to.equal('Dog');
+      expect(values.shift()).to.equal('Entries');
+      expect(values.shift()).to.equal('Leg');
+      expect(values.shift()).to.equal('Pies');
+      expect(values.shift()).to.equal('Service');
     });
   });
 
@@ -50,22 +52,22 @@ describe('Word', function () {
         new Word('airplanes').format('jobs'),
       ];
 
-      chai.expect(values.shift()).to.equal('Industry');
-      chai.expect(values.shift()).to.equal('idea');
-      chai.expect(values.shift()).to.equal('Houses');
-      chai.expect(values.shift()).to.equal('games');
-      chai.expect(values.shift()).to.equal('Flower');
-      chai.expect(values.shift()).to.equal('family');
-      chai.expect(values.shift()).to.equal('Entries');
-      chai.expect(values.shift()).to.equal('dogs');
-      chai.expect(values.shift()).to.equal('Country');
-      chai.expect(values.shift()).to.equal('class');
-      chai.expect(values.shift()).to.equal('Churches');
-      chai.expect(values.shift()).to.equal('cats');
-      chai.expect(values.shift()).to.equal('Car');
-      chai.expect(values.shift()).to.equal('box');
-      chai.expect(values.shift()).to.equal('Apples');
-      chai.expect(values.shift()).to.equal('airplanes');
+      expect(values.shift()).to.equal('Industry');
+      expect(values.shift()).to.equal('idea');
+      expect(values.shift()).to.equal('Houses');
+      expect(values.shift()).to.equal('games');
+      expect(values.shift()).to.equal('Flower');
+      expect(values.shift()).to.equal('family');
+      expect(values.shift()).to.equal('Entries');
+      expect(values.shift()).to.equal('dogs');
+      expect(values.shift()).to.equal('Country');
+      expect(values.shift()).to.equal('class');
+      expect(values.shift()).to.equal('Churches');
+      expect(values.shift()).to.equal('cats');
+      expect(values.shift()).to.equal('Car');
+      expect(values.shift()).to.equal('box');
+      expect(values.shift()).to.equal('Apples');
+      expect(values.shift()).to.equal('airplanes');
     });
   });
 
@@ -83,15 +85,15 @@ describe('Word', function () {
         new Word('Service').isCapitalized(),
       ];
 
-      chai.expect(values.shift()).to.be.true;
-      chai.expect(values.shift()).to.be.false;
-      chai.expect(values.shift()).to.be.true;
-      chai.expect(values.shift()).to.be.false;
-      chai.expect(values.shift()).to.be.true;
-      chai.expect(values.shift()).to.be.false;
-      chai.expect(values.shift()).to.be.true;
-      chai.expect(values.shift()).to.be.false;
-      chai.expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.false;
+      expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.false;
+      expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.false;
+      expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.false;
+      expect(values.shift()).to.be.true;
     });
   });
 
@@ -109,15 +111,15 @@ describe('Word', function () {
         new Word('service').isSingular(),
       ];
 
-      chai.expect(values.shift()).to.be.true;
-      chai.expect(values.shift()).to.be.false;
-      chai.expect(values.shift()).to.be.true;
-      chai.expect(values.shift()).to.be.false;
-      chai.expect(values.shift()).to.be.true;
-      chai.expect(values.shift()).to.be.false;
-      chai.expect(values.shift()).to.be.true;
-      chai.expect(values.shift()).to.be.false;
-      chai.expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.false;
+      expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.false;
+      expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.false;
+      expect(values.shift()).to.be.true;
+      expect(values.shift()).to.be.false;
+      expect(values.shift()).to.be.true;
     });
   });
 
@@ -136,16 +138,16 @@ describe('Word', function () {
         new Word('life').toPlural(),
       ];
   
-      chai.expect(values.shift()).to.equal('boxes');
-      chai.expect(values.shift()).to.equal('churches');
-      chai.expect(values.shift()).to.equal('classes');
-      chai.expect(values.shift()).to.equal('countries');
-      chai.expect(values.shift()).to.equal('dogs');
-      chai.expect(values.shift()).to.equal('entries');
-      chai.expect(values.shift()).to.equal('legs');
-      chai.expect(values.shift()).to.equal('pies');
-      chai.expect(values.shift()).to.equal('services');
-      chai.expect(values.shift()).to.equal('lives');
+      expect(values.shift()).to.equal('boxes');
+      expect(values.shift()).to.equal('churches');
+      expect(values.shift()).to.equal('classes');
+      expect(values.shift()).to.equal('countries');
+      expect(values.shift()).to.equal('dogs');
+      expect(values.shift()).to.equal('entries');
+      expect(values.shift()).to.equal('legs');
+      expect(values.shift()).to.equal('pies');
+      expect(values.shift()).to.equal('services');
+      expect(values.shift()).to.equal('lives');
     });
 
     it('It returns the plural form of a word in plural form.', function () {
@@ -161,15 +163,15 @@ describe('Word', function () {
         new Word('services').toPlural(),
       ];
 
-      chai.expect(values.shift()).to.equal('boxes');
-      chai.expect(values.shift()).to.equal('churches');
-      chai.expect(values.shift()).to.equal('classes');
-      chai.expect(values.shift()).to.equal('countries');
-      chai.expect(values.shift()).to.equal('dogs');
-      chai.expect(values.shift()).to.equal('entries');
-      chai.expect(values.shift()).to.equal('legs');
-      chai.expect(values.shift()).to.equal('pies');
-      chai.expect(values.shift()).to.equal('services');
+      expect(values.shift()).to.equal('boxes');
+      expect(values.shift()).to.equal('churches');
+      expect(values.shift()).to.equal('classes');
+      expect(values.shift()).to.equal('countries');
+      expect(values.shift()).to.equal('dogs');
+      expect(values.shift()).to.equal('entries');
+      expect(values.shift()).to.equal('legs');
+      expect(values.shift()).to.equal('pies');
+      expect(values.shift()).to.equal('services');
     });
   });
 
@@ -187,15 +189,15 @@ describe('Word', function () {
         new Word('services').toSingular(),
       ];
 
-      chai.expect(values.shift()).to.equal('box');
-      chai.expect(values.shift()).to.equal('church');
-      chai.expect(values.shift()).to.equal('class');
-      chai.expect(values.shift()).to.equal('country');
-      chai.expect(values.shift()).to.equal('dog');
-      chai.expect(values.shift()).to.equal('entry');
-      chai.expect(values.shift()).to.equal('leg');
-      chai.expect(values.shift()).to.equal('pie');
-      chai.expect(values.shift()).to.equal('service');
+      expect(values.shift()).to.equal('box');
+      expect(values.shift()).to.equal('church');
+      expect(values.shift()).to.equal('class');
+      expect(values.shift()).to.equal('country');
+      expect(values.shift()).to.equal('dog');
+      expect(values.shift()).to.equal('entry');
+      expect(values.shift()).to.equal('leg');
+      expect(values.shift()).to.equal('pie');
+      expect(values.shift()).to.equal('service');
     });
   });
 
@@ -213,15 +215,15 @@ describe('Word', function () {
         new Word('Service').uncapitalize(),
       ];
 
-      chai.expect(values.shift()).to.equal('box');
-      chai.expect(values.shift()).to.equal('church');
-      chai.expect(values.shift()).to.equal('class');
-      chai.expect(values.shift()).to.equal('country');
-      chai.expect(values.shift()).to.equal('dog');
-      chai.expect(values.shift()).to.equal('entry');
-      chai.expect(values.shift()).to.equal('leg');
-      chai.expect(values.shift()).to.equal('pie');
-      chai.expect(values.shift()).to.equal('service');
+      expect(values.shift()).to.equal('box');
+      expect(values.shift()).to.equal('church');
+      expect(values.shift()).to.equal('class');
+      expect(values.shift()).to.equal('country');
+      expect(values.shift()).to.equal('dog');
+      expect(values.shift()).to.equal('entry');
+      expect(values.shift()).to.equal('leg');
+      expect(values.shift()).to.equal('pie');
+      expect(values.shift()).to.equal('service');
     });
   });
 
@@ -238,15 +240,15 @@ describe('Word', function () {
       new Word('service').toSingular(),
     ];
 
-    chai.expect(values.shift()).to.equal('box');
-    chai.expect(values.shift()).to.equal('church');
-    chai.expect(values.shift()).to.equal('class');
-    chai.expect(values.shift()).to.equal('country');
-    chai.expect(values.shift()).to.equal('dog');
-    chai.expect(values.shift()).to.equal('entry');
-    chai.expect(values.shift()).to.equal('leg');
-    chai.expect(values.shift()).to.equal('pie');
-    chai.expect(values.shift()).to.equal('service');
+    expect(values.shift()).to.equal('box');
+    expect(values.shift()).to.equal('church');
+    expect(values.shift()).to.equal('class');
+    expect(values.shift()).to.equal('country');
+    expect(values.shift()).to.equal('dog');
+    expect(values.shift()).to.equal('entry');
+    expect(values.shift()).to.equal('leg');
+    expect(values.shift()).to.equal('pie');
+    expect(values.shift()).to.equal('service');
   });
 });
 
@@ -259,18 +261,18 @@ describe('getRelevantSymbols()', function () {
       const text = 'for (const person of persons) {';
       const symbols = getRelevantSymbols(symbol, text);
 
-      chai.expect(symbols.length).to.equal(2);
-      chai.expect(symbols.at(0)?.value).to.equal('person');
-      chai.expect(symbols.at(1)?.value).to.equal('persons');
+      expect(symbols.length).to.equal(2);
+      expect(symbols.at(0)?.value).to.equal('person');
+      expect(symbols.at(1)?.value).to.equal('persons');
     }
     {
       const symbol = 'persons';
       const text = 'for (const person of persons) {';
       const symbols = utils.getRelevantSymbols(symbol, text);
   
-      chai.expect(symbols.length).to.equal(2);
-      chai.expect(symbols.at(0)?.value).to.equal('person');
-      chai.expect(symbols.at(1)?.value).to.equal('persons');
+      expect(symbols.length).to.equal(2);
+      expect(symbols.at(0)?.value).to.equal('person');
+      expect(symbols.at(1)?.value).to.equal('persons');
     }
   });
 
@@ -280,37 +282,37 @@ describe('getRelevantSymbols()', function () {
       const text = 'persons.forEach(person => {';
       const symbols = getRelevantSymbols(symbol, text);
       
-      chai.expect(symbols.length).to.equal(2);
-      chai.expect(symbols.at(0)?.value).to.equal('persons');
-      chai.expect(symbols.at(1)?.value).to.equal('person');
+      expect(symbols.length).to.equal(2);
+      expect(symbols.at(0)?.value).to.equal('persons');
+      expect(symbols.at(1)?.value).to.equal('person');
     }
     {
       const symbol = 'person';
       const text = 'for (const person of persons) {';
       const symbols = utils.getRelevantSymbols(symbol, text);
   
-      chai.expect(symbols.length).to.equal(2);
-      chai.expect(symbols.at(0)?.value).to.equal('person');
-      chai.expect(symbols.at(1)?.value).to.equal('persons');
+      expect(symbols.length).to.equal(2);
+      expect(symbols.at(0)?.value).to.equal('person');
+      expect(symbols.at(1)?.value).to.equal('persons');
     }
     {
       const symbol = 'items';
       const text = 'items.push(element);';
       const symbols = utils.getRelevantSymbols(symbol, text);
 
-      chai.expect(symbols.length).to.equal(1);
-      chai.expect(symbols.at(0)?.value).to.equal('items');
+      expect(symbols.length).to.equal(1);
+      expect(symbols.at(0)?.value).to.equal('items');
     }
     {
       const symbol = 'item';
       const text = 'const item = items.find(item => item)';
       const symbols = utils.getRelevantSymbols(symbol, text);
 
-      chai.expect(symbols.length).to.equal(4);
-      chai.expect(symbols.at(0)?.value).to.equal('item');
-      chai.expect(symbols.at(1)?.value).to.equal('items');
-      chai.expect(symbols.at(2)?.value).to.equal('item');
-      chai.expect(symbols.at(3)?.value).to.equal('item');
+      expect(symbols.length).to.equal(4);
+      expect(symbols.at(0)?.value).to.equal('item');
+      expect(symbols.at(1)?.value).to.equal('items');
+      expect(symbols.at(2)?.value).to.equal('item');
+      expect(symbols.at(3)?.value).to.equal('item');
     }
   });
 });
@@ -323,9 +325,9 @@ describe('getSymbols()', function () {
     const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
   
-    chai.expect(symbols.length).to.equal(2);
-    chai.expect(symbols.at(0)?.value).to.equal('person');
-    chai.expect(symbols.at(1)?.value).to.equal('persons');
+    expect(symbols.length).to.equal(2);
+    expect(symbols.at(0)?.value).to.equal('person');
+    expect(symbols.at(1)?.value).to.equal('persons');
   });
 
   it('It returns a list of symbols for a method call.', function () {
@@ -333,10 +335,10 @@ describe('getSymbols()', function () {
     const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
   
-    chai.expect(symbols.length).to.equal(3);
-    chai.expect(symbols.at(0)?.value).to.equal('persons');
-    chai.expect(symbols.at(1)?.value).to.equal('forEach');
-    chai.expect(symbols.at(2)?.value).to.equal('person');
+    expect(symbols.length).to.equal(3);
+    expect(symbols.at(0)?.value).to.equal('persons');
+    expect(symbols.at(1)?.value).to.equal('forEach');
+    expect(symbols.at(2)?.value).to.equal('person');
   });
 
   it('It returns a list of symbols for a sort method.', function () {
@@ -344,11 +346,11 @@ describe('getSymbols()', function () {
     const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
   
-    chai.expect(symbols.length).to.equal(4);
-    chai.expect(symbols.at(0)?.value).to.equal('persons');
-    chai.expect(symbols.at(1)?.value).to.equal('sort');
-    chai.expect(symbols.at(2)?.value).to.equal('person1');
-    chai.expect(symbols.at(3)?.value).to.equal('person2');
+    expect(symbols.length).to.equal(4);
+    expect(symbols.at(0)?.value).to.equal('persons');
+    expect(symbols.at(1)?.value).to.equal('sort');
+    expect(symbols.at(2)?.value).to.equal('person1');
+    expect(symbols.at(3)?.value).to.equal('person2');
   });
 
   it('It returns a list of symbols for a declaration.', function () {
@@ -356,9 +358,9 @@ describe('getSymbols()', function () {
     const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
   
-    chai.expect(symbols.length).to.equal(2);
-    chai.expect(symbols.at(0)?.value).to.equal('person');
-    chai.expect(symbols.at(1)?.value).to.equal('persons');
+    expect(symbols.length).to.equal(2);
+    expect(symbols.at(0)?.value).to.equal('person');
+    expect(symbols.at(1)?.value).to.equal('persons');
   });
 });
 
@@ -371,70 +373,70 @@ describe('formatSymbol()', function () {
       const noun = 'persons';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('person');
+      expect(value).to.equal('person');
     }
     {
       const symbol = 'persons';
       const noun = 'person';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('persons');
+      expect(value).to.equal('persons');
     }
     {
       const symbol = 'dog';
       const noun = 'cat';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('cat');
+      expect(value).to.equal('cat');
     }
     {
       const symbol = 'dogs';
       const noun = 'cat';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('cats');
+      expect(value).to.equal('cats');
     }
     {
       const symbol = 'internationalHotels';
       const noun = 'destination';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('internationalDestinations');
+      expect(value).to.equal('internationalDestinations');
     }
     {
       const symbol = 'internationalHotels';
       const noun = 'destinations';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('internationalDestinations');
+      expect(value).to.equal('internationalDestinations');
     }
     {
       const symbol = 'internationalHotel';
       const noun = 'destination';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('internationalDestination');
+      expect(value).to.equal('internationalDestination');
     }
     {
       const symbol = 'internationalHotel';
       const noun = 'destinations';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('internationalDestination');
+      expect(value).to.equal('internationalDestination');
     }
     {
       const symbol = 'card1';
       const noun = 'invoices';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('invoice1');
+      expect(value).to.equal('invoice1');
     }
     {
       const symbol = 'card1';
       const noun = 'invoice';
       const value = formatSymbol(symbol, noun);
 
-      chai.expect(value).to.equal('invoice1');
+      expect(value).to.equal('invoice1');
     }
   });
 });
@@ -447,7 +449,7 @@ describe('getNounInformation()', function () {
       const noun = 'person';
       const information = getNounInformation(noun);
 
-      chai.expect(information).to.deep.equal({
+      expect(information).to.deep.equal({
         value: 'person',
         parts: ['person'],
         index: 0,
@@ -457,7 +459,7 @@ describe('getNounInformation()', function () {
       const noun = 'persons';
       const information = getNounInformation(noun);
 
-      chai.expect(information).to.deep.equal({
+      expect(information).to.deep.equal({
         value: 'persons',
         parts: ['persons'],
         index: 0,
@@ -467,7 +469,7 @@ describe('getNounInformation()', function () {
       const noun = 'internationalHotels';
       const information = getNounInformation(noun);
 
-      chai.expect(information).to.deep.equal({
+      expect(information).to.deep.equal({
         value: 'Hotels',
         parts: ['international', 'Hotels'],
         index: 1,
@@ -477,7 +479,7 @@ describe('getNounInformation()', function () {
       const noun = 'internationalHotel';
       const information = getNounInformation(noun);
 
-      chai.expect(information).to.deep.equal({
+      expect(information).to.deep.equal({
         value: 'Hotel',
         parts: ['international', 'Hotel'],
         index: 1,
@@ -487,7 +489,7 @@ describe('getNounInformation()', function () {
       const noun = 'card1';
       const information = getNounInformation(noun);
 
-      chai.expect(information).to.deep.equal({
+      expect(information).to.deep.equal({
         value: 'card',
         parts: ['card', '1'],
         index: 0,
@@ -505,40 +507,40 @@ describe('getParts()', function () {
       const symbol = 'persons';
       const parts = getParts(symbol);
 
-      chai.expect(parts.length).to.equal(1);
-      chai.expect(parts.at(0)).to.equal('persons');
+      expect(parts.length).to.equal(1);
+      expect(parts.at(0)).to.equal('persons');
     }
     {
       const symbol = 'helloWorld';
       const parts = getParts(symbol);
 
-      chai.expect(parts.length).to.equal(2);
-      chai.expect(parts.at(0)).to.equal('hello');
-      chai.expect(parts.at(1)).to.equal('World');
+      expect(parts.length).to.equal(2);
+      expect(parts.at(0)).to.equal('hello');
+      expect(parts.at(1)).to.equal('World');
     }
     {
       const symbol = 'internationalHotels';
       const parts = getParts(symbol);
 
-      chai.expect(parts.length).to.equal(2);
-      chai.expect(parts.at(0)).to.equal('international');
-      chai.expect(parts.at(1)).to.equal('Hotels');
+      expect(parts.length).to.equal(2);
+      expect(parts.at(0)).to.equal('international');
+      expect(parts.at(1)).to.equal('Hotels');
     }
     {
       const symbol = 'internationalHotel';
       const parts = getParts(symbol);
 
-      chai.expect(parts.length).to.equal(2);
-      chai.expect(parts.at(0)).to.equal('international');
-      chai.expect(parts.at(1)).to.equal('Hotel');
+      expect(parts.length).to.equal(2);
+      expect(parts.at(0)).to.equal('international');
+      expect(parts.at(1)).to.equal('Hotel');
     }
     {
       const symbol = 'card1';
       const parts = getParts(symbol);
 
-      chai.expect(parts.length).to.equal(2);
-      chai.expect(parts.at(0)).to.equal('card');
-      chai.expect(parts.at(1)).to.equal('1');
+      expect(parts.length).to.equal(2);
+      expect(parts.at(0)).to.equal('card');
+      expect(parts.at(1)).to.equal('1');
     }
   });
 });

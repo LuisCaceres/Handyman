@@ -3,20 +3,22 @@ import {
     getRelevantCodeSnippets,
 } from "../codeActionsProviderData.js";
 
+const expect = chai.expect;
+
 describe("getRelevantCodeSnippets()", function () {
     it("Returns a list of code snippets that are relevant to a line of code.", function () {
         const line = "const elements = []";
         const codeSnippets = getRelevantCodeSnippets(line);
 
-        chai.expect(codeSnippets.length).to.equal(4);
-        chai.expect(codeSnippets.at(0)?.title).to.equal(
+        expect(codeSnippets.length).to.equal(4);
+        expect(codeSnippets.at(0)?.title).to.equal(
             "Insert for... of loop"
         );
-        chai.expect(codeSnippets.at(1)?.title).to.equal(
+        expect(codeSnippets.at(1)?.title).to.equal(
             "Add elements to array (push)"
         );
-        chai.expect(codeSnippets.at(2)?.title).to.equal("Insert if statement");
-        chai.expect(codeSnippets.at(3)?.title).to.equal("Sort");
+        expect(codeSnippets.at(2)?.title).to.equal("Insert if statement");
+        expect(codeSnippets.at(3)?.title).to.equal("Sort");
     });
 
     describe("Given a collection of elements", function () {
@@ -25,7 +27,7 @@ describe("getRelevantCodeSnippets()", function () {
             const dataSet = dataSets.find(dataSet => dataSet.title === "Insert for... of loop");
             const codeSnippet = dataSet?.generateCodeSnippet(variable);
 
-            chai.expect(codeSnippet).to.equal(`
+            expect(codeSnippet).to.equal(`
 
             // For each element 'element' in 'elements'.
             for (const element of elements) {
@@ -39,7 +41,7 @@ describe("getRelevantCodeSnippets()", function () {
             const dataSet = dataSets.find(dataSet => dataSet.title === "Sort");
             const codeSnippet = dataSet?.generateCodeSnippet(variable);
 
-            chai.expect(codeSnippet).to.equal(`
+            expect(codeSnippet).to.equal(`
 
             {
                 function toNumber(element) {
@@ -63,7 +65,7 @@ describe("getRelevantCodeSnippets()", function () {
             const dataSet = dataSets.find(dataSet => dataSet.title === "Add elements to array (push)");
             const codeSnippet = dataSet?.generateCodeSnippet(variable);
 
-            chai.expect(codeSnippet).to.equal(`
+            expect(codeSnippet).to.equal(`
 
             const element = ;
             elements.push(element);
@@ -75,7 +77,7 @@ describe("getRelevantCodeSnippets()", function () {
             const dataSet = dataSets.find(dataSet => dataSet.title === "Insert if statement");
             const codeSnippet = dataSet?.generateCodeSnippet(variable);
     
-            chai.expect(codeSnippet).to.equal(`
+            expect(codeSnippet).to.equal(`
             
             if (elements) {
 
