@@ -279,7 +279,7 @@ describe('getRelevantSymbols()', function () {
       const symbol = 'persons';
       const text = 'persons.forEach(person => {';
       const symbols = getRelevantSymbols(symbol, text);
-  
+      
       chai.expect(symbols.length).to.equal(2);
       chai.expect(symbols.at(0)?.value).to.equal('persons');
       chai.expect(symbols.at(1)?.value).to.equal('person');
@@ -306,10 +306,11 @@ describe('getRelevantSymbols()', function () {
       const text = 'const item = items.find(item => item)';
       const symbols = utils.getRelevantSymbols(symbol, text);
 
-      chai.expect(symbols.length).to.equal(3);
+      chai.expect(symbols.length).to.equal(4);
       chai.expect(symbols.at(0)?.value).to.equal('item');
       chai.expect(symbols.at(1)?.value).to.equal('items');
       chai.expect(symbols.at(2)?.value).to.equal('item');
+      chai.expect(symbols.at(3)?.value).to.equal('item');
     }
   });
 });
@@ -319,7 +320,7 @@ describe('getSymbols()', function () {
 
   it('It returns a list of symbols for a for... of loop.', function () {
     const text = 'for (const person of persons) {';
-    const regex = utils.regexes.forOfLoop;
+    const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
   
     chai.expect(symbols.length).to.equal(2);
@@ -329,28 +330,30 @@ describe('getSymbols()', function () {
 
   it('It returns a list of symbols for a method call.', function () {
     const text = 'persons.forEach(person => {';
-    const regex = utils.regexes.methodCall;
-    const symbols = getSymbols(text, regex);
-  
-    chai.expect(symbols.length).to.equal(2);
-    chai.expect(symbols.at(0)?.value).to.equal('persons');
-    chai.expect(symbols.at(1)?.value).to.equal('person');
-  });
-
-  it('It returns a list of symbols for a sort method.', function () {
-    const text = 'persons.sort((person1, person2));';
-    const regex = utils.regexes.sortMethod;
+    const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
   
     chai.expect(symbols.length).to.equal(3);
     chai.expect(symbols.at(0)?.value).to.equal('persons');
-    chai.expect(symbols.at(1)?.value).to.equal('person1');
-    chai.expect(symbols.at(2)?.value).to.equal('person2');
+    chai.expect(symbols.at(1)?.value).to.equal('forEach');
+    chai.expect(symbols.at(2)?.value).to.equal('person');
+  });
+
+  it('It returns a list of symbols for a sort method.', function () {
+    const text = 'persons.sort((person1, person2));';
+    const regex = utils.regexes.symbols;
+    const symbols = getSymbols(text, regex);
+  
+    chai.expect(symbols.length).to.equal(4);
+    chai.expect(symbols.at(0)?.value).to.equal('persons');
+    chai.expect(symbols.at(1)?.value).to.equal('sort');
+    chai.expect(symbols.at(2)?.value).to.equal('person1');
+    chai.expect(symbols.at(3)?.value).to.equal('person2');
   });
 
   it('It returns a list of symbols for a declaration.', function () {
     const text = 'const person = persons[0];';
-    const regex = utils.regexes.declaration;
+    const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
   
     chai.expect(symbols.length).to.equal(2);

@@ -174,18 +174,15 @@ interface Regexes {
     [key: string]: RegExp;
 }
 
-// The following are regular expressions that can be used to find an association of symbols in a line of code.
+// The following are regular expressions that can be used to find symbols in a line of code.
 const regexes: Regexes = {
     // Matches `person` and `persons` in `const person = persons[0];`.
-    declaration: /(const|let|var)\s(?<symbol_1>\w+)\s=\s(?<symbol_2>\w+)/gd,
     // Matches `person` and `persons` in `for (const person of persons) {`.
-    forOfLoop: /(?<=for\s\(const\s)(?<symbol_1>\w+)\sof\s(?<symbol_2>\w+)/gd,
-    // Matches `persons`, `person and `person` in `persons.sort((person1, person2));`.
-    sortMethod: /(?<symbol_1>\w+)\.sort\(\((?<symbol_2>\w+),\s(?<symbol_3>\w+)/gd,
-    // Matches `persons` and `person` in `persons.forEach(person => {`.
-    // Matches `persons` and `person` in `persons.map((person, index) => {`.
-    // Matches `persons` and `person` in `persons.push(person);`.
-    methodCall: /(?<symbol_1>\w+)\.\w+\(+(?<symbol_2>\w+)(\)|\s=|,)/gd,
+    // Matches `persons`, `sort`, `person and `person` in `persons.sort((person1, person2));`.
+    // Matches `persons`, `forEach` and `person` in `persons.forEach(person => {`.
+    // Matches `persons`, `map`, `person` and `index` in `persons.map((person, index) => {`.
+    // Matches `persons`, `push` and `person` in `persons.push(person);`.
+    symbols: /[A-Za-z]\w*(?=\W)/gd,
 };
 
 /** A symbol is the name of a valid variable, token or identifier in JavaScript 
@@ -264,23 +261,22 @@ function getSymbols(text: string, regex: RegExp): SymbolInformation[] {
 
     // For each match `match` in `matches`.
     for (const match of matches) {
-        // Let `groups` be a list of the named capture groups of `match`.
-        const groups = match.groups || {};
-        const indices = match.indices?.groups || {};
+        const value = match[0];
 
-        // For each group `group` in `groups`.
-        for (const group in groups) {
+        // Ignore `match` if `match` is a reserved keyword in JavaScript.
+        if (reservedKeywords.includes(value)) {
+            continue;
+        }
 
-           // Let `symbol` be a new symbol.
-           const symbol: SymbolInformation = {
-               value: groups[group],
-               start: indices[group][0],
-               noun: getNounInformation(groups[group]),
-           };
-    
-           // Add `symbol` to `symbols`.
-           symbols.push(symbol);
-       }
+        // Let `symbol` be a new symbol.
+        const symbol: SymbolInformation = {
+            noun: getNounInformation(value),
+            start: match.index,
+            value,
+        };
+
+        // Add `symbol` to `symbols`.
+        symbols.push(symbol); 
     }
 
     // Return `symbols`.
