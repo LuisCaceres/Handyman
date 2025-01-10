@@ -112,7 +112,18 @@ const dataSets: DataSet[] = [
         /* Example of code snippet:
             {
                 function toNumber(element) {
-                    return element;
+                    const value = element;
+                    let number;
+
+                    switch (value) {
+                        case value:
+                            // number = 0;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    return number;
                 }
 
                 const map = new Map();
@@ -122,8 +133,9 @@ const dataSets: DataSet[] = [
                     map.set(element, number);
                 });
 
-                // Sort 'elements' accordingly. 
+                // Sort `elements` accordingly. 
                 elements.sort((elementA, elementB) => map.get(elementA) - map.get(elementB));
+                elements.reverse();
             }
         */
         generateCodeSnippet: function (variable) {
@@ -132,7 +144,18 @@ const dataSets: DataSet[] = [
 
             {
                 function toNumber(${singular}) {
-                    return ${singular};
+                    const value = ${singular};
+                    let number;
+
+                    switch (value) {
+                        case value:
+                            // number = 0;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    return number;
                 }
 
                 const map = new Map();
@@ -142,8 +165,9 @@ const dataSets: DataSet[] = [
                     map.set(${singular}, number);
                 });
 
-                // Sort '${variable}' accordingly. 
+                // Sort \`${variable}\` accordingly.
                 ${variable}.sort((${singular}A, ${singular}B) => map.get(${singular}A) - map.get(${singular}B));
+                ${variable}.reverse();
             }`;
 
             return codeSnippet;

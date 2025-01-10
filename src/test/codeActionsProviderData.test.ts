@@ -45,7 +45,18 @@ describe("getRelevantCodeSnippets()", function () {
 
             {
                 function toNumber(element) {
-                    return element;
+                    const value = element;
+                    let number;
+
+                    switch (value) {
+                        case value:
+                            // number = 0;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    return number;
                 }
 
                 const map = new Map();
@@ -55,8 +66,9 @@ describe("getRelevantCodeSnippets()", function () {
                     map.set(element, number);
                 });
 
-                // Sort 'elements' accordingly. 
+                // Sort \`elements\` accordingly.
                 elements.sort((elementA, elementB) => map.get(elementA) - map.get(elementB));
+                elements.reverse();
             }`);
         });
 
