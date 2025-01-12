@@ -19,8 +19,22 @@
       {
         "command": "myExtension.renameSymbol",
         "title": "Smart Rename Symbol"
+      },
+      {
+        "command": "myExtension.copyAsJavaScript",
+        "title": "Copy as JavaScript code"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceLangId == typescript",
+          "command": "myExtension.copyAsJavaScript",
+          "alt": "myExtension.copyAsJavaScript",
+          "group": "9_cutcopypaste"
+        }
+      ]
+    }
   },
   "scripts": {
     "compile": "tsc -p ./",
