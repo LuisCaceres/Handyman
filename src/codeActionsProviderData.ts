@@ -43,8 +43,9 @@ interface DataSet {
 const dataSets: DataSet[] = [
     {
         title: 'Insert for... of loop',
-        // For example, it matches `elements` in `const elements =`.
-        regex: /(?<=const\s)\w+s(?=\s=)/g,
+        // For example, it matches `elements` in `const elements`.
+        // For example, it matches `numbers` in `const numbers: number[] = [];`.
+        regex: /(?<=const\s)\w+s\W/g,
         
         /*  Example of code snippet:
             // For each `element` in `elements`.
@@ -68,7 +69,8 @@ const dataSets: DataSet[] = [
     {
         title: 'Add elements to array (push)',
         // For example, it matches `elements` in `const elements = []`.
-        regex: /(?<=const\s)\w+s(?=\s=\s\[])/g,
+        // For example, it matches `numbers` in `const numbers: number[] = [];`.
+        regex: /(?<=const\s)\w+s\W/g,
 
         /* Example of code snippet: 
             const element = ;
@@ -89,7 +91,8 @@ const dataSets: DataSet[] = [
     {
         title: 'Insert if statement',
         // For example, it matches `elements` in `const elements = []`.
-        regex: /(?<=const\s)\w+(?=\s=)/g,
+        // For example, it matches `numbers` in `const numbers: number[] = [];`.
+        regex: /(?<=const\s)\w+s\W/g,
         
         /* Example of code snippet:
             if (elements) {} 
@@ -106,8 +109,9 @@ const dataSets: DataSet[] = [
     },
     {
         title: 'Sort',
-        // For example, it matches `elements` in `const elements =`.
-        regex: /(?<=const\s)\w+s(?=\s=)/g,
+        // For example, it matches `elements` in `const elements = [];`.
+        // For example, it matches `numbers` in `const numbers: number[] = [];`.
+        regex: /(?<=const\s)\w+s\W/g,
 
         /* Example of code snippet:
             {

@@ -7,18 +7,34 @@ const expect = chai.expect;
 
 describe("getRelevantCodeSnippets()", function () {
     it("Returns a list of code snippets that are relevant to a line of code.", function () {
-        const line = "const elements = []";
-        const codeSnippets = getRelevantCodeSnippets(line);
+        {
+            const line = "const elements = []";
+            const codeSnippets = getRelevantCodeSnippets(line);
 
-        expect(codeSnippets.length).to.equal(4);
-        expect(codeSnippets.at(0)?.title).to.equal(
-            "Insert for... of loop"
-        );
-        expect(codeSnippets.at(1)?.title).to.equal(
-            "Add elements to array (push)"
-        );
-        expect(codeSnippets.at(2)?.title).to.equal("Insert if statement");
-        expect(codeSnippets.at(3)?.title).to.equal("Sort");
+            expect(codeSnippets.length).to.equal(4);
+            expect(codeSnippets.at(0)?.title).to.equal(
+                "Insert for... of loop"
+            );
+            expect(codeSnippets.at(1)?.title).to.equal(
+                "Add elements to array (push)"
+            );
+            expect(codeSnippets.at(2)?.title).to.equal("Insert if statement");
+            expect(codeSnippets.at(3)?.title).to.equal("Sort");
+        }
+        {
+            const line = "const textEdits: TextEdit[] = [];";
+            const codeSnippets = getRelevantCodeSnippets(line);
+
+            expect(codeSnippets.length).to.equal(4);
+            expect(codeSnippets.at(0)?.title).to.equal(
+                "Insert for... of loop"
+            );
+            expect(codeSnippets.at(1)?.title).to.equal(
+                "Add elements to array (push)"
+            );
+            expect(codeSnippets.at(2)?.title).to.equal("Insert if statement");
+            expect(codeSnippets.at(3)?.title).to.equal("Sort");
+        }
     });
 
     describe("Given a collection of elements", function () {
