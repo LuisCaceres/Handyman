@@ -36,7 +36,10 @@ describe("getRelevantCodeSnippets()", function () {
     describe("Given a collection of elements", function () {
         it("It returns a code snippet that is a for... of loop.", function () {
             const snippetTitle = 'Insert for... of loop';
-            const lines = ['const elements = [];'];
+            const lines = [
+                'const elements = [];',
+                'const elements: string[] = [];'
+            ];
 
             for (const line of lines) {
                 const codeSnippets = getRelevantCodeSnippets(line);
@@ -53,7 +56,10 @@ describe("getRelevantCodeSnippets()", function () {
 
         it("It returns a code snippet that sorts elements in an array.", function () {
             const snippetTitle = 'Sort';
-            const lines = ['const elements = [];'];
+            const lines = [
+                'const elements = [];',
+                'const elements: string[] = [];'
+            ];
 
             for (const line of lines) {
                 const codeSnippets = getRelevantCodeSnippets(line);
@@ -93,7 +99,10 @@ describe("getRelevantCodeSnippets()", function () {
 
         it("It returns a code snippet that uses the `push` method to add an element to an array.", function () {
             const snippetTitle = 'Add elements to array (push)';
-            const lines = ['const elements = [];'];
+            const lines = [
+                'const elements = [];',
+                'const elements: string[] = [];'
+            ];
 
             for (const line of lines) {
                 const codeSnippets = getRelevantCodeSnippets(line);
@@ -109,7 +118,10 @@ describe("getRelevantCodeSnippets()", function () {
 
         it("It returns a code snippet that is an if statement.", function () {
             const snippetTitle = 'Insert if statement';
-            const lines = ['const elements = [];'];
+            const lines = [
+                'const elements = [];',
+                'const elements: string[] = [];'
+            ];
 
             for (const line of lines) {
                 const codeSnippets = getRelevantCodeSnippets(line);
