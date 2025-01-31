@@ -2,14 +2,20 @@
 
 import { Word } from "./utils.js";
 
+// Let `CodeSnippet` be a code snippet.
 interface CodeSnippet {
 	title: string;
 	snippet: string;
 }
 
-function getRelevantCodeSnippets(text:string) {
+// Let `CodeSnippets` be a list of code snippets.
+interface CodeSnippets {
+    [key: string]: CodeSnippet
+}
+
+function getRelevantCodeSnippets(text:string): CodeSnippets {
     // Let `codeSnippets` be an initially empty list of code snippets.
-    const codeSnippets: CodeSnippet[] = [];
+    const codeSnippets: CodeSnippets = {};
 
     // For each dataSet `dataSet` in `dataSets`.
     for (const dataSet of dataSets) {
@@ -26,7 +32,7 @@ function getRelevantCodeSnippets(text:string) {
 				snippet: dataSet.generateCodeSnippet(...words),
 			};
             // Add `codeSnippet` to `codeSnippets`.
-            codeSnippets.push(codeSnippet);
+            codeSnippets[dataSet.title] = codeSnippet;
         }
     }
 

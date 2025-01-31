@@ -11,29 +11,25 @@ describe("getRelevantCodeSnippets()", function () {
             const line = "const elements = []";
             const codeSnippets = getRelevantCodeSnippets(line);
 
-            expect(codeSnippets.length).to.equal(4);
-            expect(codeSnippets.at(0)?.title).to.equal(
-                "Insert for... of loop"
-            );
-            expect(codeSnippets.at(1)?.title).to.equal(
-                "Add elements to array (push)"
-            );
-            expect(codeSnippets.at(2)?.title).to.equal("Insert if statement");
-            expect(codeSnippets.at(3)?.title).to.equal("Sort");
+            expect(Object.keys(codeSnippets).length).to.equal(4);
+            expect(codeSnippets.hasOwnProperty(
+                "Insert for... of loop")).to.equal(true);
+            expect(codeSnippets.hasOwnProperty(
+                "Add elements to array (push)")).to.equal(true);
+            expect(codeSnippets.hasOwnProperty("Insert if statement")).to.equal(true);
+            expect(codeSnippets.hasOwnProperty("Sort")).to.equal(true);
         }
         {
             const line = "const textEdits: TextEdit[] = [];";
             const codeSnippets = getRelevantCodeSnippets(line);
 
-            expect(codeSnippets.length).to.equal(4);
-            expect(codeSnippets.at(0)?.title).to.equal(
-                "Insert for... of loop"
-            );
-            expect(codeSnippets.at(1)?.title).to.equal(
-                "Add elements to array (push)"
-            );
-            expect(codeSnippets.at(2)?.title).to.equal("Insert if statement");
-            expect(codeSnippets.at(3)?.title).to.equal("Sort");
+            expect(Object.keys(codeSnippets).length).to.equal(4);
+            expect(codeSnippets.hasOwnProperty("Insert for... of loop"
+            )).to.equal(true);
+            expect(codeSnippets.hasOwnProperty("Add elements to array (push)"
+            )).to.equal(true);
+            expect(codeSnippets.hasOwnProperty("Insert if statement")).to.equal(true);
+            expect(codeSnippets.hasOwnProperty("Sort")).to.equal(true);
         }
     });
 

@@ -26,10 +26,10 @@ function provideCodeActions(file: vscode.TextDocument, position: vscode.Range) {
     const codeActions = [];
 
     // For each `codeSnippet` in `codeSnippets`.
-    for (const codeSnippet of codeSnippets) {
+    for (const title in codeSnippets) {
         // Let `codeAction` be a new code action.
         const codeAction = new vscode.CodeAction(
-            codeSnippet.title,
+            title,
             vscode.CodeActionKind.Refactor
         );
         codeAction.edit = new vscode.WorkspaceEdit();
@@ -37,12 +37,12 @@ function provideCodeActions(file: vscode.TextDocument, position: vscode.Range) {
         // If there's a selection of text.
         if (position.isEmpty) {
             // Insert `codeSnippet` below `line` when `codeAction` is selected.
-            codeAction.edit.insert(file.uri, line.range.end, codeSnippet.snippet);
+            codeAction.edit.insert(file.uri, line.range.end, codeSnippets[title].snippet);
         }
         // Otherwise
         else {
             //Replace `position` with `codeSnippet` when `codeAction` is selected.
-            codeAction.edit.replace(file.uri, position, codeSnippet.snippet);
+            codeAction.edit.replace(file.uri, position, codeSnippets[title].snippet);
         }
 
         // Format the file to avoid inconsistent levels of indentation.
