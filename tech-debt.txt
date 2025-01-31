@@ -45,7 +45,17 @@
 * Add JSDOC @example to each function definition.
 * Refactor the recursive function within the command handler so that it returns a list of text edits.
 * argument `1` (number literal) in `const otherClocks = clocks.slice(1, 3);` is incorrectly considered for renaming. It causes an error and code execution stops. This occurs in file `utils.ts` in `const anotherNoun = symbol.noun.value.toUpperCase();`.
-* Avoid compiling to both ES modules and CommonJS modules which bloats the size of this repository. ES modules are used for unit tests run by a browser and CommonJS modules are used by VS Code to run an extension in debug mode. Check regularly if VS Code extensions support ES modules. Check `package.json` and `tsconfig.json` files. Particularly `type: "module"` in a `package.json` file causes the extension to fail loading or to be in debug mode. 
+* Avoid compiling to both ES modules and CommonJS modules which bloats the size of this repository. ES modules are used for unit tests run by a browser and CommonJS modules are used by VS Code to run an extension in debug mode. Check regularly if VS Code extensions support ES modules. Check `package.json` and `tsconfig.json` files. Particularly `type: "module"` in a `package.json` file causes the extension to fail loading or to be in debug mode.
+
 * `formFields` cannot be renamed `fields`. The command does nothing.
+
 * What should `formatSymbol('deletedBankAccounts', 'formFields')` return? deletedFormFields, formFields. This behaviour is undefined.
+
 * The regular expression: /[A-Za-z]\w*(?=\W)/gd can possibly be used as a "catch-all" regular expression to identify symbols in a line of code. If this is the case, then no individual regular expression such as "declaration", "forOfLoop", "sortMethod" are even required. However, that "catch-all" regular expression incorrectly identifies reserved keywords such as `for` and `const' as symbols. Perhaps, a function is necessary to first remove any reserved keywords from a line of code.
+
+* Given `const relevantCells: HTMLTableCellElement[] = [];`, the code actions provider incorrectly returns the following:
+    // For each relevantCells: 'relevantCells:' in 'relevantCells:'.
+    for (const relevantCells: of relevantCells:) {
+        relevantCells:;
+    }
+
