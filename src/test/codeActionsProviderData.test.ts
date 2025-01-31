@@ -35,25 +35,31 @@ describe("getRelevantCodeSnippets()", function () {
 
     describe("Given a collection of elements", function () {
         it("It returns a code snippet that is a for... of loop.", function () {
-            const variable = "elements";
-            const dataSet = dataSets.find(dataSet => dataSet.title === "Insert for... of loop");
-            const codeSnippet = dataSet?.generateCodeSnippet(variable);
+            const snippetTitle = 'Insert for... of loop';
+            const lines = ['const elements = [];'];
 
-            expect(codeSnippet).to.equal(`
+            for (const line of lines) {
+                const codeSnippets = getRelevantCodeSnippets(line);
+                const codeSnippet = codeSnippets[snippetTitle];
+                expect(codeSnippet.snippet).to.equal(`
 
             // For each element 'element' in 'elements'.
             for (const element of elements) {
                 element;
             }
             `);
+            }
         });
 
         it("It returns a code snippet that sorts elements in an array.", function () {
-            const variable = "elements";
-            const dataSet = dataSets.find(dataSet => dataSet.title === "Sort");
-            const codeSnippet = dataSet?.generateCodeSnippet(variable);
+            const snippetTitle = 'Sort';
+            const lines = ['const elements = [];'];
 
-            expect(codeSnippet).to.equal(`
+            for (const line of lines) {
+                const codeSnippets = getRelevantCodeSnippets(line);
+                const codeSnippet = codeSnippets[snippetTitle];
+
+            expect(codeSnippet.snippet).to.equal(`
 
             {
                 function toNumber(element) {
@@ -82,30 +88,39 @@ describe("getRelevantCodeSnippets()", function () {
                 elements.sort((elementA, elementB) => map.get(elementA) - map.get(elementB));
                 elements.reverse();
             }`);
+            }
         });
 
         it("It returns a code snippet that uses the `push` method to add an element to an array.", function () {
-            const variable = "elements";
-            const dataSet = dataSets.find(dataSet => dataSet.title === "Add elements to array (push)");
-            const codeSnippet = dataSet?.generateCodeSnippet(variable);
+            const snippetTitle = 'Add elements to array (push)';
+            const lines = ['const elements = [];'];
 
-            expect(codeSnippet).to.equal(`
+            for (const line of lines) {
+                const codeSnippets = getRelevantCodeSnippets(line);
+                const codeSnippet = codeSnippets[snippetTitle];
+
+            expect(codeSnippet.snippet).to.equal(`
 
             const element = ;
             elements.push(element);
             `);
+            }
         });
 
         it("It returns a code snippet that is an if statement.", function () {
-            const variable = "elements";
-            const dataSet = dataSets.find(dataSet => dataSet.title === "Insert if statement");
-            const codeSnippet = dataSet?.generateCodeSnippet(variable);
-    
-            expect(codeSnippet).to.equal(`
+            const snippetTitle = 'Insert if statement';
+            const lines = ['const elements = [];'];
+
+            for (const line of lines) {
+                const codeSnippets = getRelevantCodeSnippets(line);
+                const codeSnippet = codeSnippets[snippetTitle];
+
+            expect(codeSnippet.snippet).to.equal(`
             
             if (elements) {
 
             }`);
+            }
         });
     });
 
