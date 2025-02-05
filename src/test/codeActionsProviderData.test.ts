@@ -11,11 +11,12 @@ describe("getRelevantCodeSnippets()", function () {
             const line = "const elements = []";
             const codeSnippets = getRelevantCodeSnippets(line);
 
-            expect(Object.keys(codeSnippets).length).to.equal(4);
+            expect(Object.keys(codeSnippets).length).to.equal(5);
             expect(codeSnippets.hasOwnProperty(
                 "Insert for... of loop")).to.equal(true);
             expect(codeSnippets.hasOwnProperty(
                 "Add elements to array (push)")).to.equal(true);
+            expect(codeSnippets.hasOwnProperty("forEach")).to.equal(true);
             expect(codeSnippets.hasOwnProperty("Insert if statement")).to.equal(true);
             expect(codeSnippets.hasOwnProperty("Sort")).to.equal(true);
         }
@@ -23,11 +24,12 @@ describe("getRelevantCodeSnippets()", function () {
             const line = "const textEdits: TextEdit[] = [];";
             const codeSnippets = getRelevantCodeSnippets(line);
 
-            expect(Object.keys(codeSnippets).length).to.equal(4);
+            expect(Object.keys(codeSnippets).length).to.equal(5);
             expect(codeSnippets.hasOwnProperty("Insert for... of loop"
             )).to.equal(true);
             expect(codeSnippets.hasOwnProperty("Add elements to array (push)"
             )).to.equal(true);
+            expect(codeSnippets.hasOwnProperty("forEach")).to.equal(true);
             expect(codeSnippets.hasOwnProperty("Insert if statement")).to.equal(true);
             expect(codeSnippets.hasOwnProperty("Sort")).to.equal(true);
         }
@@ -50,6 +52,27 @@ describe("getRelevantCodeSnippets()", function () {
             for (const element of elements) {
                 element;
             }
+            `);
+            }
+        });
+
+        it("It returns a code snippet based on Array.prototype.forEach()", function () {
+            const snippetTitle = 'forEach';
+            const lines = [
+                'const elements = [];',
+                'const elements: string[] = [];'
+            ];
+
+            for (const line of lines) {
+                const codeSnippets = getRelevantCodeSnippets(line);
+                const codeSnippet = codeSnippets[snippetTitle];
+
+            expect(codeSnippet.snippet).to.equal(`
+
+            // For each element \`element\` in \`elements\`.
+            elements.forEach((element, index) => {
+                element;
+            });
             `);
             }
         });

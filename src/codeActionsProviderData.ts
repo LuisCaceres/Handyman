@@ -48,6 +48,31 @@ interface DataSet {
 // Let `dataSets` be a list of data sets each of which containing information about code snippets.
 const dataSets: DataSet[] = [
     {
+        title: 'forEach',
+        // For example, it matches `elements` in `const elements`.
+        // For example, it matches `numbers` in `const numbers: number[] = [];`.
+        regex: /(?<=const\s)\w+s(?=\W)/g,
+        
+        /*  Example of code snippet:
+            // For each `element` in `elements`.
+            elements.forEach((element, index) => {
+                element;
+            }); 
+        */
+        generateCodeSnippet: function (variable) {
+            const singular = new Word(variable).toSingular();
+            const codeSnippet = `
+
+            // For each ${singular} \`${singular}\` in \`${variable}\`.
+            ${variable}.forEach((${singular}, index) => {
+                ${singular};
+            });
+            `;
+
+            return codeSnippet;
+        }
+    },
+    {
         title: 'Insert for... of loop',
         // For example, it matches `elements` in `const elements`.
         // For example, it matches `numbers` in `const numbers: number[] = [];`.
