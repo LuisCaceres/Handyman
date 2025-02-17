@@ -20,8 +20,11 @@ function provideCodeActions(file: vscode.TextDocument, position: vscode.Range) {
     const line = file.lineAt(position.start);
     // Let `text` be the text currently selected or the text of `line`.
     const text = file.getText(position) || line.text;
+    // Let `word` be the word within which the caret is located.
+    const word = file.getText(file.getWordRangeAtPosition(position.start)); 
+    
     // Let `codeSnippets` be a list of code snippets that are relevant to `line`.
-    const codeSnippets = getRelevantCodeSnippets(text);
+    const codeSnippets = {...getRelevantCodeSnippets(word), ...getRelevantCodeSnippets(text)};
     // Let `codeActions` be an initially empty list of VS Code code actions.
     const codeActions = [];
 

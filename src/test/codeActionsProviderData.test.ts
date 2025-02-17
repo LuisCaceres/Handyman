@@ -9,7 +9,8 @@ describe("getRelevantCodeSnippets()", function () {
     it("Returns a list of code snippets that are relevant to a line of code.", function () {
         {
             const line = "const elements = []";
-            const codeSnippets = getRelevantCodeSnippets(line);
+            const word = 'elements';
+            const codeSnippets = {...getRelevantCodeSnippets(word), ...getRelevantCodeSnippets(line)};
 
             expect(Object.keys(codeSnippets).length).to.equal(5);
             expect(codeSnippets.hasOwnProperty(
@@ -22,7 +23,8 @@ describe("getRelevantCodeSnippets()", function () {
         }
         {
             const line = "const textEdits: TextEdit[] = [];";
-            const codeSnippets = getRelevantCodeSnippets(line);
+            const word = 'textEdits';
+            const codeSnippets = {...getRelevantCodeSnippets(word), ...getRelevantCodeSnippets(line)};
 
             expect(Object.keys(codeSnippets).length).to.equal(5);
             expect(codeSnippets.hasOwnProperty("Insert for... of loop"
@@ -39,8 +41,7 @@ describe("getRelevantCodeSnippets()", function () {
         it("It returns a code snippet that is a for... of loop.", function () {
             const snippetTitle = 'Insert for... of loop';
             const lines = [
-                'const elements = [];',
-                'const elements: string[] = [];'
+                'elements',
             ];
 
             for (const line of lines) {
@@ -59,8 +60,7 @@ describe("getRelevantCodeSnippets()", function () {
         it("It returns a code snippet based on Array.prototype.forEach()", function () {
             const snippetTitle = 'forEach';
             const lines = [
-                'const elements = [];',
-                'const elements: string[] = [];'
+                'elements',
             ];
 
             for (const line of lines) {
@@ -80,8 +80,7 @@ describe("getRelevantCodeSnippets()", function () {
         it("It returns a code snippet that sorts elements in an array.", function () {
             const snippetTitle = 'Sort';
             const lines = [
-                'const elements = [];',
-                'const elements: string[] = [];'
+                'elements',
             ];
 
             for (const line of lines) {
@@ -123,8 +122,7 @@ describe("getRelevantCodeSnippets()", function () {
         it("It returns a code snippet that uses the `push` method to add an element to an array.", function () {
             const snippetTitle = 'Add elements to array (push)';
             const lines = [
-                'const elements = [];',
-                'const elements: string[] = [];'
+                'elements',
             ];
 
             for (const line of lines) {
@@ -142,8 +140,7 @@ describe("getRelevantCodeSnippets()", function () {
         it("It returns a code snippet that is an if statement.", function () {
             const snippetTitle = 'Insert if statement';
             const lines = [
-                'const elements = [];',
-                'const elements: string[] = [];'
+                'elements',
             ];
 
             for (const line of lines) {
