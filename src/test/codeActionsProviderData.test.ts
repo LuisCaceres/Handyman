@@ -71,6 +71,8 @@ describe("getRelevantCodeSnippets()", function () {
 
             // For each element \`element\` in \`elements\`.
             elements.forEach((element, index) => {
+                // Let \`element\` be the current element.
+                // Let \`index\` be the numeric position of \`element\`.
                 element;
             });
             `);

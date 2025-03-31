@@ -65,6 +65,8 @@ const dataSets: DataSet[] = [
 
             // For each ${singular} \`${singular}\` in \`${variable}\`.
             ${variable}.forEach((${singular}, index) => {
+                // Let \`${singular}\` be the current ${singular}.
+                // Let \`index\` be the numeric position of \`${singular}\`.
                 ${singular};
             });
             `;
