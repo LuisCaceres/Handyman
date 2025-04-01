@@ -3,43 +3,70 @@
 The following piece of code copies the content of a TypeScript file and adds it to the clipboard as JavaScript code which I can then paste into the console of an Internet browser. */
 
 import * as vscode from "vscode";
-import { posix } from "path";
 
 // Let `identifier` be the name of this command.
 const identifier = 'myExtension.copyAsJavaScript';
 const command = vscode.commands.registerCommand(identifier, commandHandler);
 
-// Let `targetFolder` be the name of the folder that contains JavaScript files compiled from TypeScript.
-const targetFolder = 'dist'; 
+let tsconfig: string;
+
+// Let `outDirectory` be the name of the folder that contains JavaScript files compiled from TypeScript.
+let outDirectory = '';
 
 // Let `commandHandler` be the function handler for this command.
 async function commandHandler(): Promise<void> {
-    // For example, it matches `tree` in `repository/src/tree.ts`.
-    const regex = /(?!=\/)[^/]+(?=\.\w+$)/;
+    const regexes = {
+        // For example, it matches `tree` in `repository/src/tree.ts`.
+        fileName: /(?!=\/)[^/]+(?=\.\w+$)/,
+        // For example, it matches `dist` in `"outDir": "dist"`.
+        outDirectory: /(?<="outDir"\s*:\s*").+?(?=")/,
+    };
 
-    // Let `file` be the currently active TypeScript file.
+    // Let `typeScriptFile` be the currently active TypeScript file.
     const typeScriptFile = vscode.window.activeTextEditor?.document.uri;
 
     if (!typeScriptFile) {
         return;
     }
 
-    // Let `rootFolder` be the URI of the outermost folder in this workspace. 
-    const rootFolder = vscode.workspace.workspaceFolders?.[0].uri;
+    // Let `tsconfig` be the the file that has configuration options to compile files to TypeScript.
+    tsconfig = tsconfig || await getFile('tsconfig.json');
 
-    if (rootFolder) {
-        // Let `fileName` be the name of `typeScriptFile` without the extension.
-        const fileName = typeScriptFile.path.match(regex)?.[0];
-        // Let `javaScriptFile` be the JavaScript file compiled from `file`.
-        // Let `filePath` be the path of `javaScriptFile`.
-		const filePath = rootFolder.with({ path: posix.join(rootFolder.path, `/${targetFolder}/${fileName}.js`) });
-        const fileData = await vscode.workspace.fs.readFile(filePath);
-		const fileContents = Buffer.from(fileData).toString('utf8');
-        // Copy the contents of `javaScriptFile` to the clipboard.
-        await vscode.env.clipboard.writeText(fileContents);
-        // Let the developer know that the contents have been successfully copied.
-		vscode.window.showInformationMessage('TypeScript copied as JavaScript code!');
+    if (!tsconfig) {
+        return;
     }
+
+    // Let `outDirectory` be the folder into which files will be compiled to TypeScript.
+    outDirectory = tsconfig.match(regexes.outDirectory)?.[0] || outDirectory;
+   
+    if (!outDirectory) {
+        return;
+    }
+    
+    // Let `fileName` be the name of `typeScriptFile` without the extension.
+    const fileName = typeScriptFile.path.match(regexes.fileName)?.[0];
+    // Let `filePath` be the path of `javaScriptFile`.
+    const filePath = `${outDirectory}/${fileName}.js`;
+    // Let `javaScriptFile` be `typeScriptFile` compiled to a JavaScript file.
+    const javaScriptFile = await getFile(filePath);
+    // Copy the contents of `javaScriptFile` to the clipboard.
+    await vscode.env.clipboard.writeText(javaScriptFile);
+    // Let the developer know that the contents have been successfully copied.
+    vscode.window.showInformationMessage('TypeScript copied as JavaScript code!');
+}
+
+/**
+ * Returns the contents of the file in the location indicated by `filePath`.
+ * @param filePath - A file path.
+ * @returns - The contents of the file.
+ */
+async function getFile(filePath: string): Promise<string> {
+    const workspace = vscode.workspace;
+    const uri = (await workspace.findFiles(filePath))[0];
+    const buffer = await workspace.fs.readFile(uri);
+    const file = Buffer.from(buffer).toString('utf8');
+
+    return file;
 }
 
 export { command };
