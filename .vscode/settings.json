@@ -8,5 +8,12 @@
 	},
 	// Turn off tsc task auto detection since we have the necessary tasks as npm scripts
 	"typescript.tsc.autoDetect": "off",
-	"explorer.excludeGitIgnore": true
+	"editor.wordWrap": "wordWrapColumn",
+	"editor.wordWrapColumn": 80,
+	"explorer.excludeGitIgnore": true,
+	"files.autoSave": "afterDelay",
+	// Allow command `tsc --watch` when because running scripts is disabled on this system (typically on PowerShell on Windows).
+	"terminal.integrated.defaultProfile.windows": "Git Bash",
+	// Automatically insert parenthesis immediately after a function call.
+	"typescript.suggest.completeFunctionCalls": true,
 }
