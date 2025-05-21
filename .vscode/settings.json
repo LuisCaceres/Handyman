@@ -12,6 +12,7 @@
 	"editor.wordWrap": "wordWrapColumn",
 	"editor.wordWrapColumn": 80,
 	"explorer.excludeGitIgnore": true,
+	"diffEditor.ignoreTrimWhitespace": true,
 	"files.autoSave": "afterDelay",
 	"files.trimTrailingWhitespace": true,
 	// Allow command `tsc --watch` when because running scripts is disabled on this system (typically on PowerShell on Windows).
