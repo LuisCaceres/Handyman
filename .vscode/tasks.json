@@ -7,33 +7,35 @@
 			"label": "start",
 			"dependsOn": [
 				"static-server",
-				"unit-tests",
-				"watch",
+				"typescript",
 			],
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
 		},
 		{
-            "label": "static-server",
-            "type": "npm",
-            "script": "static-server",
-        },
-        {
-            "label": "unit-tests",
-            "type": "npm",
-            "script": "unit-tests",
-        },
-		{
-			"label": "watch",
+			"label": "unit-tests",
 			"type": "npm",
-			"script": "watch",
-			"problemMatcher": "$tsc-watch",
+			"script": "unit-tests",
+		},
+		{
+			"label": "static-server",
+			"command": "start chrome \"http://127.0.0.1:8000/\" && node tests/static-server",
 			"isBackground": true,
 			"presentation": {
 				"reveal": "never"
 			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"type": "shell",
+		},
+		{
+			"label": "typescript",
+			"command": "tsc --watch",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "never"
+			},
+			"problemMatcher": "$tsc-watch",
+			"type": "shell",
 		},
 	]
 }
