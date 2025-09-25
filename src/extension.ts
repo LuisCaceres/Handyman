@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import { codeActionsProvider } from "./codeActionsProvider";
+import { completionProvider } from "./completionItemProvider";
 import { setCustomWhenClauses } from "./customWhenClauses";
 import { inlineCompletionProvider } from "./inlineCompletionItemProvider";
 import { command as command1 } from "./copyAsJavaScript";
@@ -9,6 +10,7 @@ import { command as command2 } from "./renameSymbol";
 
 const providers: vscode.Disposable[] = [];
 providers.push(codeActionsProvider);
+providers.push(completionProvider);
 providers.push(inlineCompletionProvider);
 providers.push(command1);
 providers.push(command2);
