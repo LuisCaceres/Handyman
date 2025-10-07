@@ -32,6 +32,12 @@
           "command": "myExtension.copyAsJavaScript",
           "alt": "myExtension.copyAsJavaScript",
           "group": "9_cutcopypaste"
+        },
+        {
+          "command": "editor.emmet.action.matchTag",
+          "when": "resourceLangId == html && editorTextFocus && hasWordHighlights",
+          "alt": "editor.emmet.action.matchTag",
+          "group": "navigation"
         }
       ]
     }
