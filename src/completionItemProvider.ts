@@ -2,10 +2,13 @@
 
 // The module 'vscode' contains the VS Code extensibility API.
 import * as vscode from "vscode";
-import { regexes } from "./utils";
+import { regexes } from "./utils.js";
+import { foo } from "./languageTokenizer.js";
+
+foo;
 
 // Let `dataSets` be a list of data sets each of which containing information about code snippets.
-import { getRelevantCodeSnippets } from "./codeActionsProviderData";
+import { getRelevantCodeSnippets } from "./codeActionsProviderData.js";
 
 // Supported language types.
 const languages = ["javascript", "typescript", "vue"];

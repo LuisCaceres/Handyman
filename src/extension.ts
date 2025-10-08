@@ -1,12 +1,12 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { codeActionsProvider } from "./codeActionsProvider";
-import { completionProvider } from "./completionItemProvider";
-import { setCustomWhenClauses } from "./customWhenClauses";
-import { inlineCompletionProvider } from "./inlineCompletionItemProvider";
-import { command as command1 } from "./copyAsJavaScript";
-import { command as command2 } from "./renameSymbol";
+import { codeActionsProvider } from "./codeActionsProvider.js";
+import { completionProvider } from "./completionItemProvider.js";
+import { setCustomWhenClauses } from "./customWhenClauses.js";
+import { inlineCompletionProvider } from "./inlineCompletionItemProvider.js";
+import { command as command1 } from "./copyAsJavaScript.js";
+import { command as command2 } from "./renameSymbol.js";
 
 const providers: vscode.Disposable[] = [];
 providers.push(codeActionsProvider);

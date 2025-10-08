@@ -34,7 +34,7 @@ avoiding manual and repetitive intervention by the developer.
 */
 
 import * as vscode from "vscode";
-import { formatSymbol, getRelevantSymbols, getNounInformation } from "./utils";
+import { formatSymbol, getRelevantSymbols, getNounInformation } from "./utils.js";
 
 // Instructions to replace a substring with a string in a JavaScript or Typescript file in VS Code.
 interface TextEdit {
