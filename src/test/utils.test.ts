@@ -569,7 +569,6 @@ describe('regexes', function () {
     expect(values.shift()).to.deep.equal(['a']);
     expect(values.shift()).to.deep.equal(['a', 'c']);
     expect(values.shift()).to.deep.equal(['c']); // To do: Regular expression needs refactoring.
-    debugger;
     expect(values.shift()).to.deep.equal(['a', 'c']);
     expect(values.shift()).to.deep.equal(['a']); // To do: Regular expression needs refactoring.
     expect(values.shift()).to.deep.equal(['a']); // To do: Regular expression needs refactoring.
