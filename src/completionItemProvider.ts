@@ -2,16 +2,13 @@
 
 // The module 'vscode' contains the VS Code extensibility API.
 import * as vscode from "vscode";
+import { regexes } from "./utils";
+
 // Let `dataSets` be a list of data sets each of which containing information about code snippets.
 import { getRelevantCodeSnippets } from "./codeActionsProviderData";
 
 // Supported language types.
 const languages = ["javascript", "typescript", "vue"];
-
-const regexes = {
-    // For example, it matches `elements` in `const elements = [];`
-    identifier: /(?<=(?:const|let)\s+)(\w+)(?=\s+=)/,
-};
 
 /**
  * Provide a list of completion items given `position` and characters the developer is typing.
@@ -36,32 +33,37 @@ function provideCompletionItems(file: vscode.TextDocument, position: vscode.Posi
     // Let `nextText` be the text of the line on which the caret is located.
     const nextText = lines.next.text.trim();
 
-    // Let `word` be the name of used for a variable declaration, if any.
-    const word = lines.previous.text.trim().match(regexes.identifier)?.[0] || '';
+    // Let `words` be variable names that the previous line has.
+    const words = new Set(lines.previous.text.trim().match(regexes.identifier) || []);
 
-    if (word) {
-        // Let `completionItem` be a new completion item.
-        const completionItem: vscode.CompletionItem = {
-            insertText: `console.log('${word}:\\n', ${word});`,
-            kind: 14,
-            label: `log(${word})`,
-            sortText: word,
-        };
+    // If there are words in `words`.
+    if (words?.size) {
 
-        // Add `completionItem` to `completionItems`.
-        completionItems.push(completionItem);
+        // For each `word` in `words`.
+        for (const word of words) {
+            // Let `completionItem` be a new completion item.
+            const completionItem: vscode.CompletionItem = {
+                insertText: `console.log('${word}:\\n', ${word});`,
+                kind: 14,
+                label: `log(${word})`,
+                sortText: word,
+            };
 
-        /*${ if (currentText.startsWith('//') && nextText.startsWith('const')) {
-             const variable = nextText.match(/(?<=const\s)\w+/)?.[0] || '';
-             // Let `completionItem` be a new completion item.
-             const completionItem: vscode.CompletionItem = {
-                 insertText: ` Let \`${variable}\` be `,
-                 label: '',
-             };
+            // Add `completionItem` to `completionItems`.
+            completionItems.push(completionItem);
 
-             // Add `completionItem` to `completionItems`.
-             completionItems.push(completionItem);
-         }}*/
+            /*${ if (currentText.startsWith('//') && nextText.startsWith('const')) {
+                    const variable = nextText.match(/(?<=const\s)\w+/)?.[0] || '';
+                    // Let `completionItem` be a new completion item.
+                    const completionItem: vscode.CompletionItem = {
+                        insertText: ` Let \`${variable}\` be `,
+                        label: '',
+                    };
+
+                    // Add `completionItem` to `completionItems`.
+                    completionItems.push(completionItem);
+                }}*/
+        }
     }
 
     return completionItems;

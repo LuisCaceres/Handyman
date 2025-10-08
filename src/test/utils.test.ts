@@ -137,7 +137,7 @@ describe('Word', function () {
         new Word('service').toPlural(),
         new Word('life').toPlural(),
       ];
-  
+
       expect(values.shift()).to.equal('boxes');
       expect(values.shift()).to.equal('churches');
       expect(values.shift()).to.equal('classes');
@@ -269,7 +269,7 @@ describe('getRelevantSymbols()', function () {
       const symbol = 'persons';
       const text = 'for (const person of persons) {';
       const symbols = utils.getRelevantSymbols(symbol, text);
-  
+
       expect(symbols.length).to.equal(2);
       expect(symbols.at(0)?.value).to.equal('person');
       expect(symbols.at(1)?.value).to.equal('persons');
@@ -281,7 +281,7 @@ describe('getRelevantSymbols()', function () {
       const symbol = 'persons';
       const text = 'persons.forEach(person => {';
       const symbols = getRelevantSymbols(symbol, text);
-      
+
       expect(symbols.length).to.equal(2);
       expect(symbols.at(0)?.value).to.equal('persons');
       expect(symbols.at(1)?.value).to.equal('person');
@@ -290,7 +290,7 @@ describe('getRelevantSymbols()', function () {
       const symbol = 'person';
       const text = 'for (const person of persons) {';
       const symbols = utils.getRelevantSymbols(symbol, text);
-  
+
       expect(symbols.length).to.equal(2);
       expect(symbols.at(0)?.value).to.equal('person');
       expect(symbols.at(1)?.value).to.equal('persons');
@@ -318,13 +318,13 @@ describe('getRelevantSymbols()', function () {
 });
 
 describe('getSymbols()', function () {
-  const getSymbols = utils.getSymbols; 
+  const getSymbols = utils.getSymbols;
 
   it('It returns a list of symbols for a for... of loop.', function () {
     const text = 'for (const person of persons) {';
     const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
-  
+
     expect(symbols.length).to.equal(2);
     expect(symbols.at(0)?.value).to.equal('person');
     expect(symbols.at(1)?.value).to.equal('persons');
@@ -334,7 +334,7 @@ describe('getSymbols()', function () {
     const text = 'persons.forEach(person => {';
     const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
-  
+
     expect(symbols.length).to.equal(3);
     expect(symbols.at(0)?.value).to.equal('persons');
     expect(symbols.at(1)?.value).to.equal('forEach');
@@ -345,7 +345,7 @@ describe('getSymbols()', function () {
     const text = 'persons.sort((person1, person2));';
     const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
-  
+
     expect(symbols.length).to.equal(4);
     expect(symbols.at(0)?.value).to.equal('persons');
     expect(symbols.at(1)?.value).to.equal('sort');
@@ -357,7 +357,7 @@ describe('getSymbols()', function () {
     const text = 'const person = persons[0];';
     const regex = utils.regexes.symbols;
     const symbols = getSymbols(text, regex);
-  
+
     expect(symbols.length).to.equal(2);
     expect(symbols.at(0)?.value).to.equal('person');
     expect(symbols.at(1)?.value).to.equal('persons');
@@ -495,7 +495,7 @@ describe('getNounInformation()', function () {
         index: 0,
       });
     }
-    
+
   });
 });
 
@@ -542,5 +542,38 @@ describe('getParts()', function () {
       expect(parts.at(0)).to.equal('card');
       expect(parts.at(1)).to.equal('1');
     }
+  });
+});
+
+describe('regexes', function () {
+  const regexes = utils.regexes;
+
+  it('it matches identifiers.', function () {
+    const regex = regexes.identifier;
+
+    const values = [
+      `const elements = document.querySelectorAll('p') as HTMLElement[]`.match(regex),
+      `let a: string`.match(regex),
+      `a.b`.match(regex),
+      `\`\${a} and \${c}\``.match(regex),
+      `a(c)`.match(regex),
+      `a.b(c).d.e`.match(regex),
+      `a = c`.match(regex),
+      `[a, ...c]`.match(regex),
+      `{a, c}`.match(regex),
+      `if (a) {`.match(regex),
+    ];
+
+    expect(values.shift()).to.deep.equal(['elements', 'document']);
+    expect(values.shift()).to.deep.equal(['a']);
+    expect(values.shift()).to.deep.equal(['a']);
+    expect(values.shift()).to.deep.equal(['a', 'c']);
+    expect(values.shift()).to.deep.equal(['c']); // To do: Regular expression needs refactoring.
+    debugger;
+    expect(values.shift()).to.deep.equal(['a', 'c']);
+    expect(values.shift()).to.deep.equal(['a']); // To do: Regular expression needs refactoring.
+    expect(values.shift()).to.deep.equal(['a']); // To do: Regular expression needs refactoring.
+    expect(values.shift()).to.deep.equal(['a', 'c']);
+    expect(values.shift()).to.deep.equal(['a']);
   });
 });

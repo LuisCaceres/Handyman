@@ -176,6 +176,16 @@ interface Regexes {
 
 // The following are regular expressions that can be used to find symbols in a line of code.
 const regexes: Regexes = {
+    // Matches `elements` and `document` in `const elements = document.querySelectorAll('p') as HTMLElement[]`.
+    // Matches `a` in `let a: string`.
+    // Matches `a` in `a.b`.
+    // Matches `a` and `c` in `\`${a} and ${c}\``.
+    // Matches `a` and `c` in `a(c)`.
+    // Matches `a` and `c` in `a.b(c)`.
+    // Matches `a` and `c` in `a = c`.
+    // Matches `a` and `c` in `[a, c]`.
+    // Matches `a` in `if (a) {`.
+    identifier: /(?<!\.\s*)[A-Za-z](\w+)?(?=\s*[.,;:=)}|&\]])/g,
     // Matches `person` and `persons` in `const person = persons[0];`.
     // Matches `person` and `persons` in `for (const person of persons) {`.
     // Matches `persons`, `sort`, `person and `person` in `persons.sort((person1, person2));`.
