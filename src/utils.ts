@@ -185,7 +185,7 @@ const regexes: Regexes = {
     // Matches `a` and `c` in `a = c`.
     // Matches `a` and `c` in `[a, c]`.
     // Matches `a` in `if (a) {`.
-    identifier: /(?<!\.\s*)[A-Za-z](\w+)?(?=\s*[.,;:=)}|&\]])/g,
+    identifier: /(?<!\.([A-Za-z]+)?)(\w+)(?=\s*[.,;:=)}|&\]])/g,
     // Matches `person` and `persons` in `const person = persons[0];`.
     // Matches `person` and `persons` in `for (const person of persons) {`.
     // Matches `persons`, `sort`, `person and `person` in `persons.sort((person1, person2));`.

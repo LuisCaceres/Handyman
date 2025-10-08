@@ -562,6 +562,7 @@ describe('regexes', function () {
       `[a, ...c]`.match(regex),
       `{a, c}`.match(regex),
       `if (a) {`.match(regex),
+      `if (table.nodeName.toUpperCase() !== 'TABLE') {`.match(regex),
     ];
 
     expect(values.shift()).to.deep.equal(['elements', 'document']);
@@ -574,5 +575,6 @@ describe('regexes', function () {
     expect(values.shift()).to.deep.equal(['a']); // To do: Regular expression needs refactoring.
     expect(values.shift()).to.deep.equal(['a', 'c']);
     expect(values.shift()).to.deep.equal(['a']);
+    expect(values.shift()).to.deep.equal(['table']);
   });
 });
