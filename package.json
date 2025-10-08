@@ -47,7 +47,6 @@
     "lint": "eslint src",
     "pretest": "npm run compile && npm run lint",
     "test": "vscode-test",
-    "unit-tests": "tsc -watch --rootDir src --outDir tests/out --module esnext",
     "vscode:prepublish": "npm run compile"
   },
   "devDependencies": {

@@ -8,6 +8,7 @@
 			"dependsOn": [
 				"static-server",
 				"typescript",
+				"unit-tests"
 			],
 			"runOptions": {
 				"runOn": "folderOpen"
@@ -15,8 +16,12 @@
 		},
 		{
 			"label": "unit-tests",
-			"type": "npm",
-			"script": "unit-tests",
+			"command": "tsc -watch --rootDir src --outDir tests/out --module esnext",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
 		},
 		{
 			"label": "static-server",
