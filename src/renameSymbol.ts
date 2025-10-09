@@ -1,13 +1,13 @@
-/* This piece of code provides a 'rename symbol' command that is smarter than 
-the the built-in 'rename symbol' command on VS Code. This smarter rename 
+/* This piece of code provides a 'rename symbol' command that is smarter than
+the the built-in 'rename symbol' command on VS Code. This smarter rename
 performs the following:
 
 - Renames symbols in single-line comments.
 - Renames symbols in function parameters.
 - Renames symbols in for... of loops.
 
-For example, an array called `countries`. Further below, the array  
-invokes methods such as `forEach`, `map`, and. The array is also traversed with 
+For example, an array called `countries`. Further below, the array
+invokes methods such as `forEach`, `map`, and. The array is also traversed with
 a `for... of` loop. Consider the following code snippet:
 
 // Let `countries` be an initially empty array of countries.
@@ -25,12 +25,12 @@ for (const country of countries) {
   // Do something with `country`.
 }
 
-If the name of the array is renamed from `countries` to `states`, the variable 
-`country` used by the callback functions of the array methods won't be 
-automatically renamed to `state` by VS Code. This also applies to the variable 
-`country` in the `for... of` loop. On the other hand, the 'smarter 
-rename symbol' will rename a variable and associated variables in one go 
-avoiding manual and repetitive intervention by the developer. 
+If the name of the array is renamed from `countries` to `states`, the variable
+`country` used by the callback functions of the array methods won't be
+automatically renamed to `state` by VS Code. This also applies to the variable
+`country` in the `for... of` loop. On the other hand, the 'smarter
+rename symbol' will rename a variable and associated variables in one go
+avoiding manual and repetitive intervention by the developer.
 */
 
 import * as vscode from "vscode";
@@ -40,7 +40,7 @@ import { formatSymbol, getRelevantSymbols, getNounInformation } from "./utils.js
 interface TextEdit {
     // The start and end of the substring.
     range: vscode.Range;
-    // A string to replace the substring specified by `range`. 
+    // A string to replace the substring specified by `range`.
     replacement: string
 }
 
@@ -68,7 +68,7 @@ async function commandHandler(): Promise<void> {
     // Let `currentSymbol` be the current name of `symbol`.
     const currentSymbol = file.getText(range);
     // Let `newSymbol` be the new name for `symbol`.
-    const newSymbol = (await vscode.window.showInputBox({value: currentSymbol}) || '').trim();
+    const newSymbol = (await vscode.window.showInputBox({ value: currentSymbol }) || '').trim();
 
     // Abort this command if the developer did not give a new name for symbol.
     // Abort this command if `newSymbol` is the same as `currentSymbol`.
@@ -82,9 +82,9 @@ async function commandHandler(): Promise<void> {
     const textEdits: TextEdit[] = [];
 
     /**
-     * Returns intructions to replace ocurrences of `currentSymbol` in `file`. 
+     * Returns intructions to replace ocurrences of `currentSymbol` in `file`.
      * @param currentSymbol - The symbol to be renamed. This is the name of the identifier, token or variable in to rename.
-     * @param position - The location of `currentSymbol` in `file`. 
+     * @param position - The location of `currentSymbol` in `file`.
      */
     async function createTextEdits(currentSymbol: string, position: vscode.Position): Promise<void> {
         // Let `locations` be a list of locations in which `currentSymbol` appears in `file`.
@@ -97,7 +97,7 @@ async function commandHandler(): Promise<void> {
                 range: location.range,
                 replacement: formatSymbol(currentSymbol, newNoun.value),
             };
-            
+
             // Add `edit` to `edits`.
             textEdits.push(textEdit);
         }
@@ -110,20 +110,20 @@ async function commandHandler(): Promise<void> {
             // Let `text` be the text of the line on which `location` appears.
             const lineNumber = location.range.start.line;
             const text = file.lineAt(lineNumber).text;
-            // Let `relevantSymbols` be a list of symbols associated with `currentNoun` in `text`. Those symbols will be renamed too. 
+            // Let `relevantSymbols` be a list of symbols associated with `currentNoun` in `text`. Those symbols will be renamed too.
             const relevantSymbols = getRelevantSymbols(currentNoun, text);
-    
+
             // For each relevant symbol `relevantSymbol` in `relevantSymbols`.
             for (const relevantSymbol of relevantSymbols) {
                 const anotherPosition = new vscode.Position(lineNumber, relevantSymbol.start);
-                
+
                 // Skip if `textEdits` already has text edits for `relevantSymbol` otherwise an error is thrown by VS Code.
                 const duplicate = textEdits.find(edit => edit.range.contains(anotherPosition));
-                
+
                 if (duplicate) {
                     continue;
                 }
-    
+
                 // Otherwise, get the locations of `relevantSymbol` in `file` and specify text edits for those locations.
                 await createTextEdits(relevantSymbol.value, anotherPosition);
             }
@@ -132,7 +132,7 @@ async function commandHandler(): Promise<void> {
 
     // Get the locations of `oldSymbol` and associated symbols in `file` and specify text edits for those locations.
     await createTextEdits(currentSymbol, range.start);
- 
+
     activeTextEditor.edit(editBuilder => {
         // For each text edit `textEdit` in `textEdits`.
         for (const textEdit of textEdits) {

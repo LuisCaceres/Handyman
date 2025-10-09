@@ -10,7 +10,7 @@ describe("getRelevantCodeSnippets()", function () {
         {
             const line = "const elements = []";
             const word = 'elements';
-            const codeSnippets = {...getRelevantCodeSnippets(word), ...getRelevantCodeSnippets(line)};
+            const codeSnippets = { ...getRelevantCodeSnippets(word), ...getRelevantCodeSnippets(line) };
 
             expect(Object.keys(codeSnippets).length).to.equal(5);
             expect(codeSnippets.hasOwnProperty(
@@ -24,7 +24,7 @@ describe("getRelevantCodeSnippets()", function () {
         {
             const line = "const textEdits: TextEdit[] = [];";
             const word = 'textEdits';
-            const codeSnippets = {...getRelevantCodeSnippets(word), ...getRelevantCodeSnippets(line)};
+            const codeSnippets = { ...getRelevantCodeSnippets(word), ...getRelevantCodeSnippets(line) };
 
             expect(Object.keys(codeSnippets).length).to.equal(5);
             expect(codeSnippets.hasOwnProperty("Insert for... of loop"
@@ -67,7 +67,7 @@ describe("getRelevantCodeSnippets()", function () {
                 const codeSnippets = getRelevantCodeSnippets(line);
                 const codeSnippet = codeSnippets[snippetTitle];
 
-            expect(codeSnippet.snippet).to.equal(`
+                expect(codeSnippet.snippet).to.equal(`
 
             // For each element \`element\` in \`elements\`.
             elements.forEach((element, index) => {
@@ -89,7 +89,7 @@ describe("getRelevantCodeSnippets()", function () {
                 const codeSnippets = getRelevantCodeSnippets(line);
                 const codeSnippet = codeSnippets[snippetTitle];
 
-            expect(codeSnippet.snippet).to.equal(`
+                expect(codeSnippet.snippet).to.equal(`
 
             {
                 function toNumber(element) {
@@ -131,7 +131,7 @@ describe("getRelevantCodeSnippets()", function () {
                 const codeSnippets = getRelevantCodeSnippets(line);
                 const codeSnippet = codeSnippets[snippetTitle];
 
-            expect(codeSnippet.snippet).to.equal(`
+                expect(codeSnippet.snippet).to.equal(`
 
             const element = ;
             elements.push(element);
@@ -149,8 +149,8 @@ describe("getRelevantCodeSnippets()", function () {
                 const codeSnippets = getRelevantCodeSnippets(line);
                 const codeSnippet = codeSnippets[snippetTitle];
 
-            expect(codeSnippet.snippet).to.equal(`
-            
+                expect(codeSnippet.snippet).to.equal(`
+
             if (elements) {
 
             }`);
