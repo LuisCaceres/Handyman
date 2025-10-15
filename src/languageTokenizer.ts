@@ -48,6 +48,7 @@ class Tokenizer {
                 'meta.definition.variable.ts',
                 'variable.other.object.ts',
                 'variable.other.readwrite.ts',
+                'variable.parameter.ts',
             ]),
         ]
     ]);
