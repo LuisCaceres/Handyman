@@ -1,6 +1,5 @@
-import * as utils from '../utils.js';
-
-const expect = chai.expect;
+import { expect } from "chai";
+import * as utils from '../utils';
 
 describe('Word', function () {
   const Word = utils.Word;

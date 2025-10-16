@@ -1,9 +1,8 @@
+import { expect } from "chai";
 import {
     dataSets,
     getRelevantCodeSnippets,
 } from "../codeActionsProviderData.js";
-
-const expect = chai.expect;
 
 describe("getRelevantCodeSnippets()", function () {
     it("Returns a list of code snippets that are relevant to a line of code.", function () {
