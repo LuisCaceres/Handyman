@@ -3,4 +3,6 @@
 dist
 node_modules
 out
+src/**/*.js
+src/**/*.map
 tests/out

@@ -12,6 +12,29 @@
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}"
 			],
+		},
+		{
+			"name": "Debug current unit test file",
+			"args": [
+				"-u",
+				"bdd",
+				"--timeout",
+				"999999",
+				"--colors",
+				"${fileDirname}/${fileBasenameNoExtension}.js"
+			],
+			"internalConsoleOptions": "openOnSessionStart",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha.js",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**",
+				"node_modules",
+			],
+			"outFiles": [
+				"${workspaceFolder}/src/**/*.js"
+			],
+			"sourceMaps": true,
+			"type": "node"
 		}
 	]
 }
