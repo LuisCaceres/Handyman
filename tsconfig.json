@@ -5,6 +5,7 @@
 		"target": "esnext",
 		"types": [
 			"mocha",
+			"node",
 		],
 		"lib": [
 			"ESNext"
