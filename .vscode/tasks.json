@@ -6,7 +6,6 @@
 		{
 			"label": "start",
 			"dependsOn": [
-				"static-server",
 				"typescript",
 				"unit-tests"
 			],
@@ -16,16 +15,7 @@
 		},
 		{
 			"label": "unit-tests",
-			"command": "tsc -watch --rootDir src --outDir tests/out --module esnext",
-			"isBackground": true,
-			"presentation": {
-				"reveal": "never"
-			},
-			"type": "shell",
-		},
-		{
-			"label": "static-server",
-			"command": "start chrome \"http://127.0.0.1:8000/\" && node tests/static-server",
+			"command": "mocha --colors --enable-source-maps src/test/**/*.js ",
 			"isBackground": true,
 			"presentation": {
 				"reveal": "never"

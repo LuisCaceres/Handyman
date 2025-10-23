@@ -1,8 +1,5 @@
 *.vsix
 .vscode-test/
-dist
 node_modules
-out
 src/**/*.js
 src/**/*.map
-tests/out
