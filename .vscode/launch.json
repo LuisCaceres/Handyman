@@ -12,6 +12,12 @@
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}"
 			],
+			"skipFiles": [
+				"<node_internals>/**",
+				"**/node_modules/**",
+				"**/extensions/**",
+				"**/app/out/vs/**",
+			]
 		},
 		{
 			"name": "Debug current unit test file",
