@@ -1,3 +1,5 @@
+import { Tokenizer } from "./languageTokenizer.js";
+
 /**
  * Represents a word.
  */
@@ -27,26 +29,26 @@ class Word extends String {
      * @example new Word('accounts').format('Payment') returns 'Account'.
      * @example new Word('Accounts').format('payment') returns 'account'.
      * @param anotherWord - Another word whose format this word will be converted to.
-     * @returns {string} This word in the same format as `anotherWord`. 
+     * @returns {string} This word in the same format as `anotherWord`.
      */
     format(anotherWord: string): string {
         const isCapitalized = new Word(anotherWord).isCapitalized();
         const isSingular = new Word(anotherWord).isSingular();
-    
+
         let word: string;
-    
+
         if (isCapitalized) {
             word = this.capitalize();
         } else {
             word = this.uncapitalize();
         }
-    
+
         if (isSingular) {
             word = new Word(word).toSingular();
         } else {
             word = new Word(word).toPlural();
         }
-    
+
         return word;
     }
 
@@ -83,7 +85,7 @@ class Word extends String {
     /**
      * Returns the singular form of this word.
      * @example new Word('boxes').toSingular() returns 'box'.
-     * @example new Word('countries').toSingular() returns 'country'. 
+     * @example new Word('countries').toSingular() returns 'country'.
      * @return {string} The singular form of this word.
      */
     toSingular(): string {
@@ -123,7 +125,7 @@ class Word extends String {
     }
 
     /**
-     * Returns the plural form of this word. 
+     * Returns the plural form of this word.
      * @example new Word('box').toPlural() returns 'boxes'.
      * @example new Word('country').toPlural() returns 'countries'.
      * @return {string} The plural form of this word.
@@ -195,9 +197,9 @@ const regexes: Regexes = {
     symbols: /[A-Za-z]\w*(?=\W)/gd,
 };
 
-/** A symbol is the name of a valid variable, token or identifier in JavaScript 
+/** A symbol is the name of a valid variable, token or identifier in JavaScript
  * or TypeScript code.
- * For example, `person` and `persons` are symbols in line of code `for (const 
+ * For example, `person` and `persons` are symbols in line of code `for (const
  * person of persons) {`.
  */
 interface SymbolInformation {
@@ -209,12 +211,12 @@ interface SymbolInformation {
 }
 
 /**
- * Returns a list of symbols in `text` that are associated with `noun`. For 
- * example, given the noun `task` and the line of code `tasks.push(task)` then the list of associated symbols includes `tasks` and `task`. 
+ * Returns a list of symbols in `text` that are associated with `noun`. For
+ * example, given the noun `task` and the line of code `tasks.push(task)` then the list of associated symbols includes `tasks` and `task`.
  * @param example `getRelevantSymbols('task', 'for (const task of tasks)')` returns `[{value: 'task'}, {value: 'tasks'}]`.
  * @param example `getRelevantSymbols('task', 'const task = tasks.find(task => task.startsWith('t'));')` returns `[{value: 'task'}, {value: 'tasks'}, {value: 'task'}]`.
  * @param noun - A noun is a word that represents a person or an object.
- * @param text - A string of JavaScript or TypeScript code. 
+ * @param text - A string of JavaScript or TypeScript code.
  * @returns A list of symbols that are associated with each other.
  */
 function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
@@ -229,7 +231,7 @@ function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
     for (const regex in regexes) {
         // Let `symbols` be a list of symbols in `text`.
         const symbols = getSymbols(text, regexes[regex]);
-        
+
         // For each symbol `symbol` in `symbols`.
         for (const symbol of symbols) {
             // Let `anotherNoun` be `symbol`'s noun.
@@ -259,7 +261,7 @@ function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
 /**
  * Returns a list of symbols in `text` that `regex` matches.
  * @example getSymbols('for (const task of tasks) {', regex) returns [{value: 'task'}, {value: 'tasks'}]
- * @param text - A string of JavaScript or TypeScript code. 
+ * @param text - A string of JavaScript or TypeScript code.
  * @param regex - A regular expression to match symbols in `text`.
  * @returns A list of symbols in `text` that `regex` matches.
  */
@@ -267,26 +269,22 @@ function getSymbols(text: string, regex: RegExp): SymbolInformation[] {
     // Let `symbols` be an initially empty list of symbols.
     const symbols: SymbolInformation[] = [];
     // Let `matches` be a list of matches in `text` that `regex` matches.
-    const matches = text.matchAll(regex);
+    const matches = new Tokenizer(text).getTokensByType('variable');
+    // const matches = text.matchAll(regex);
 
     // For each match `match` in `matches`.
     for (const match of matches) {
-        const value = match[0];
-
-        // Ignore `match` if `match` is a reserved keyword in JavaScript.
-        if (reservedKeywords.includes(value)) {
-            continue;
-        }
+        const value = match.substring;
 
         // Let `symbol` be a new symbol.
         const symbol: SymbolInformation = {
             noun: getNounInformation(value),
-            start: match.index,
+            start: match.startIndex,
             value,
         };
 
         // Add `symbol` to `symbols`.
-        symbols.push(symbol); 
+        symbols.push(symbol);
     }
 
     // Return `symbols`.
@@ -311,9 +309,9 @@ function getParts(symbol: string): string[] {
 }
 
 interface NounInformation {
-    // The name of the noun of a symbol. For example, 'person', 
+    // The name of the noun of a symbol. For example, 'person',
     value: string;
-    // The symbol that `name` is part of.  
+    // The symbol that `name` is part of.
     symbol?: string;
     // A list of parts that `symbol` consists of.
     parts: string[];
@@ -326,7 +324,7 @@ interface NounInformation {
  * @example getNounInformation('account') returns {name: 'account', parts: ['account'], index: 0}.
  * @example getNounInformation('discountedItems') returns {name: 'Items', parts: ['discounted', 'Items'], index: 1}.
  * @example getNounInformation('container1') returns {name: 'container', parts: ['container', '1'], index: 0}.
- * @param symbol - The name of a valid identifier, token or variable in JavaScript or TypeScript. 
+ * @param symbol - The name of a valid identifier, token or variable in JavaScript or TypeScript.
  * @returns Information about the noun of `symbol`.
  */
 function getNounInformation(symbol: string): NounInformation {
@@ -339,7 +337,7 @@ function getNounInformation(symbol: string): NounInformation {
     // Let `value` be the noun of `symbol`.
     const value = parts[index];
     // Let `nounInformation` be information about the noun of `symbol`.
-    const nounInformation: NounInformation = {parts, index, value};
+    const nounInformation: NounInformation = { parts, index, value };
     // Return `nounInformation`.
     return nounInformation;
 }
@@ -356,7 +354,7 @@ function getNounInformation(symbol: string): NounInformation {
  */
 function formatSymbol(symbol: string, noun: string): string {
     const nounInformation = getNounInformation(symbol);
-    // Let `formattedNoun` be `noun` that has the same format as the noun of `symbol`. 
+    // Let `formattedNoun` be `noun` that has the same format as the noun of `symbol`.
     const formattedNoun = new Word(noun).format(nounInformation.value);
     const parts = nounInformation.parts.slice();
     // Remove `symbol`'s current noun and replace it with `formattedNoun`.
@@ -365,33 +363,6 @@ function formatSymbol(symbol: string, noun: string): string {
     // Return `symbol`.
     return formattedSymbol;
 }
-
-// Let `reservedKeywords` be a list of reserved keywords in JavaScript. 
-const reservedKeywords: string[] = [
-    'await',
-    'class',
-    'const',
-    'contructor',
-    'debugger',
-    'else',
-    'export',
-    'extends',
-    'for',
-    'function',
-    'if',
-    'import',
-    'in',
-    'let',
-    'new',
-    'of',
-    'return',
-    'static',
-    'super',
-    'switch',
-    'this',
-    'var',
-    'while',
-];
 
 export {
     formatSymbol,

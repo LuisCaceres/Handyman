@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import * as utils from '../utils';
+import * as utils from '../utils.js';
 
 describe('Word', function () {
   const Word = utils.Word;
@@ -329,6 +329,7 @@ describe('getSymbols()', function () {
     expect(symbols.at(1)?.value).to.equal('persons');
   });
 
+  // FAILING CHECK WHY
   it('It returns a list of symbols for a method call.', function () {
     const text = 'persons.forEach(person => {';
     const regex = utils.regexes.symbols;
@@ -340,6 +341,7 @@ describe('getSymbols()', function () {
     expect(symbols.at(2)?.value).to.equal('person');
   });
 
+  // FAILING CHECK WHY
   it('It returns a list of symbols for a sort method.', function () {
     const text = 'persons.sort((person1, person2));';
     const regex = utils.regexes.symbols;

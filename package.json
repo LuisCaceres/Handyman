@@ -24,13 +24,21 @@
       {
         "command": "myExtension.copyAsJavaScript",
         "title": "Copy as JavaScript code"
+      },
+      {
+        "command": "myExtension.html2JavaScript",
+        "title": "Copy as JavaScript code"
+      },
+      {
+        "command": "myExtension.exportFileForEdition",
+        "title": "Copy as JavaScript code"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "when": "resourceLangId == typescript",
           "command": "myExtension.copyAsJavaScript",
+          "when": "resourceLangId == typescript",
           "alt": "myExtension.copyAsJavaScript",
           "group": "9_cutcopypaste"
         },
@@ -39,6 +47,14 @@
           "when": "resourceLangId == html && editorTextFocus && hasWordHighlights",
           "alt": "editor.emmet.action.matchTag",
           "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "myExtension.exportFileForEdition",
+          "when": "resourceLangId == html",
+          "alt": "myExtension.exportFileForEdition",
+          "group": "9_cutcopypaste"
         }
       ]
     }

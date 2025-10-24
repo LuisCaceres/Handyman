@@ -52,3 +52,5 @@
 * What should `formatSymbol('deletedBankAccounts', 'formFields')` return? deletedFormFields, formFields. This behaviour is undefined.
 
 * The regular expression: /[A-Za-z]\w*(?=\W)/gd can possibly be used as a "catch-all" regular expression to identify symbols in a line of code. If this is the case, then no individual regular expression such as "declaration", "forOfLoop", "sortMethod" are even required. However, that "catch-all" regular expression incorrectly identifies reserved keywords such as `for` and `const' as symbols. Perhaps, a function is necessary to first remove any reserved keywords from a line of code.
+
+* There should be code suggestions for `charts;` and `function foo(charts:[]) {}`. Currently `const charts` only returns code suggestions for array methods.

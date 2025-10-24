@@ -19,6 +19,19 @@
 				"**/app/out/vs/**",
 			]
 		},
+		// {
+		// 	"name": "Debug current file",
+		// 	"outFiles": [
+		// 		"${workspaceFolder}/out/**/*.js"
+		// 	],
+		// 	"program": "${file}",
+		// 	"request": "launch",
+		// 	"skipFiles": [
+		// 		"<node_internals>/**"
+		// 	],
+		// 	"sourceMaps": true,
+		// 	"type": "node",
+		// }
 		{
 			"name": "Debug current unit test file",
 			"args": [
