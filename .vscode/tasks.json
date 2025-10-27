@@ -44,6 +44,11 @@
 					// "severity": 4,
 					// The fifth match group matches the message.
 					// "message": 5
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "Restarting",
+					"endsPattern": "Waiting for file changes before restarting..."
 				}
 			}
 		},
