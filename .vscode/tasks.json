@@ -33,7 +33,7 @@
 				// The actual pattern to match problems in the output.
 				"pattern": {
 					// The regular expression. Example to match: `src\test\utils.test.ts:352:31`.
-					"regexp": "\\(([\\w\\W]+?\\.ts):(\\d+):(\\d+)",
+					"regexp": "\\(([\\w\\W]+?\\.test\\.ts):(\\d+):(\\d+)",
 					// The first match group matches the file name which is relative.
 					"file": 1,
 					// The second match group matches the line on which the problem occurred.
