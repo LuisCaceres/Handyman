@@ -12,12 +12,12 @@ const wasmBinary = await fs.readFile(path1);
 
 const regexEngine = await oniguruma.loadWASM(wasmBinary).then(() => {
     return {
-        createOnigScanner(patterns) {
+        createOnigScanner(patterns: string[]) {
             return new oniguruma.OnigScanner(patterns);
         },
-        createOnigString(s) {
-            return new oniguruma.OnigString(s);
-        }
+        createOnigString(string: string) {
+            return new oniguruma.OnigString(string);
+        },
     };
 });
 
@@ -30,7 +30,7 @@ const registry = new textMate.Registry({
         return grammar;
         // }
     },
-    onigLib: regexEngine,
+    onigLib: Promise.resolve(regexEngine),
 });
 
 // Load the JavaScript grammar and any other grammars included by it async.
