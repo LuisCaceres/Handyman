@@ -322,7 +322,7 @@ describe('getSymbols()', function () {
   it('It returns a list of symbols for a for... of loop.', function () {
     const text = 'for (const person of persons) {';
     const regex = utils.regexes.symbols;
-    const symbols = getSymbols(text, regex);
+    const symbols = getSymbols(text);
 
     expect(symbols.length).to.equal(2);
     expect(symbols.at(0)?.value).to.equal('person');
@@ -331,31 +331,27 @@ describe('getSymbols()', function () {
 
   it('It returns a list of symbols for a method call.', function () {
     const text = 'persons.forEach(person => {';
-    const regex = utils.regexes.symbols;
-    const symbols = getSymbols(text, regex);
+    const symbols = getSymbols(text);
 
-    expect(symbols.length).to.equal(3);
+    expect(symbols.length).to.equal(2);
     expect(symbols.at(0)?.value).to.equal('persons');
-    expect(symbols.at(1)?.value).to.equal('forEach');
-    expect(symbols.at(2)?.value).to.equal('person');
+    expect(symbols.at(1)?.value).to.equal('person');
   });
 
   it('It returns a list of symbols for a sort method.', function () {
     const text = 'persons.sort((person1, person2));';
-    const regex = utils.regexes.symbols;
-    const symbols = getSymbols(text, regex);
+    const symbols = getSymbols(text);
 
-    expect(symbols.length).to.equal(4);
+    expect(symbols.length).to.equal(3);
     expect(symbols.at(0)?.value).to.equal('persons');
-    expect(symbols.at(1)?.value).to.equal('sort');
-    expect(symbols.at(2)?.value).to.equal('person1');
-    expect(symbols.at(3)?.value).to.equal('person2');
+    expect(symbols.at(1)?.value).to.equal('person1');
+    expect(symbols.at(2)?.value).to.equal('person2');
   });
 
   it('It returns a list of symbols for a declaration.', function () {
     const text = 'const person = persons[0];';
     const regex = utils.regexes.symbols;
-    const symbols = getSymbols(text, regex);
+    const symbols = getSymbols(text);
 
     expect(symbols.length).to.equal(2);
     expect(symbols.at(0)?.value).to.equal('person');

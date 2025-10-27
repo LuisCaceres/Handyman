@@ -1,3 +1,5 @@
+import { Tokenizer } from "./languageTokenizer.js";
+
 /**
  * Represents a word.
  */
@@ -228,7 +230,7 @@ function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
     // For each regex `regex` in `regexes`.
     for (const regex in regexes) {
         // Let `symbols` be a list of symbols in `text`.
-        const symbols = getSymbols(text, regexes[regex]);
+        const symbols = getSymbols(text);
         
         // For each symbol `symbol` in `symbols`.
         for (const symbol of symbols) {
@@ -260,28 +262,22 @@ function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
  * Returns a list of symbols in `text` that `regex` matches.
  * @example getSymbols('for (const task of tasks) {', regex) returns [{value: 'task'}, {value: 'tasks'}]
  * @param text - A string of JavaScript or TypeScript code. 
- * @param regex - A regular expression to match symbols in `text`.
  * @returns A list of symbols in `text` that `regex` matches.
  */
-function getSymbols(text: string, regex: RegExp): SymbolInformation[] {
+function getSymbols(text: string): SymbolInformation[] {
     // Let `symbols` be an initially empty list of symbols.
     const symbols: SymbolInformation[] = [];
     // Let `matches` be a list of matches in `text` that `regex` matches.
-    const matches = text.matchAll(regex);
+    const matches = new Tokenizer(text).getTokensByType('variable');
 
     // For each match `match` in `matches`.
     for (const match of matches) {
-        const value = match[0];
-
-        // Ignore `match` if `match` is a reserved keyword in JavaScript.
-        if (reservedKeywords.includes(value)) {
-            continue;
-        }
+        const value = match.substring;
 
         // Let `symbol` be a new symbol.
         const symbol: SymbolInformation = {
             noun: getNounInformation(value),
-            start: match.index,
+            start: match.startIndex,
             value,
         };
 
@@ -339,7 +335,7 @@ function getNounInformation(symbol: string): NounInformation {
     // Let `value` be the noun of `symbol`.
     const value = parts[index];
     // Let `nounInformation` be information about the noun of `symbol`.
-    const nounInformation: NounInformation = {parts, index, value};
+    const nounInformation: NounInformation = { parts, index, value };
     // Return `nounInformation`.
     return nounInformation;
 }
