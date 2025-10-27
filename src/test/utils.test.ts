@@ -321,7 +321,6 @@ describe('getSymbols()', function () {
 
   it('It returns a list of symbols for a for... of loop.', function () {
     const text = 'for (const person of persons) {';
-    const regex = utils.regexes.symbols;
     const symbols = getSymbols(text);
 
     expect(symbols.length).to.equal(2);
@@ -350,7 +349,6 @@ describe('getSymbols()', function () {
 
   it('It returns a list of symbols for a declaration.', function () {
     const text = 'const person = persons[0];';
-    const regex = utils.regexes.symbols;
     const symbols = getSymbols(text);
 
     expect(symbols.length).to.equal(2);
@@ -537,39 +535,5 @@ describe('getParts()', function () {
       expect(parts.at(0)).to.equal('card');
       expect(parts.at(1)).to.equal('1');
     }
-  });
-});
-
-describe('regexes', function () {
-  const regexes = utils.regexes;
-
-  it('it matches identifiers.', function () {
-    const regex = regexes.identifier;
-
-    const values = [
-      `const elements = document.querySelectorAll('p') as HTMLElement[]`.match(regex),
-      `let a: string`.match(regex),
-      `a.b`.match(regex),
-      `\`\${a} and \${c}\``.match(regex),
-      `a(c)`.match(regex),
-      `a.b(c).d.e`.match(regex),
-      `a = c`.match(regex),
-      `[a, ...c]`.match(regex),
-      `{a, c}`.match(regex),
-      `if (a) {`.match(regex),
-      `if (table.nodeName.toUpperCase() !== 'TABLE') {`.match(regex),
-    ];
-
-    expect(values.shift()).to.deep.equal(['elements', 'document']);
-    expect(values.shift()).to.deep.equal(['a']);
-    expect(values.shift()).to.deep.equal(['a']);
-    expect(values.shift()).to.deep.equal(['a', 'c']);
-    expect(values.shift()).to.deep.equal(['c']); // To do: Regular expression needs refactoring.
-    expect(values.shift()).to.deep.equal(['a', 'c']);
-    expect(values.shift()).to.deep.equal(['a']); // To do: Regular expression needs refactoring.
-    expect(values.shift()).to.deep.equal(['a']); // To do: Regular expression needs refactoring.
-    expect(values.shift()).to.deep.equal(['a', 'c']);
-    expect(values.shift()).to.deep.equal(['a']);
-    expect(values.shift()).to.deep.equal(['table']);
   });
 });

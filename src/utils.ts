@@ -172,31 +172,6 @@ class Word extends String {
     }
 }
 
-interface Regexes {
-    [key: string]: RegExp;
-}
-
-// The following are regular expressions that can be used to find symbols in a line of code.
-const regexes: Regexes = {
-    // Matches `elements` and `document` in `const elements = document.querySelectorAll('p') as HTMLElement[]`.
-    // Matches `a` in `let a: string`.
-    // Matches `a` in `a.b`.
-    // Matches `a` and `c` in `\`${a} and ${c}\``.
-    // Matches `a` and `c` in `a(c)`.
-    // Matches `a` and `c` in `a.b(c)`.
-    // Matches `a` and `c` in `a = c`.
-    // Matches `a` and `c` in `[a, c]`.
-    // Matches `a` in `if (a) {`.
-    identifier: /(?<!\.([A-Za-z]+)?)(\w+)(?=\s*[.,;:=)}|&\]])/g,
-    // Matches `person` and `persons` in `const person = persons[0];`.
-    // Matches `person` and `persons` in `for (const person of persons) {`.
-    // Matches `persons`, `sort`, `person and `person` in `persons.sort((person1, person2));`.
-    // Matches `persons`, `forEach` and `person` in `persons.forEach(person => {`.
-    // Matches `persons`, `map`, `person` and `index` in `persons.map((person, index) => {`.
-    // Matches `persons`, `push` and `person` in `persons.push(person);`.
-    symbols: /[A-Za-z]\w*(?=\W)/gd,
-};
-
 /** A symbol is the name of a valid variable, token or identifier in JavaScript
  * or TypeScript code.
  * For example, `person` and `persons` are symbols in line of code `for (const
@@ -226,32 +201,28 @@ function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
     const plural = new Word(noun).toPlural().toUpperCase();
     // Let `relevantSymbols` be an initially empty list of symbols associated with `symbol`.
     const relevantSymbols: SymbolInformation[] = [];
+    // Let `symbols` be a list of symbols in `text`.
+    const symbols = getSymbols(text);
 
-    // For each regex `regex` in `regexes`.
-    for (const regex in regexes) {
-        // Let `symbols` be a list of symbols in `text`.
-        const symbols = getSymbols(text);
+    // For each symbol `symbol` in `symbols`.
+    for (const symbol of symbols) {
+        // Let `anotherNoun` be `symbol`'s noun.
+        const anotherNoun = symbol.noun.value.toUpperCase();
 
-        // For each symbol `symbol` in `symbols`.
-        for (const symbol of symbols) {
-            // Let `anotherNoun` be `symbol`'s noun.
-            const anotherNoun = symbol.noun.value.toUpperCase();
-
-            // Ignore `symbol` if `anotherNoun` has no correlation with `noun`.
-            if (anotherNoun !== singular && anotherNoun !== plural) {
-                continue;
-            }
-
-            const duplicate = relevantSymbols.find(relevantSymbol => relevantSymbol.start === symbol.start);
-
-            // Ignore `symbol` if `symbol` is already in `relevantSymbols`.
-            if (duplicate) {
-                continue;
-            }
-
-            // Otherwise add `symbol` to `relevantSymbols`.
-            relevantSymbols.push(symbol);
+        // Ignore `symbol` if `anotherNoun` has no correlation with `noun`.
+        if (anotherNoun !== singular && anotherNoun !== plural) {
+            continue;
         }
+
+        const duplicate = relevantSymbols.find(relevantSymbol => relevantSymbol.start === symbol.start);
+
+        // Ignore `symbol` if `symbol` is already in `relevantSymbols`.
+        if (duplicate) {
+            continue;
+        }
+
+        // Otherwise add `symbol` to `relevantSymbols`.
+        relevantSymbols.push(symbol);
     }
 
     // Return `symbols`.
@@ -259,15 +230,15 @@ function getRelevantSymbols(noun: string, text: string): SymbolInformation[] {
 }
 
 /**
- * Returns a list of symbols in `text` that `regex` matches.
- * @example getSymbols('for (const task of tasks) {', regex) returns [{value: 'task'}, {value: 'tasks'}]
+ * Returns a list of symbols in `text`.
+ * @example getSymbols('for (const task of tasks) {') returns [{value: 'task'}, {value: 'tasks'}]
  * @param text - A string of JavaScript or TypeScript code.
- * @returns A list of symbols in `text` that `regex` matches.
+ * @returns A list of symbols in `text`.
  */
 function getSymbols(text: string): SymbolInformation[] {
     // Let `symbols` be an initially empty list of symbols.
     const symbols: SymbolInformation[] = [];
-    // Let `matches` be a list of matches in `text` that `regex` matches.
+    // Let `matches` be a list of matches in `text`.
     const matches = new Tokenizer(text).getTokensByType('variable');
 
     // For each match `match` in `matches`.
@@ -368,6 +339,5 @@ export {
     getParts,
     getRelevantSymbols,
     getSymbols,
-    regexes,
     Word,
 };
