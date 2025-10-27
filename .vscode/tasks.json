@@ -15,7 +15,7 @@
 		},
 		{
 			"label": "unit-tests",
-			"command": "mocha --colors --enable-source-maps src/test/**/*.js ",
+			"command": "mocha --colors --enable-source-maps out/test/**/*.js ",
 			"isBackground": true,
 			"presentation": {
 				"reveal": "never"
