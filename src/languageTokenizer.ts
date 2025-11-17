@@ -42,6 +42,8 @@ interface Token extends IToken {
 
 // An instance of a tokenizer breaks a string of code into tokens. These tokens can then be retrieved to understand the structure of a line of code. For example, `const elements = {};` consists of several tokens including token `elements` of type `variable`.
 class Tokenizer {
+    public tokens: Token[];
+
     static #types: Map<string, Set<string>> = new Map([
         ['variable',
             new Set([
@@ -50,7 +52,7 @@ class Tokenizer {
                 'variable.other.readwrite.ts',
                 'variable.parameter.ts',
             ]),
-        ]
+        ],
     ]);
 
     // Let `string` be the string of code associated with this tokenizer.
@@ -65,9 +67,15 @@ class Tokenizer {
     constructor(string: string) {
         this.#result = grammar.tokenizeLine(string, textMate.INITIAL);
         this.#string = string;
+        this.tokens = [];
 
-        for (const token of this.#result.tokens) {
-            // console.log(`${string.slice(token.startIndex, token.endIndex)} `);
+        // For each relevant token `relevantToken` of `relevantTokens`.
+        for (const iToken of this.#result.tokens) {
+            const substring = `${this.#string.slice(iToken.startIndex, iToken.endIndex)}`;
+            // Store the string representation of `token`.
+            const token: Token = { substring, ...iToken };
+            // Add `token` to `tokens`.
+            this.tokens.push(token);
         }
     }
 
@@ -90,20 +98,13 @@ class Tokenizer {
             return tokens;
         }
 
-        const scopes = Tokenizer.#types.get(type) || new Set();
+        const scopes = Tokenizer.#types.get(type) as Set<string>;
         // Let `relevantTokens` be tokens from this tokenizer list of tokens that are of type `type`.
-        const relevantTokens = this.#result.tokens.filter(token =>
+        const relevantTokens = new Set(this.tokens.filter(token =>
             new Set(token.scopes).intersection(scopes).size > 0
-        );
+        ));
 
-        // For each relevant token `relevantToken` of `relevantTokens`.
-        for (const relevantToken of relevantTokens) {
-            const substring = `${this.#string.slice(relevantToken.startIndex, relevantToken.endIndex)}`;
-            // Store the string representation of `token`.
-            const token: Token = { substring, ...relevantToken };
-            // Add `token` to `tokens`.
-            tokens.push(token);
-        }
+        tokens.push(...relevantTokens);
 
         // Return `tokens`.
         return tokens;
