@@ -36,7 +36,7 @@ const functions = [
         const currentLine = file.lineAt(position.line).text.trim();
         const tokenizer = new Tokenizer(currentLine);
         const token2 = tokenizer.tokens.at(-2);
-        const token1 = tokenizer.tokens.at(-3);
+        const token1 = tokenizer.getTokensByType('variable').at(-1);
 
         // If the current line of code ends with a dot (.) and is immediately preceded by a word in plural.
         if ((token2 && token2.substring === '.') &&

@@ -7,9 +7,9 @@ To see this in action type a word in plural followed by a dot (.) Intellisense w
 For example:
 
 // Developer types:
-`const elements = items.m`
+`const elements = items.m` or `Object.keys(items).m`
 // Intellisense suggests the following code completion.
-`items.map((item, index) => {
+`.map((item, index) => {
     // Let `item` be the current item.
     // Let `index` be the numeric position of `item`.
     item;
