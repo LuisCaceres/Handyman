@@ -4,7 +4,7 @@ import * as fs from "fs/promises";
 import { default as oniguruma } from "vscode-oniguruma";
 import { IToken, ITokenizeLineResult, default as textMate } from "vscode-textmate";
 
-const rootFolder = 'C:/Users/chemi/Documents/Repositories/Handyman/';
+const rootFolder = 'C:/Users/lcastillo/Repositories/Handyman/';
 const path1 = `${rootFolder}node_modules/vscode-oniguruma/release/onig.wasm`;
 const path2 = `${rootFolder}src/text-mate-grammars/TypeScript.tmLanguage`;
 
