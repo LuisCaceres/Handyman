@@ -40,17 +40,17 @@ const functions = [
      * @returns A list of code completions
      */
     async function (file: vscode.TextDocument, position: vscode.Position): Promise<vscode.CompletionItem[]> {
+        const defaultVariableName = 'elements';
         const currentLine = file.lineAt(position.line).text.trim();
         const tokenizer = new Tokenizer(currentLine);
         const token2 = tokenizer.tokens.at(-2);
-        const token1 = tokenizer.getTokensByType('variable').at(-1);
 
-        // If the current line of code ends with a dot (.) and is immediately preceded by a word in plural.
-        if ((token2 && token2.substring === '.') &&
-            (token1 && new Word(token1.substring).isSingular() === false)) {
+        // If the current line of code ends with a dot (.).
+        if (token2 && token2.substring === '.') {
+            const token1 = tokenizer.getTokensByType('variable').at(-1);
             const { getCompletionItems } = await import('./completionItemProviderFunctions/arrayMethods.js');
 
-            return getCompletionItems(token1.substring);
+            return getCompletionItems(token1?.substring || defaultVariableName);
         }
 
         return [];
