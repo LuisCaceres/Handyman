@@ -14,10 +14,17 @@ const functions = [
      * @returns A list of code completions
      */
     async function (file: vscode.TextDocument, position: vscode.Position): Promise<vscode.CompletionItem[]> {
-        const currentLine = file.lineAt(position.line).text.trim();
+        const lineNumber = position.line;
+        const currentLine = file.lineAt(lineNumber).text.trim();
 
-        if (currentLine.startsWith('log')) {
-            const previousLine = file.lineAt(position.line - 1).text.trim();
+        if (currentLine.startsWith('log') && lineNumber > 0) {
+            let index = lineNumber - 1;
+            let previousLine = file.lineAt(index).text.trim();
+
+            while (previousLine === '') {
+                previousLine = file.lineAt(--index).text.trim();
+            }
+
             const { getCompletionItems } = await import('./completionItemProviderFunctions/consoleLog.js');
 
             return getCompletionItems(previousLine);
