@@ -21,7 +21,8 @@ const functions = [
             let index = lineNumber - 1;
             let previousLine = file.lineAt(index).text.trim();
 
-            while (previousLine === '') {
+            // Let `previousLine` be the closest line above `currentLine` that has executable code.
+            while (previousLine === '' || previousLine.startsWith('//')) {
                 previousLine = file.lineAt(--index).text.trim();
             }
 
