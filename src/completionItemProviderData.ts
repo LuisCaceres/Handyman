@@ -44,11 +44,13 @@ const functions = [
         const defaultVariableName = 'elements';
         const currentLine = file.lineAt(position.line).text.trim();
         const tokenizer = new Tokenizer(currentLine);
-        const token2 = tokenizer.tokens.at(-2);
+        const token2 = tokenizer.tokens.at(-1);
 
         // If the current line of code ends with a dot (.).
         if (token2 && token2.substring === '.') {
-            const token1 = tokenizer.getTokensByType('variable').at(-1);
+            const token1 = tokenizer.tokens.findLast((token, index, tokens) =>
+                tokens.at(index + 1)?.scopes.includes('punctuation.accessor.ts')
+            );
             const { getCompletionItems } = await import('./completionItemProviderFunctions/arrayMethods.js');
 
             return getCompletionItems(token1?.substring || defaultVariableName);
