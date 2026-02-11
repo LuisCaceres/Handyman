@@ -9,12 +9,15 @@ For example:
 // Developer types:
 `const elements = items.m` or `Object.keys(items).m`
 // Intellisense suggests the following code completion.
+`.map(item => item);`
+
+// or
+
 `.map((item, index) => {
     // Let `item` be the current item.
     // Let `index` be the numeric position of `item`.
     item;
-});
-
+});`
 */
 
 import { Word } from "../utils.js";
@@ -43,9 +46,22 @@ function getCompletionItems(plural: string): CompletionItem[] {
     const completionItems: CompletionItem[] = [];
 
     const singular = new Word(plural).toSingular();
+    let completionItem: CompletionItem;
 
     for (const method of methods) {
-        const completionItem: CompletionItem = {
+        // Short form such as `items.forEach(item => item)`.
+        completionItem = {
+            insertText: `${method}(${singular} => ${singular});
+            `,
+            kind: 14,
+            label: `${method}(${singular} => ${singular})`,
+            sortText: '1',
+        };
+
+        completionItems.push(completionItem);
+
+        // With parameter index such as `items.forEach((item, index) => {item})`
+        completionItem = {
             insertText: `${method}((${singular}, index) => {
                 // Let \`${singular}\` be the current ${singular}.
                 // Let \`index\` be the numeric position of \`${singular}\`.
@@ -53,8 +69,8 @@ function getCompletionItems(plural: string): CompletionItem[] {
             });
             `,
             kind: 14,
-            label: `${method}(${singular} => {})`,
-            sortText: '1',
+            label: `${method} with parameter index`,
+            sortText: '2',
         };
 
         completionItems.push(completionItem);
