@@ -48,6 +48,7 @@ class Tokenizer {
         ['variable',
             new Set([
                 'meta.definition.variable.ts',
+                'support.variable.dom.ts',
                 'variable.other.object.ts',
                 'variable.other.readwrite.ts',
                 'variable.parameter.ts',
@@ -112,5 +113,6 @@ class Tokenizer {
 }
 
 export {
+    Token,
     Tokenizer,
 };
