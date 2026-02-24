@@ -45,6 +45,12 @@ class Tokenizer {
     public tokens: Token[];
 
     static #types: Map<string, Set<string>> = new Map([
+        ['string literal',
+            new Set([
+                'string.quoted.double.ts',
+                'string.quoted.single.ts',
+            ]),
+        ],
         ['variable',
             new Set([
                 'meta.definition.variable.ts',

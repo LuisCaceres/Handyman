@@ -22,10 +22,10 @@ async function provideDocumentFormattingEdits(file: vscode.TextDocument, options
     const cursor = vscode.window.activeTextEditor?.selection.active as vscode.Position;
     // Let `code` be the line of code on which the cursor is located.
     const code = file.lineAt(cursor.line).text;
+    const tokenizer = new Tokenizer(code);
+    const tokens = tokenizer.tokens;
 
     if (code.includes('.querySelectorAll(')) {
-        const tokenizer = new Tokenizer(code);
-        const tokens = tokenizer.tokens;
         // Let `method` be the token representing the `querySelectorAll` method.
         const method = tokens
             .find(token => token.substring === 'querySelectorAll') as Token;
@@ -53,6 +53,27 @@ async function provideDocumentFormattingEdits(file: vscode.TextDocument, options
             edits.push(edit);
         }
 
+    }
+
+    // If `code` has string literals (not to be confused with string templates.)
+    if (tokenizer.getTokensByType('string literal').length) {
+        // Let `strings` be the a list of string literals in `code`.
+        const strings = tokenizer.getTokensByType('string literal')
+            .filter(string => !['\'', '"'].includes(string.substring));
+
+        // For each string `string` in `strings`.
+        for (const string of strings) {
+            // Escape each backtick character (`) in `string`.
+            // Replace the quotation marks (single or double) on either side of `string` with a backtick character (`).
+            const start = string.startIndex - 1;
+            const end = string.endIndex + 1;
+            const position1 = new vscode.Position(cursor.line, start);
+            const position2 = new vscode.Position(cursor.line, end);
+            const currentCode = new vscode.Range(position1, position2);
+            const newCode = `\`${string.substring.replaceAll('`', '\\`')}\``;
+            const edit = new vscode.TextEdit(currentCode, newCode);
+            edits.push(edit);
+        }
     }
 
     return edits;
