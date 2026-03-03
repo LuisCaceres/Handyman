@@ -3,6 +3,7 @@
 // The module 'vscode' contains the VS Code extensibility API.
 import * as vscode from "vscode";
 import { Token, Tokenizer } from "./languageTokenizer.js";
+import { Word } from "./utils.js";
 
 // Supported language types.
 const languages = ["javascript", "typescript", "vue"];
@@ -74,6 +75,27 @@ async function provideDocumentFormattingEdits(file: vscode.TextDocument, options
             const edit = new vscode.TextEdit(currentCode, newCode);
             edits.push(edit);
         }
+    }
+
+    // If `code` starts with the string `forof`, it means the developer wants a for... of loop.
+    if (code.trim().startsWith('forof')) {
+        // Let `collection` be the name of the array, map, set or collection.
+        const collection = code.split(/\s+/).find(word => word !== 'forof');
+        // Let `singular` be `collection` transformed to a word in singular.
+        const singular = new Word(collection || '').toSingular();
+
+        const start = 0;
+        const end = code.length;
+        const position1 = new vscode.Position(cursor.line, start);
+        const position2 = new vscode.Position(cursor.line, end);
+        const currentCode = new vscode.Range(position1, position2);
+        // Let `newCode` be a for... of loop that iterates over `collection`.
+        const newCode = `for (const ${singular} of ${collection}) {
+            ${singular};
+        }`;
+        // Replace `code` with `newCode`.
+        const edit = new vscode.TextEdit(currentCode, newCode);
+        edits.push(edit);
     }
 
     return edits;
