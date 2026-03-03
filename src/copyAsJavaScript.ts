@@ -1,4 +1,4 @@
-/* I quite frequently paste JavaScript code into the console of an Internet browser. The code is originally written as TypeScript which is then compiled to JavaScript. More often than not, I mix up a TypeScript file with its JavaScript equivalent. Sometimes I inadvertently edit a JavaScript file when in fact I should be editing the TypeScript one. 
+/* I quite frequently paste JavaScript code into the console of an Internet browser. The code is originally written as TypeScript which is then compiled to JavaScript. More often than not, I mix up a TypeScript file with its JavaScript equivalent. Sometimes I inadvertently edit a JavaScript file when in fact I should be editing the TypeScript one.
 
 The following piece of code copies the content of a TypeScript file and adds it to the clipboard as JavaScript code which I can then paste into the console of an Internet browser. */
 
@@ -28,11 +28,23 @@ async function commandHandler(): Promise<void> {
         rootDirectory: /(?<="rootDir"\s*:\s*").+?(?=")/,
     };
 
-    // Let `typeScriptFile` be the currently active TypeScript file.
-    const typeScriptFile = vscode.window.activeTextEditor?.document.uri;
+    const activeTextEditor = vscode.window.activeTextEditor as vscode.TextEditor;
+    const selection = activeTextEditor?.selection;
+    const document = activeTextEditor?.document;
 
-    if (!typeScriptFile) {
-        return;
+    // Let `selectedText` be the text currently selected (if any).
+    const selectedText = activeTextEditor.document.getText(selection);
+
+    let typeScriptFile: vscode.Uri;
+
+    // If there's text currently selected on the currently active file.
+    if (selectedText.length) {
+        // Let `typeScriptFile` be a "hidden" TypeScript file whose contents will be the currently selected text. Only the currently selected text will be transformed to JavaScript code.
+        typeScriptFile = (await vscode.workspace.findFiles('src/zzzzz.ts'))[0];
+        await vscode.workspace.fs.writeFile(typeScriptFile, Buffer.from(selectedText));
+    } else {
+        // Otherwise let `typeScriptFile` be the currently active TypeScript file. The entire contents of this file will be transformed to JavaScript code.
+        typeScriptFile = document.uri;
     }
 
     // Let `tsconfig` be the the file that has configuration options to compile files to TypeScript.
