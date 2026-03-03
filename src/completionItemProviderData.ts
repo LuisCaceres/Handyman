@@ -3,7 +3,6 @@
 // The module 'vscode' contains the VS Code extensibility API.
 import * as vscode from 'vscode';
 import { Tokenizer } from "./languageTokenizer.js";
-import { Word } from './utils.js';
 
 const functions = [
 
@@ -41,22 +40,38 @@ const functions = [
      * @returns A list of code completions
      */
     async function (file: vscode.TextDocument, position: vscode.Position): Promise<vscode.CompletionItem[]> {
-        const defaultVariableName = 'elements';
+        // Let `currentLine` be the line on which the cursor is located.
         const currentLine = file.lineAt(position.line).text.trim();
-        const tokenizer = new Tokenizer(currentLine);
-        const token2 = tokenizer.tokens.at(-1);
 
-        // If the current line of code ends with a dot (.).
-        if (token2 && token2.substring === '.') {
-            const token1 = tokenizer.tokens.findLast((token, index, tokens) =>
-                tokens.at(index + 1)?.scopes.includes('punctuation.accessor.ts')
-            );
-            const { getCompletionItems } = await import('./completionItemProviderFunctions/arrayMethods.js');
-
-            return getCompletionItems(token1?.substring || defaultVariableName);
+        if (!currentLine.endsWith('.')) {
+            return [];
         }
 
-        return [];
+        // If `currentLine` ends with a dot (.)
+        let line = file.lineAt(position.line);
+        let index = position.line;
+        // Let `lines` be an initially empty list of lines in `file`.
+        const lines = [line];
+
+        // For each line `line` that precedes `currentLine`.
+        while (line.text.trim().startsWith('.') || index > 0) {
+            // Let `line` be the current line.
+            // Add `line` to `lines` if `line` starts with a dot (.), otherwise stop iteration.
+            lines.push(line);
+            line = file.lineAt(index);
+            index--;
+        }
+
+        const range = lines[0].range.union(lines.at(-1)?.range as vscode.Range);
+        const tokenizer = new Tokenizer(file.getText(range));
+        const defaultVariableName = 'elements';
+
+        // Let `variable` be the closest variable name to the dot (.) at the end of `currentLine`.
+        const variable = tokenizer.getTokensByType('variable').at(-1);
+
+        const { getCompletionItems } = await import('./completionItemProviderFunctions/arrayMethods.js');
+
+        return getCompletionItems(variable?.substring || defaultVariableName);
     },
 ];
 
