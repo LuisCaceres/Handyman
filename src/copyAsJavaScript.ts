@@ -1,101 +1,40 @@
 /* I quite frequently paste JavaScript code into the console of an Internet browser. The code is originally written as TypeScript which is then compiled to JavaScript. More often than not, I mix up a TypeScript file with its JavaScript equivalent. Sometimes I inadvertently edit a JavaScript file when in fact I should be editing the TypeScript one.
 
-The following piece of code copies the content of a TypeScript file and adds it to the clipboard as JavaScript code which I can then paste into the console of an Internet browser. */
+The following piece of code copies the contents of a TypeScript file and adds it to a hidden TypeScript file part in this extension repository. Then TypeScript compiles the file into JavaScript code. Then the JavaScript code is copied to the clipboard which I can then paste into the console of an Internet browser. */
 
 import * as vscode from "vscode";
+import * as fs from "fs/promises";
 
 // Let `identifier` be the name of this command.
 const identifier = 'myExtension.copyAsJavaScript';
 const command = vscode.commands.registerCommand(identifier, commandHandler);
 
-let tsconfig: string;
-
-// Let `outDirectory` be the name of the folder that contains JavaScript files compiled from TypeScript.
-let outDirectory = '';
-// Let `rootDirectory` be the name of the folder that contains TypeScript files to compile to JavaScript.
-let rootDirectory = '';
-
 // Let `commandHandler` be the function handler for this command.
 async function commandHandler(): Promise<void> {
-    interface Regexes {
-        [key: string]: RegExp
-    }
-
-    const regexes: Regexes = {
-        // For example, it matches `dist` in `"outDir": "dist"`.
-        outDirectory: /(?<="outDir"\s*:\s*").+?(?=")/,
-        // For example, it matches `dist` in `"rootDir": "src"`.
-        rootDirectory: /(?<="rootDir"\s*:\s*").+?(?=")/,
+    const activeTextEditor = vscode.window.activeTextEditor as vscode.TextEditor;
+    // Let `file` be the currently active file.
+    const file = activeTextEditor?.document;
+    // Let `selection` be the currently selected code, if any.
+    const selection = activeTextEditor?.selection;
+    // Let `path` be the path to `hiddenFile`.
+    const path = {
+        start: 'C:/Users/chemi/Documents/Repositories/Handyman/',
+        end: '/toBeUsedByCopyAsJavaScript'
     };
 
-    const activeTextEditor = vscode.window.activeTextEditor as vscode.TextEditor;
-    const selection = activeTextEditor?.selection;
-    const document = activeTextEditor?.document;
-
-    // Let `selectedText` be the text currently selected (if any).
-    const selectedText = activeTextEditor.document.getText(selection);
-
-    let typeScriptFile: vscode.Uri;
-
-    // If there's text currently selected on the currently active file.
-    if (selectedText.length) {
-        // Let `typeScriptFile` be a "hidden" TypeScript file whose contents will be the currently selected text. Only the currently selected text will be transformed to JavaScript code.
-        typeScriptFile = (await vscode.workspace.findFiles('src/zzzzz.ts'))[0];
-        await vscode.workspace.fs.writeFile(typeScriptFile, Buffer.from(selectedText));
-    } else {
-        // Otherwise let `typeScriptFile` be the currently active TypeScript file. The entire contents of this file will be transformed to JavaScript code.
-        typeScriptFile = document.uri;
-    }
-
-    // Let `tsconfig` be the the file that has configuration options to compile files to TypeScript.
-    tsconfig = tsconfig || await getFile('tsconfig.json');
-
-    if (!tsconfig) {
-        return;
-    }
-
-    // Let `outDirectory` be the folder into which files will be compiled to TypeScript.
-    outDirectory = tsconfig.match(regexes.outDirectory)?.[0] || outDirectory;
-
-    if (!outDirectory) {
-        return;
-    }
-
-    // Let `rootDirectory` be the name of the folder that contains TypeScript files to compile to JavaScript.
-    rootDirectory = tsconfig.match(regexes.rootDirectory)?.[0] || rootDirectory;
-
-    if (!rootDirectory) {
-        return;
-    }
-
-    // For example, it matches `tree` in `repository/src/tree.ts` when `rootDirectory` is `src`.
-    // For example, it matches `scripts/script` in `foo/bar/scripts/script.ts`  when `rootDirectory` is `bar`.
-    regexes.fileName = new RegExp(`(?<=${rootDirectory}\\/).+(?=\\.\\w+$)`);
-
-    // Let `relevantPath` be the file path of `typeScriptFile` immediately after `rootDirectory` and without the extension.
-    const relevantPath = typeScriptFile.path.match(regexes.fileName)?.[0];
-    // Let `filePath` be the path of `javaScriptFile`.
-    const filePath = `${outDirectory}/${relevantPath}.js`;
+    // Let `code` the currenty selected code in `file`, otherwise, let it be the entire contents of `file`.
+    const code = selection.isEmpty ? file.getText() : file.getText(selection);
+    // Erase the contents of `hiddenFile`.
+    // Add `code` to `hiddenFile`.
+    await fs.writeFile(`${path.start}src${path.end}.ts`, code);
+    // Give TypeScript enough time to compile to JavaScript code.
+    await new Promise(resolve => setTimeout(resolve, 1000));
     // Let `javaScriptFile` be `typeScriptFile` compiled to a JavaScript file.
-    const javaScriptFile = await getFile(filePath);
+    const javaScriptFile = await fs.readFile(`${path.start}out${path.end}.js`);
     // Copy the contents of `javaScriptFile` to the clipboard.
-    await vscode.env.clipboard.writeText(javaScriptFile);
+    await vscode.env.clipboard.writeText(javaScriptFile.toString());
     // Let the developer know that the contents have been successfully copied.
     vscode.window.showInformationMessage('TypeScript copied as JavaScript code!');
-}
-
-/**
- * Returns the contents of the file in the location indicated by `filePath`.
- * @param filePath - A file path.
- * @returns - The contents of the file.
- */
-async function getFile(filePath: string): Promise<string> {
-    const workspace = vscode.workspace;
-    const uri = (await workspace.findFiles(filePath))[0];
-    const buffer = await workspace.fs.readFile(uri);
-    const file = Buffer.from(buffer).toString('utf8');
-
-    return file;
 }
 
 export { command };
