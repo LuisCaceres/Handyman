@@ -80,7 +80,7 @@ async function provideDocumentFormattingEdits(file: vscode.TextDocument, options
     // If `code` starts with the string `forof`, it means the developer wants a for... of loop.
     if (code.trim().startsWith('forof')) {
         // Let `collection` be the name of the array, map, set or collection.
-        const collection = code.split(/\s+/).find(word => word !== 'forof');
+        const collection = code.trim().split(/\s+/).find(word => word !== 'forof');
         // Let `singular` be `collection` transformed to a word in singular.
         const singular = new Word(collection || '').toSingular();
 
