@@ -43,11 +43,12 @@ const functions = [
         // Let `currentLine` be the line on which the cursor is located.
         const currentLine = file.lineAt(position.line).text.trim();
 
+        // Abort if `currentLine`'s last character isn't a dot (.). This means the next token can't be an array method. For example, ` const currentLine = file` where this line of code ends with character `e`.
         if (!currentLine.endsWith('.')) {
             return [];
         }
 
-        // If `currentLine` ends with a dot (.)
+        // If `currentLine` does end with a dot (.).
         let line = file.lineAt(position.line);
         let index = position.line;
         // Let `lines` be an initially empty list of lines in `file`.
@@ -56,22 +57,40 @@ const functions = [
         // For each line `line` that precedes `currentLine`.
         while (line.text.trim().startsWith('.') || index > 0) {
             // Let `line` be the current line.
-            // Add `line` to `lines` if `line` starts with a dot (.), otherwise stop iteration.
+            /* Add `line` to `lines` if `line` starts with a dot (.), otherwise stop iteration. This is to detect method chaining. For example:
+
+            `items.map(item => item)
+                .filter(item => item);`
+
+            */
             lines.push(line);
             line = file.lineAt(index);
             index--;
         }
 
         const range = lines[0].range.union(lines.at(-1)?.range as vscode.Range);
-        const tokenizer = new Tokenizer(file.getText(range));
+        // Let `tokens` be a list of all the tokens found in `lines`.
+        const tokens = new Tokenizer(file.getText(range));
         const defaultVariableName = 'elements';
 
-        // Let `variable` be the closest variable name to the dot (.) at the end of `currentLine`.
-        const variable = tokenizer.getTokensByType('variable').at(-1);
+        // Let `variables` be a list of variable tokens found in `tokens`.
+        const variables = tokens.getTokensByType('variable')
+            .map(variable => variable.substring);
+
+        if (!variables.length) {
+            variables.push(defaultVariableName);
+        }
+
+        const completionItems: vscode.CompletionItem[] = [];
 
         const { getCompletionItems } = await import('./completionItemProviderFunctions/arrayMethods.js');
 
-        return getCompletionItems(variable?.substring || defaultVariableName);
+        // Generate completion items for each variable in `variables`.
+        for (const variable of variables) {
+            completionItems.push(...getCompletionItems(variable));
+        }
+
+        return completionItems;
     },
 ];
 
