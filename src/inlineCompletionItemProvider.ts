@@ -17,15 +17,14 @@ const languages = ["javascript", "typescript", "vue"];
 function provideInlineCompletionItems(file: vscode.TextDocument, position: vscode.Position, context: vscode.InlineCompletionContext): vscode.InlineCompletionItem[] {
     // Let `completionItems` be an initially empty list of completion items.
     const completionItems = [];
-    const currentLine = file.lineAt(position.line);
-    const nextLine = file.lineAt(position.line + 1);
-    // Let `currentText` be the text of the line on which the caret is located.
-    const currentText = currentLine.text.trim();
-    // Let `currentText` be the text of the line on which the caret is located.
-    const nextText = nextLine.text.trim();
+    // Let `line` be the line on which the caret is currently located.
+    const line = file.lineAt(position.line).text.trim();
 
-    if (currentText.endsWith('//')) {
-        const variable = nextText.match(/(?<=(const|let)\s)\w+/)?.[0] || '';
+    if (line.endsWith('//')) {
+        // Let `nextLine` be the line immediately after `line`.
+        const nextLine = file.lineAt(position.line + 1).text.trim();
+        //  Let `variable` be the name of a vriable.
+        const variable = nextLine.match(/(?<=(const|let)\s)\w+/)?.[0] || '';
         // Let `completionItem` be a new completion item.
         const completionItem = {
             insertText: ` Let \`${variable}\` be `,
