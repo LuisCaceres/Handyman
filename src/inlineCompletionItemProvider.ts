@@ -2,7 +2,7 @@
 
 // The module 'vscode' contains the VS Code extensibility API.
 import * as vscode from "vscode";
-// Let `dataSets` be a list of data sets each of which containing information about code snippets.
+import { Word } from "./utils.js";
 import { getRelevantCodeSnippets } from "./codeActionsProviderData.js";
 
 // Supported language types.
@@ -23,11 +23,14 @@ function provideInlineCompletionItems(file: vscode.TextDocument, position: vscod
     if (line.endsWith('//')) {
         // Let `nextLine` be the line immediately after `line`.
         const nextLine = file.lineAt(position.line + 1).text.trim();
-        //  Let `variable` be the name of a vriable.
+        //  Let `variable` be the name of a variable.
         const variable = nextLine.match(/(?<=(const|let)\s)\w+/)?.[0] || '';
+        const insertText = new Word(variable).isSingular() ?
+            ` Let \`${variable}\` be ` : ` Let \`${variable}\` be a list of `;
+
         // Let `completionItem` be a new completion item.
         const completionItem = {
-            insertText: ` Let \`${variable}\` be `,
+            insertText,
         };
 
         // Add `completionItem` to `completionItems`.
