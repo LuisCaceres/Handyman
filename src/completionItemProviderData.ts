@@ -41,7 +41,7 @@ const functions = [
      */
     async function (file: vscode.TextDocument, position: vscode.Position): Promise<vscode.CompletionItem[]> {
         // Let `currentLine` be the line on which the cursor is located.
-        const currentLine = file.lineAt(position.line).text.trim();
+        const currentLine = file.lineAt(position.line).text.slice(0, position.character).trim();
 
         // Abort if `currentLine`'s last character isn't a dot (.). This means the next token can't be an array method. For example, ` const currentLine = file` where this line of code ends with character `e`.
         if (!currentLine.endsWith('.')) {
