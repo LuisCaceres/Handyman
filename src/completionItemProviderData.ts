@@ -3,6 +3,7 @@
 // The module 'vscode' contains the VS Code extensibility API.
 import * as vscode from 'vscode';
 import { Tokenizer } from "./languageTokenizer.js";
+import { getLines } from "./vscodeUtils.js";
 
 const functions = [
 
@@ -13,24 +14,33 @@ const functions = [
      * @returns A list of code completions
      */
     async function (file: vscode.TextDocument, position: vscode.Position): Promise<vscode.CompletionItem[]> {
+        const completionItems = [];
+
         const lineNumber = position.line;
         const currentLine = file.lineAt(lineNumber).text.trim();
 
         if (currentLine.startsWith('log') && lineNumber > 0) {
-            let index = lineNumber - 1;
-            let previousLine = file.lineAt(index).text.trim();
+            // Let `previousLine` be the closest line above `currentLine` that is not a comment or an empty line.
+            let previousLine = '';
 
-            // Let `previousLine` be the closest line above `currentLine` that has executable code.
-            while (previousLine === '' || previousLine.startsWith('//')) {
-                previousLine = file.lineAt(--index).text.trim();
+            for (const line of getLines(file, lineNumber)) {
+                const text = line.text.trim();
+
+                if (text !== '' && !text.startsWith('//')) {
+                    previousLine = text;
+                    break;
+                }
             }
 
-            const { getCompletionItems } = await import('./completionItemProviderFunctions/consoleLog.js');
+            if (previousLine) {
+                const { getCompletionItems } = await import('./completionItemProviderFunctions/consoleLog.js');
 
-            return getCompletionItems(previousLine);
+                completionItems.push(...getCompletionItems(previousLine));
+            }
+
         }
 
-        return [];
+        return completionItems;
     },
 
     /**
