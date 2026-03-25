@@ -15,27 +15,41 @@ const functions = [
      */
     async function (file: vscode.TextDocument, position: vscode.Position): Promise<vscode.CompletionItem[]> {
         const completionItems = [];
-
         const lineNumber = position.line;
-        const currentLine = file.lineAt(lineNumber).text.trim();
+        const currentLine = file.lineAt(lineNumber).text;
 
-        if (currentLine.startsWith('log') && lineNumber > 0) {
-            // Let `previousLine` be the closest line above `currentLine` that is not a comment or an empty line.
-            let previousLine = '';
+        if (currentLine.trim().startsWith('log') && lineNumber > 0) {
+            // Let `indentation1` be the number of white space characters between the beginning of `currentLine` and the first non-white-space character.
+            const indentation1 = currentLine.match(/^\s+/)?.[0].length || 0;
+            // Let `lines` be an initially empty list of lines.
+            const lines: string[] = [];
 
-            for (const line of getLines(file, lineNumber)) {
-                const text = line.text.trim();
+            // Get the 5 closest preceding lines to `currentLine` and add them to `lines`.
+            // For each preceding line `line` to `currentLine`.
+            for (const { text } of getLines(file, lineNumber)) {
+                // Let `line` be the current line.
+                const line = text;
+                const indentation2 = line.match(/^\s+/)?.[0].length || 0;
 
-                if (text !== '' && !text.startsWith('//')) {
-                    previousLine = text;
+                if (lines.length > 5) {
                     break;
+                }
+
+                // Skip `line` if it only consists of white space, is a comment or its level of indentation is greater than `indentation1`
+                if (line.trim() !== '' &&
+                    line.trim().startsWith('//') === false &&
+                    indentation1 >= indentation2) {
+                    lines.push(line);
+                    continue;
                 }
             }
 
-            if (previousLine) {
+            // For each line `line` in `lines`.
+            for (const line of lines) {
+                // Generate completion items.
                 const { getCompletionItems } = await import('./completionItemProviderFunctions/consoleLog.js');
 
-                completionItems.push(...getCompletionItems(previousLine));
+                completionItems.push(...getCompletionItems(line));
             }
 
         }
