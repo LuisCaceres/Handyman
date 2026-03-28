@@ -38,6 +38,7 @@ const functions = [
                 // Skip `line` if it only consists of white space, is a comment or its level of indentation is greater than `indentation1`
                 if (line.trim() !== '' &&
                     line.trim().startsWith('//') === false &&
+                    // Note: If `line` has a greater indentation level than `currentLine`, it very likely means the variables in `line` are out of scope from the location of `currentLine`. For that reason, it doesn't make sense to generate code completions for them.
                     indentation1 >= indentation2) {
                     lines.push(line);
                     continue;
