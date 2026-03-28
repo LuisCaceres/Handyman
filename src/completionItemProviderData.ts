@@ -44,14 +44,10 @@ const functions = [
                 }
             }
 
-            // For each line `line` in `lines`.
-            for (const line of lines) {
-                // Generate completion items.
-                const { getCompletionItems } = await import('./completionItemProviderFunctions/consoleLog.js');
+            // Generate completion items.
+            const { getCompletionItems } = await import('./completionItemProviderFunctions/consoleLog.js');
 
-                completionItems.push(...getCompletionItems(line));
-            }
-
+            completionItems.push(...getCompletionItems(lines));
         }
 
         return completionItems;

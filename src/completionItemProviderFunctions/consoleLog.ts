@@ -3,20 +3,21 @@
 To see this in action type the word `log` at the very beginning of a line and get Intellisense to display. Please note that you may have to hide Intellisense and display it again for the suggestions to appear on the screen.
 */
 
+import { CompletionItem } from "vscode";
 import { Tokenizer } from "./../languageTokenizer.js";
 
-interface CompletionItem {
-    insertText: string,
-    kind: number,
-    label: string,
-    sortText: string,
-}
+function getCompletionItems(lines: string[]): CompletionItem[] {
+    // Let `variables` be an initially empty list variable names found in `lines`.
+    const variables: Set<string> = new Set();
 
-function getCompletionItems(string: string): CompletionItem[] {
-    const tokenizer = new Tokenizer(string);
-    // Let `variables` be variable names found in `string`.
-    const variables = new Set(tokenizer.getTokensByType('variable')
-        .map(token => token.substring));
+    // For each line `line` in `lines`.
+    for (const line of lines) {
+        const tokenizer = new Tokenizer(line);
+        
+        for (const token of tokenizer.getTokensByType('variable')) {
+            variables.add(token.substring);
+        }
+    }
 
     const completionItems: CompletionItem[] = [];
 
