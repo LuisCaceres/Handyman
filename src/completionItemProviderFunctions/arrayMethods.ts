@@ -51,8 +51,7 @@ function getCompletionItems(plural: string): CompletionItem[] {
     for (const method of methods) {
         // Short form such as `items.forEach(item => item)`.
         completionItem = {
-            insertText: `${method}(${singular} => ${singular});
-            `,
+            insertText: `${method}(${singular} => ${singular});`,
             kind: 14,
             label: `${method}(${singular} => ${singular})`,
             sortText: '1',
