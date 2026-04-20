@@ -20,14 +20,8 @@ For example:
 });`
 */
 
+import { CompletionItem, SnippetString } from "vscode";
 import { Word } from "../utils.js";
-
-interface CompletionItem {
-    insertText: string,
-    kind: number,
-    label: string,
-    sortText: string,
-}
 
 const methods = [
     'every',
@@ -51,7 +45,9 @@ function getCompletionItems(variable: string): CompletionItem[] {
     for (const method of methods) {
         // Short form such as `items.forEach(item => item)`.
         completionItem = {
-            insertText: `${method}(${singular} => ${singular});`,
+            insertText: new SnippetString(
+                `${method}(${singular} => $1${singular}$2);`
+            ),
             kind: 14,
             label: `${method}(${singular} => ${singular})`,
             sortText: '1',
