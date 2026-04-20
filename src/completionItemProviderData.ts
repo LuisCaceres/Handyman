@@ -4,6 +4,7 @@
 import * as vscode from 'vscode';
 import { Tokenizer } from "./languageTokenizer.js";
 import { getLines } from "./vscodeUtils.js";
+import { getParts } from "./utils.js";
 
 const functions = [
 
@@ -84,7 +85,6 @@ const functions = [
                 .filter(item => item);`
 
             */
-
             if (line.text.trim().startsWith('.')) {
                 lines.push(line);
                 continue;
@@ -99,9 +99,15 @@ const functions = [
         const tokens = new Tokenizer(file.getText(range));
         const defaultVariableName = 'elements';
 
-        // Let `variables` be a list of variable tokens found in `tokens`.
+        // Let `variables` be a list of variable tokens found in `tokens`. For example 'specialElement`.
         const variables = new Set(tokens.getTokensByType('variable')
-            .map(variable => variable.substring));
+            .map(variable => variable.substring)
+            // Add also variables consisting of only a noun. For example, as well as `specialElement` include `element`.
+            .map(identifier => {
+                const noun = getParts(identifier).at(-1) as string;
+                return [identifier, noun.toLowerCase()];
+            })
+            .flat());
 
         if (!variables.size) {
             variables.add(defaultVariableName);
