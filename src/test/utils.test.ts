@@ -186,6 +186,7 @@ describe('Word', function () {
         new Word('legs').toSingular(),
         new Word('pies').toSingular(),
         new Word('services').toSingular(),
+        new Word('lives').toSingular(),
       ];
 
       expect(values.shift()).to.equal('box');
@@ -197,6 +198,7 @@ describe('Word', function () {
       expect(values.shift()).to.equal('leg');
       expect(values.shift()).to.equal('pie');
       expect(values.shift()).to.equal('service');
+      expect(values.shift()).to.equal('life');
     });
   });
 

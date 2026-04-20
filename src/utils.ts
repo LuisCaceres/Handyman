@@ -100,6 +100,10 @@ class Word extends String {
                 // For example: 'services'.
                 wordInSingular = `${this.slice(0, -1)}`;
                 break;
+            case this.endsWith('ves'):
+                // For example: 'lives', 'knives'.
+                wordInSingular = `${this.slice(0, -3)}fe`;
+                break;
             case this.endsWith('ches'):
             case this.endsWith('sses'):
             case this.endsWith('xes'):
