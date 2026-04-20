@@ -95,11 +95,11 @@ const functions = [
         const defaultVariableName = 'elements';
 
         // Let `variables` be a list of variable tokens found in `tokens`.
-        const variables = tokens.getTokensByType('variable')
-            .map(variable => variable.substring);
+        const variables = new Set(tokens.getTokensByType('variable')
+            .map(variable => variable.substring));
 
-        if (!variables.length) {
-            variables.push(defaultVariableName);
+        if (!variables.size) {
+            variables.add(defaultVariableName);
         }
 
         const completionItems: vscode.CompletionItem[] = [];
