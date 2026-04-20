@@ -76,7 +76,7 @@ const functions = [
         const lines = [line];
 
         // For each line `line` that precedes `currentLine`.
-        while (line.text.trim().startsWith('.') || index > 0) {
+        for (const line of getLines(file, position.line)) {
             // Let `line` be the current line.
             /* Add `line` to `lines` if `line` starts with a dot (.), otherwise stop iteration. This is to detect method chaining. For example:
 
@@ -84,9 +84,14 @@ const functions = [
                 .filter(item => item);`
 
             */
+
+            if (line.text.trim().startsWith('.')) {
+                lines.push(line);
+                continue;
+            }
+
             lines.push(line);
-            line = file.lineAt(index);
-            index--;
+            break;
         }
 
         const range = lines[0].range.union(lines.at(-1)?.range as vscode.Range);

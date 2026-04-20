@@ -42,10 +42,10 @@ const methods = [
     'some',
 ];
 
-function getCompletionItems(plural: string): CompletionItem[] {
+function getCompletionItems(variable: string): CompletionItem[] {
     const completionItems: CompletionItem[] = [];
 
-    const singular = new Word(plural).toSingular();
+    const singular = new Word(variable).toSingular();
     let completionItem: CompletionItem;
 
     for (const method of methods) {
