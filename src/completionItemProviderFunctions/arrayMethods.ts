@@ -36,6 +36,11 @@ const methods = [
     'some',
 ];
 
+// Let `otherMethods` be a list of array methods whose callback signature is different from the array methods in `methods`.
+const otherMethods = [
+    'sort',
+];
+
 function getCompletionItems(variable: string): CompletionItem[] {
     const completionItems: CompletionItem[] = [];
 
@@ -66,6 +71,20 @@ function getCompletionItems(variable: string): CompletionItem[] {
             kind: 14,
             label: `${method} with parameter index`,
             sortText: '2',
+        };
+
+        completionItems.push(completionItem);
+    }
+
+    for (const method of otherMethods) {
+        // Short form such as `items.sort((itemA, itemB) => itemB - itemA)`.
+        completionItem = {
+            insertText: new SnippetString(
+                `${method}((${singular}1, ${singular}2) => $1${singular}2 - ${singular}1 $2);`
+            ),
+            kind: 14,
+            label: `${method}((${singular}1, ${singular}2)`,
+            sortText: '1',
         };
 
         completionItems.push(completionItem);
