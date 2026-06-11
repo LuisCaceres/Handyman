@@ -337,10 +337,66 @@ function formatSymbol(symbol: string, noun: string): string {
     return formattedSymbol;
 }
 
+/** Gets the word at the end of `text` as long as it fulfils the definition of a variable name.
+ * @param text - The line of code to extract a variable from.
+ * @returns - The word at the end of `text` or null if word cannot be found.
+ * @example getPotentialVariable('const items = ele') returns 'ele'.
+ * @example getPotentialVariable('const items = ') returns null.
+ */
+function getPotentialVariable(text: string): null | string {
+    let potentialVariable: string | null = null;
+
+    // It matches a word at the end of `text`.
+    // For example, it matches `ele` in `const items = ele`.
+    const regex = /\b\S{3,}$/;
+
+    if (!text.match(regex)) {
+        return potentialVariable;
+    }
+
+    const tokenizer = new Tokenizer(text);
+
+    if (!tokenizer.tokens.length) {
+        return potentialVariable;
+    }
+
+    // Let `word` be the word at the end of `text`.
+    const word = tokenizer.tokens.at(-1)!;
+    const scopes = new Set(word.scopes);
+
+    // Let `relevantScopes` be a list of attributes that `word` must have to be considered a variable.
+    const relevantScopes = new Set([
+        'support.variable.dom.ts',
+        'variable.other.object.ts',
+        'variable.other.readwrite.ts',
+    ]);
+
+    // Let `irrelevantScopes` be a list of attributes that `word` must not have to be considered a variable.
+    const irrelevantScopes = new Set([
+        // Must not be part of a function declaration.
+        'meta.definition.function.ts',
+        // Must not be part of a variable declaration.
+        'meta.definition.variable.ts',
+        // Must not be part of a list of function parameters.
+        'meta.parameters.ts',
+        // Must not be part of a list of function parameters.
+        'variable.parameter.ts',
+    ]);
+
+    // Let `potentialVariable` be `word` if `word` is considered a variable.
+    if (scopes.intersection(relevantScopes).size &&
+        !scopes.intersection(irrelevantScopes).size) {
+        potentialVariable = word.substring;
+    }
+
+    return potentialVariable;
+}
+
 export {
     formatSymbol,
     getNounInformation,
     getParts,
+    getPotentialVariable,
     getRelevantSymbols,
     getSymbols,
     Word,
