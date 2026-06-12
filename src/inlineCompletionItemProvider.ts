@@ -41,20 +41,22 @@ function provideInlineCompletionItems(file: vscode.TextDocument, cursor: vscode.
     }
 
     // Let `potentialVariable` be a word at the cursor's location that may or may not be the name of a variable. At this point, the developer is still typing and this code guesses if the word could be the name of a variable.
-    const potentialVariable = getPotentialVariable(precedingText);
+    let potentialVariable = getPotentialVariable(precedingText);
 
     if (potentialVariable) {
         const start = new vscode.Position(0, 0);
         const code = file.getText(new vscode.Range(start, cursor));
         const tokenizer = new Tokenizer(code);
 
+        potentialVariable = potentialVariable.toUpperCase();
+
         // Let `variables` be a list of all the variables names that exist up to the cursor's position in `file`.
         const variables = [...new Set(tokenizer.getTokensByType('variable')
             .map(token => token.substring))]
+            // Remove any variables whose letter count is less than the letter count of `potentialVariable`. For example, if `potentialVariable` is `iden` then variable name `id` is removed but `identity` isn't.
+            .filter(variable => variable.length > potentialVariable!.length)
             // Remove any variables that don't start with the same characters as `potentialVariable`. For example, if `potentialVariable` is `ele` then variable name `items` is removed but `elements` isn't.
-            .filter(variable => variable.startsWith(potentialVariable))
-            // Remove the last variable which is the word at the cursor's position. For example, `ele` shouldn't be in the list of variables as this is the word the developer is currently typing.
-            .slice(0, -1);
+            .filter(variable => variable.toUpperCase().startsWith(potentialVariable!));
 
         if (variables.length) {
             // For each variable `variable` in `variables`.
