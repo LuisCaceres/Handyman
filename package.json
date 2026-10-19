@@ -22,8 +22,19 @@
         "title": "Smart Rename Symbol"
       },
       {
+        "command": "handyman.smartHighlighter.deleteHighlight",
+        "title": "Delete current highlight"
+      },
+      {
         "command": "myExtension.copyAsJavaScript",
         "title": "Copy as JavaScript code"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "handyman.smartHighlighter.deleteHighlight",
+        "key": "delete",
+        "when": "editorTextFocus && handyman.smartHighlighter.hasHighlight"
       }
     ],
     "menus": {
