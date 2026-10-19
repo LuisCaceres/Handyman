@@ -1,6 +1,6 @@
 # Handyman README
 
-This is the README for your extension "Handyman". After writing up a brief description, we recommend including the following sections.
+Hello world, this is the README for your extension "Handyman". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
@@ -24,8 +24,8 @@ For example:
 
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+* `handyman.enable`: Enable/disable this extension.
+* `handyman.thing`: Set to `blah` to do something.
 
 ## Known Issues
 
