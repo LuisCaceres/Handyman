@@ -11,6 +11,7 @@
     "Other"
   ],
   "activationEvents": [
+    "onLanguage:html",
     "onLanguage:javascript",
     "onLanguage:typescript"
   ],
@@ -18,7 +19,11 @@
   "contributes": {
     "commands": [
       {
-        "command": "myExtension.renameSymbol",
+        "command": "handyman.deleteBlock",
+        "title": "Delete block of code"
+      },
+      {
+        "command": "handyman.renameSymbol",
         "title": "Smart Rename Symbol"
       },
       {
@@ -26,7 +31,7 @@
         "title": "Delete current highlight"
       },
       {
-        "command": "myExtension.copyAsJavaScript",
+        "command": "handyman.copyAsJavaScript",
         "title": "Copy as JavaScript code"
       }
     ],
@@ -41,8 +46,8 @@
       "editor/context": [
         {
           "when": "resourceLangId == typescript",
-          "command": "myExtension.copyAsJavaScript",
-          "alt": "myExtension.copyAsJavaScript",
+          "command": "handyman.copyAsJavaScript",
+          "alt": "handyman.copyAsJavaScript",
           "group": "9_cutcopypaste"
         },
         {

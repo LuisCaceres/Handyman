@@ -6,7 +6,7 @@ import * as vscode from "vscode";
 import * as fs from "fs/promises";
 
 // Let `identifier` be the name of this command.
-const identifier = 'myExtension.copyAsJavaScript';
+const identifier = 'handyman.copyAsJavaScript';
 const command = vscode.commands.registerCommand(identifier, commandHandler);
 
 // Let `commandHandler` be the function handler for this command.

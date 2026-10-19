@@ -45,7 +45,7 @@ interface TextEdit {
 }
 
 // Let `identifier` be the name of this command.
-const identifier = 'myExtension.renameSymbol';
+const identifier = 'handyman.renameSymbol';
 
 // Let `commandHandler` be the function handler for this command.
 async function commandHandler(): Promise<void> {
