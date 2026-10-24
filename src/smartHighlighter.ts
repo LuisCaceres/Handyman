@@ -19,8 +19,10 @@ const regexes: Record<string, Record<string, RegExp>> = {
     typescript: {
     },
     delimiters: {
-        // Matches a start delimiter such as `<`, `[`, `{`, or `(`.
-        typescript: /[<\[\{\(]/y,
+        // Matches any character (including the end of the line) immediately following a start delimiter. For example, matches `a` in `{a}`.
+        css: /(?<={)(.|$)/sy,
+        // Matches any character (including the end of the line) immediately following a start delimiter. For example, matches `a` in `{a}`.
+        typescript: /(?<=[<\[\{\(])(.|$)/sy,
     }
 };
 
@@ -58,7 +60,7 @@ vscode.window.onDidChangeTextEditorSelection(async event => {
     const character = line[position.character];
 
     // If there is white space character under the cursor, do not apply highlighting and abort.
-    if (!character || character === ' ') {
+    if (character === ' ') {
         return;
     }
 
@@ -90,9 +92,9 @@ vscode.window.onDidChangeTextEditorSelection(async event => {
         if (match) {
             const text = editor.document.getText();
             const index = editor.document.offsetAt(position)
-            const delimiter = findMatchingPair(text, index);
-            const start = position.translate(0, 1);
-            const end = editor.document.positionAt(delimiter - 1);
+            const delimiter = findMatchingPair(text, index - 1);
+            const start = position;
+            const end = editor.document.positionAt(delimiter);
             range = new vscode.Range(start, end);
         }
     }
