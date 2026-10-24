@@ -20,10 +20,6 @@
   "contributes": {
     "commands": [
       {
-        "command": "handyman.deleteBlock",
-        "title": "Delete block of code"
-      },
-      {
         "command": "handyman.renameSymbol",
         "title": "Smart Rename Symbol"
       },
