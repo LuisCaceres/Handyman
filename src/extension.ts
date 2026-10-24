@@ -8,7 +8,7 @@ import { formattingEditProvider } from "./formattingEditProvider.js";
 import { inlineCompletionProvider } from "./inlineCompletionItemProvider.js";
 import { command as command1 } from "./copyAsJavaScript.js";
 import { command as command2 } from "./renameSymbol.js";
-import { command as command4 } from "./smartHighlighter.js";
+import { command1 as command3, command2 as command4 } from "./smartHighlighter.js";
 
 const providers: vscode.Disposable[] = [];
 providers.push(codeActionsProvider);
@@ -17,6 +17,7 @@ providers.push(formattingEditProvider);
 providers.push(inlineCompletionProvider);
 providers.push(command1);
 providers.push(command2);
+providers.push(command3);
 providers.push(command4);
 
 // // This method is called when your extension is activated

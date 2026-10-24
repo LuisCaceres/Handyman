@@ -11,6 +11,7 @@
     "Other"
   ],
   "activationEvents": [
+    "onLanguage:css",
     "onLanguage:html",
     "onLanguage:javascript",
     "onLanguage:typescript"
@@ -31,6 +32,10 @@
         "title": "Delete current highlight"
       },
       {
+        "command": "handyman.smartHighlighter.removeHighlight",
+        "title": "Delete current highlight"
+      },
+      {
         "command": "handyman.copyAsJavaScript",
         "title": "Copy as JavaScript code"
       }
@@ -39,6 +44,11 @@
       {
         "command": "handyman.smartHighlighter.deleteHighlight",
         "key": "delete",
+        "when": "editorTextFocus && handyman.smartHighlighter.hasHighlight"
+      },
+      {
+        "command": "handyman.smartHighlighter.removeHighlight",
+        "key": "escape",
         "when": "editorTextFocus && handyman.smartHighlighter.hasHighlight"
       }
     ],
