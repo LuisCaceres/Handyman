@@ -8,9 +8,13 @@ import { findMatchingPair } from "./commands/findMatchingPair.js";
 
 // Let `regexes` be a collection of regular expressions used to identify "interesting" code patterns in different languages.
 const regexes: Record<string, Record<string, RegExp>> = {
+    css: {
+        // Matches any CSS selector before the opening curly brace `{`. For example, matches `div` in `div { color: red; }`.
+        selector: /.+?(?=\s{)/y,
+    },
     html: {
         // Matches `id="foo"` in ` id="foo"></p>`.
-        attributeAndValue: /(?<=\s)([a-zA-Z0-9:._-]+?)(=)(".*?)"/y,
+        attributeAndValue: /(?<=\s)[a-zA-Z0-9:._-]+?=".*?"\s?/y,
         // Matches `foo` in ` id="foo"></p>`.
         value: /(?<==").+?(?=")/y,
         // Matches `foo` in `<p>foo</p>`.
