@@ -46,6 +46,10 @@
     ],
     "keybindings": [
       {
+        "command": "-workbench.action.toggleDevTools",
+        "key": "ctrl+shift+i"
+      },
+      {
         "command": "handyman.smartHighlighter.copyHighlight",
         "key": "ctrl+c",
         "when": "editorTextFocus && handyman.smartHighlighter.hasHighlight"
