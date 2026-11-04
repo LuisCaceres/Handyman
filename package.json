@@ -24,12 +24,20 @@
         "title": "Smart Rename Symbol"
       },
       {
+        "command": "handyman.smartHighlighter.copyHighlight",
+        "title": "Copy current highlight"
+      },
+      {
+        "command": "handyman.smartHighlighter.cutHighlight",
+        "title": "Cut current highlight"
+      },
+      {
         "command": "handyman.smartHighlighter.deleteHighlight",
         "title": "Delete current highlight"
       },
       {
         "command": "handyman.smartHighlighter.removeHighlight",
-        "title": "Delete current highlight"
+        "title": "Remove current highlight"
       },
       {
         "command": "handyman.copyAsJavaScript",
@@ -37,6 +45,16 @@
       }
     ],
     "keybindings": [
+      {
+        "command": "handyman.smartHighlighter.copyHighlight",
+        "key": "ctrl+c",
+        "when": "editorTextFocus && handyman.smartHighlighter.hasHighlight"
+      },
+      {
+        "command": "handyman.smartHighlighter.cutHighlight",
+        "key": "ctrl+x",
+        "when": "editorTextFocus && handyman.smartHighlighter.hasHighlight"
+      },
       {
         "command": "handyman.smartHighlighter.deleteHighlight",
         "key": "delete",
