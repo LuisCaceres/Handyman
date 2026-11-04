@@ -6,19 +6,19 @@ import { completionProvider } from "./completionItemProvider.js";
 import { setCustomWhenClauses } from "./customWhenClauses.js";
 import { formattingEditProvider } from "./formattingEditProvider.js";
 import { inlineCompletionProvider } from "./inlineCompletionItemProvider.js";
-import { command as command1 } from "./copyAsJavaScript.js";
-import { command as command2 } from "./renameSymbol.js";
-import { command1 as command3, command2 as command4 } from "./smartHighlighter.js";
+
+const commands: vscode.Disposable[] = (await Promise.all([
+    import('./copyAsJavaScript.js'),
+    import('./renameSymbol.js'),
+    import('./smartHighlighter.js'),
+])).map(module => Object.values(module)).flat();
 
 const providers: vscode.Disposable[] = [];
 providers.push(codeActionsProvider);
 providers.push(completionProvider);
 providers.push(formattingEditProvider);
 providers.push(inlineCompletionProvider);
-providers.push(command1);
-providers.push(command2);
-providers.push(command3);
-providers.push(command4);
+providers.push(...commands);
 
 // // This method is called when your extension is activated
 // // Your extension is activated the very first time the command is executed
