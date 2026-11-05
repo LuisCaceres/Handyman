@@ -71,6 +71,20 @@ const cutHighlight = async () => {
 
 const command4 = vscode.commands.registerCommand(name4, cutHighlight);
 
+const name5 = 'handyman.smartHighlighter.convertHighlightToSelection';
+// Command handler to convert the current highlight into a selection. This allows users to quickly select the highlighted text for further actions.
+const convertHighlightToSelection = async () => {
+    if (!range) {
+        return;
+    }
+
+    const editor = vscode.window.activeTextEditor!;
+    editor.selection = new vscode.Selection(range.start, range.end);
+    removeHighlight();
+}
+
+const command5 = vscode.commands.registerCommand(name5, convertHighlightToSelection);
+
 const relevantCharacters = [
     `{`,
     `[`,
@@ -238,5 +252,6 @@ export {
     command1,
     command2,
     command3,
-    command4
+    command4,
+    command5,
 }

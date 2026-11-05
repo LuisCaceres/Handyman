@@ -50,8 +50,18 @@
         "key": "ctrl+shift+i"
       },
       {
+        "command": "workbench.action.chat.attachSelection",
+        "key": "ctrl+s",
+        "when": "editorTextFocus && editorHasSelection"
+      },
+      {
         "command": "handyman.smartHighlighter.copyHighlight",
         "key": "ctrl+c",
+        "when": "editorTextFocus && handyman.smartHighlighter.hasHighlight"
+      },
+      {
+        "command": "handyman.smartHighlighter.convertHighlightToSelection",
+        "key": "ctrl+s",
         "when": "editorTextFocus && handyman.smartHighlighter.hasHighlight"
       },
       {
